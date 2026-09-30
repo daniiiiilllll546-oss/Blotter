@@ -7,7 +7,7 @@
 (() => {
 'use strict';
 
-const CFG = { repo: 'daniiiiilllll546-oss/blotter', syms: ['BTC', 'ETH', 'SOL', 'BNB', 'XRP', 'DOGE', 'ADA', 'AVAX', 'LINK', 'LTC'], START: 1000 };
+const CFG = { repo: 'daniiiiilllll546-oss/Blotter', syms: ['BTC', 'ETH', 'SOL', 'BNB', 'XRP', 'DOGE', 'ADA', 'AVAX', 'LINK', 'LTC'], START: 1000 };
 const REPORT_URL = `https://raw.githubusercontent.com/${CFG.repo}/desk-data/state.json`;
 const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 const fin = Number.isFinite, reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;

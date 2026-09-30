@@ -3,5 +3,5 @@
    While it is empty, every coffee button says "Coffee link coming soon" instead of pretending. */
 window.BLOTTER_CFG = {
   bmc: '',
-  repo: 'daniiiiilllll546-oss/blotter',
+  repo: 'daniiiiilllll546-oss/Blotter',
 };

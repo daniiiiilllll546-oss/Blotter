@@ -5,7 +5,7 @@
 'use strict';
 
 const CFG = {
-  repo: 'daniiiiilllll546-oss/blotter',
+  repo: 'daniiiiilllll546-oss/Blotter',
   desk: 'desk.html',                         // the live desk page on this site (droplet server: http://164.92.132.200:8420)
   bmc: (window.BLOTTER_CFG || {}).bmc || '',  // Buy Me a Coffee link lives in docs/config.js
   syms: ['BTC', 'ETH', 'SOL', 'BNB', 'XRP', 'DOGE', 'ADA', 'AVAX', 'LINK', 'LTC'],
