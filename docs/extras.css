@@ -1,0 +1,16 @@
+/* shared bits: share buttons, start-here strip, simulated-results notes */
+.sharebar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sharebar a,.sharebar button{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px;border:1px solid var(--line2);background:transparent;color:var(--soft);font:500 12px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;cursor:pointer}
+.sharebar a:hover,.sharebar button:hover{border-color:var(--amber);color:var(--amber)}
+.sharebar .coffee{background:var(--amber);border-color:var(--amber);color:var(--amber-ink)}
+.sharebar .coffee:hover{background:var(--amber-hi,var(--amber));color:var(--amber-ink)}
+.sharebar svg{width:16px;height:16px;flex:none}
+.simnote{font:12px/1.6 var(--f-mono);color:var(--muted);letter-spacing:.02em}
+.simnote b{color:var(--soft);font-weight:500}
+.starthere{margin:22px var(--gut) 0;border:1px solid var(--line2);background:var(--panel);padding:16px 18px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:start}
+.starthere .tag{font:500 11px var(--f-mono);letter-spacing:.16em;color:var(--amber-ink);background:var(--amber);padding:3px 8px;white-space:nowrap}
+.starthere p{margin:0;color:var(--soft);font-size:15px;line-height:1.55}
+.starthere p b{color:var(--text);font-weight:600}
+.starthere button{min-width:44px;min-height:44px;margin:-10px -10px -10px 0;border:0;background:transparent;color:var(--muted);font:20px/1 var(--f-mono);cursor:pointer}
+.starthere button:hover{color:var(--amber)}
+@media (max-width:640px){.starthere{grid-template-columns:minmax(0,1fr) auto}.starthere .tag{grid-column:1/-1;justify-self:start}}

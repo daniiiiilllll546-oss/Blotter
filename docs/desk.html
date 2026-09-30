@@ -3,9 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Blotter Desk</title>
+<title>Live crypto paper trading bots leaderboard · Blotter Desk</title>
 <link rel="canonical" href="https://daniiiiilllll546-oss.github.io/Blotter/desk.html">
-<meta name="description" content="The live Blotter desk: every paper-trading bot in the pool, its open position marked to live Binance prices, its equity, and whether it survives the midnight cut.">
+<meta name="description" content="Live leaderboard of crypto paper trading bots on real Binance prices: every bot, its position, its equity and whether it survives tonight's kill.">
+<meta property="og:title" content="x">
+<meta property="og:description" content="Live leaderboard of crypto paper trading bots on real Binance prices: every bot, its position, its equity and whether it survives tonight's kill.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://daniiiiilllll546-oss.github.io/Blotter/desk.html">
+<meta property="og:image" content="https://daniiiiilllll546-oss.github.io/Blotter/brand/og.png">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0B1116">
 <script src="theme.js?v=1432a407"></script>
 <link rel="stylesheet" href="theme.css?v=69bb1f0f">
@@ -14,9 +20,8 @@
 <link rel="icon" type="image/svg+xml" href="brand/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png">
 <link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="extras.css?v=2e2e7591">
 <style>
 :root{
   color-scheme: dark;
@@ -275,6 +280,7 @@ footer a{color:var(--muted)}
 </style>
 </head>
 <body>
+<noscript><p style="margin:0;padding:12px 16px;background:#E8A33D;color:#17110A;font:600 15px sans-serif">The live numbers on this page need JavaScript. The rules are on <a href="how-it-works.html" style="color:#17110A">How it works</a>.</p></noscript>
 <div class="grain" aria-hidden="true"></div>
 <script>document.documentElement.classList.add('js')</script>
 
@@ -298,8 +304,10 @@ footer a{color:var(--muted)}
       <div class="eyebrow rise" id="gen">Generation —</div>
       <h1 class="h1 rise">The pool,<br><span class="hl">right now.</span></h1>
     </div>
-    <div class="topr rise"><a class="duelpill" href="duel.html"><b>NEW</b> The standoff: five models, one brief →</a><p class="srcnote" id="srcnote">Loading the desk…</p></div>
+    <div class="topr rise"><a class="duelpill" href="duel.html"><b>NEW</b> The standoff: five models, one brief →</a><p class="srcnote" id="srcnote">Loading the desk…</p><div class="sharebar" data-coffee data-share="A live leaderboard of evolving trading bots. The losers are killed every midnight." data-url="https://daniiiiilllll546-oss.github.io/Blotter/desk.html"></div></div>
   </section>
+
+  <aside class="starthere" data-starthere="desk" aria-label="Start here"><span class="tag">START HERE</span><p>Each row is one bot with <b>$1,000 of paper money</b>. Its P&amp;L over the last 24 hours decides its fate: <b>profit survives</b> the midnight kill (00:00 UTC+5), <b>a loss is killed</b>, and bots under a day old are protected. Tap a row for its chart and trades. <a href="how-it-works.html">Full rules</a>.<br><span class="simnote"><b>Simulated results</b> on live Binance prices. Not financial advice.</span></p><button type="button" aria-label="Close this note">×</button></aside>
 
   <section class="stats rise" aria-label="Desk totals">
     <div class="stat"><div class="k">Desk equity</div><div class="v mono" id="s-eq">—</div><div class="s" id="s-eq2">&nbsp;</div></div>
@@ -393,15 +401,17 @@ footer a{color:var(--muted)}
   </div>
 
   <footer>
-    <span>PAPER TRADING ONLY · NO REAL MONEY · NOT FINANCIAL ADVICE</span>
-    <span><a href="index.html">How it works</a> · <a href="https://github.com/daniiiiilllll546-oss/Blotter">Source</a></span>
+    <span>SIMULATED RESULTS · PAPER MONEY ONLY · NOT FINANCIAL ADVICE · PRICES FROM BINANCE</span>
+    <span><a href="how-it-works.html">How it works</a> · <a href="privacy.html">Privacy</a></span>
   </footer>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrambleTextPlugin.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrambleTextPlugin.min.js"></script>
+<script src="vendor/lightweight-charts.standalone.production.js"></script>
 <script src="judge.js?v=ca0eb302"></script>
 <script src="desk.js?v=782715bb"></script>
+<script src="config.js?v=7fde69ab"></script>
+<script src="extras.js?v=e628fae3"></script>
 </body>
 </html>

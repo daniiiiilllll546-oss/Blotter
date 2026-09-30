@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>How evolving trading bots work · Blotter</title>
+<link rel="canonical" href="https://daniiiiilllll546-oss.github.io/Blotter/how-it-works.html">
+<meta name="description" content="The exact rules behind Blotter's evolving trading bots: paper money, live Binance prices, a daily kill at midnight (UTC+5) and a genetic algorithm.">
+<meta property="og:title" content="How evolving trading bots work · Blotter">
+<meta property="og:description" content="The exact rules behind Blotter's evolving trading bots: paper money, live Binance prices, a daily kill at midnight (UTC+5) and a genetic algorithm.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daniiiiilllll546-oss.github.io/Blotter/how-it-works.html">
+<meta property="og:image" content="https://daniiiiilllll546-oss.github.io/Blotter/brand/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0B1116">
+<script src="theme.js?v=1432a407"></script>
+<link rel="stylesheet" href="theme.css?v=69bb1f0f">
+<script src="transition.js?v=ae901faa"></script>
+<link rel="icon" type="image/svg+xml" href="brand/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png">
+<link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
+<link rel="stylesheet" href="fonts/fonts.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How Blotter's evolving trading bots work","description":"The exact rules of Blotter: $1,000 paper wallets, live Binance prices, a 0.1% fee, a daily kill at midnight UTC+5 and a genetic algorithm that lets profitable bots have children.","mainEntityOfPage":"https://daniiiiilllll546-oss.github.io/Blotter/how-it-works.html","dateModified":"2026-09-30","author":{"@type":"Organization","name":"Blotter"}}</script>
+<style>
+:root{
+  color-scheme: dark;
+  --ink:#0B1116; --ink2:#0F171D; --panel:#121B22; --panel2:#18232D; --line:#22313D; --line2:#2B3C4A;
+  --text:#ECE6D6; --soft:#C3CACF; --muted:#8593A0;
+  --amber:#E8A33D; --amber-hi:#F4BE6B; --amber-deep:#6B4E1F; --amber-ink:#17110A; --coffee:#1C1710;
+  --green:#3EC690; --red:#F0625A; --violet:#B99BE8; --cyan:#72B8D8;
+  --f-disp:'Big Shoulders Display','Arial Narrow','Helvetica Neue',sans-serif;
+  --f-body:Barlow,'Segoe UI',system-ui,sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --gut:clamp(16px,3.2vw,48px);
+  --ease:cubic-bezier(.2,.7,.1,1);
+  --navh:72px;
+}
+*{box-sizing:border-box}
+html{background:var(--ink);overflow-x:clip}
+body{margin:0;background:var(--ink);color:var(--text);font:16px/1.55 var(--f-body);-webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:var(--amber)}
+button{font:inherit;color:inherit}
+::selection{background:var(--amber);color:var(--amber-ink)}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.grain{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.045;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1.2s steps(6) infinite}
+@keyframes grain{0%{background-position:0 0}20%{background-position:-61px 37px}40%{background-position:43px -71px}60%{background-position:-29px -17px}80%{background-position:67px 53px}100%{background-position:0 0}}
+@keyframes pulse{50%{opacity:.3}}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.rise{animation:rise .9s var(--ease) both}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}
+@media (prefers-reduced-motion:reduce){.grain{animation:none}*{animation-duration:.001s!important;animation-delay:0s!important;transition-duration:.001s!important}}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:40;height:calc(var(--navh) + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) var(--gut) 0;display:flex;align-items:center;gap:24px;background:rgba(11,17,22,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:baseline;gap:10px;text-decoration:none;color:var(--text)}
+.logo{font:900 28px/1 var(--f-disp);letter-spacing:.04em;text-transform:uppercase}
+.slash{font:800 28px/1 var(--f-disp);color:var(--amber)}
+.page{font:800 28px/1 var(--f-disp);letter-spacing:.04em;text-transform:uppercase;color:var(--soft)}
+.navlinks{display:flex;gap:22px;margin-left:12px}
+.navlinks a{font:500 13px var(--f-mono);letter-spacing:.08em;color:var(--muted);text-decoration:none;white-space:nowrap}
+.navlinks a:hover{color:var(--amber)}
+.nav-mid{flex:1}
+.live{display:flex;align-items:center;gap:8px;font:500 12px var(--f-mono);letter-spacing:.12em;color:var(--green);white-space:nowrap}
+.live i{width:8px;height:8px;border-radius:50%;background:currentColor;animation:pulse 1.6s ease-in-out infinite}
+.live.wait{color:var(--muted)}.live.wait i{animation:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:48px;padding:0 22px;font:600 16px var(--f-body);text-decoration:none;white-space:nowrap;border:0;cursor:pointer;transition:background .3s,color .3s,border-color .3s,transform .3s var(--ease)}
+.btn-amber{background:var(--amber);color:var(--amber-ink)}
+.btn-amber:hover{background:var(--amber-hi)}
+.btn-amber[aria-disabled="true"]{background:var(--amber-deep);color:#E9D8B8;cursor:default}
+.btn-line{border:1px solid var(--line2);color:var(--text);background:transparent}
+.btn-line:hover{border-color:var(--amber);color:var(--amber)}
+.btn-lg{height:60px;padding:0 30px;font-size:18px}
+
+/* ---------- hero ---------- */
+main{padding:0 var(--gut)}
+.hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:clamp(24px,5vw,80px);align-items:center;padding:clamp(48px,8vw,110px) 0 clamp(40px,6vw,80px);border-bottom:1px solid var(--line)}
+.eyebrow{font:500 12px var(--f-mono);letter-spacing:.24em;color:var(--amber);text-transform:uppercase}
+.h1{font:900 clamp(56px,9vw,148px)/.82 var(--f-disp);letter-spacing:-.005em;text-transform:uppercase;margin:16px 0 0}
+.h1 .hl{color:var(--amber)}
+.lead{max-width:620px;margin:28px 0 0;font-size:clamp(17px,1.5vw,20px);color:var(--soft)}
+.lead b{color:var(--text);font-weight:600}
+.ctas{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px;align-items:center}
+.note{font:12px var(--f-mono);letter-spacing:.06em;color:var(--muted);margin-top:14px}
+
+.cupwrap{position:relative;aspect-ratio:1/1;max-width:420px;width:100%;justify-self:end}
+.cupwrap svg{width:100%;height:100%;display:block;overflow:visible}
+.cup-body{fill:var(--coffee);stroke:var(--amber);stroke-width:3}
+.cup-handle{fill:none;stroke:var(--amber);stroke-width:3}
+.cup-liquid{fill:#3A2614}
+.cup-line{fill:none;stroke:var(--amber);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.steam path{fill:none;stroke:var(--soft);stroke-width:3;stroke-linecap:round;opacity:0;animation:steam 3.2s ease-in infinite}
+.steam path:nth-child(2){animation-delay:1.05s}.steam path:nth-child(3){animation-delay:2.1s}
+@keyframes steam{0%{opacity:0;transform:translateY(14px)}30%{opacity:.55}100%{opacity:0;transform:translateY(-26px)}}
+.saucer{fill:none;stroke:var(--line2);stroke-width:3}
+
+/* ---------- live strip ---------- */
+.sec{padding:clamp(56px,8vw,110px) 0 0}
+.sec-h{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:28px}
+.h2{font:900 clamp(40px,5.4vw,84px)/.86 var(--f-disp);text-transform:uppercase;margin:10px 0 0}
+.h2 .hl{color:var(--amber)}
+.sub{font:13px var(--f-mono);color:var(--muted);letter-spacing:.04em;max-width:420px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);background:var(--panel)}
+.stat{padding:24px 26px;border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat .k{font:500 12px var(--f-mono);letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+.stat .v{font:800 clamp(40px,4.4vw,64px)/1 var(--f-disp);margin-top:12px}
+.stat .s{font:13px var(--f-mono);color:var(--muted);margin-top:8px}
+
+/* ---------- where it goes ---------- */
+.goes{border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:90px minmax(0,1fr) minmax(0,1.3fr) minmax(0,.8fr);gap:24px;align-items:baseline;padding:30px 0;border-bottom:1px solid var(--line)}
+.row .n{font:500 13px var(--f-mono);color:var(--amber);letter-spacing:.14em}
+.row h3{margin:0;font:800 clamp(30px,3vw,44px)/1 var(--f-disp);text-transform:uppercase}
+.row p{margin:0;color:var(--soft)}
+.row .live-note{font:13px var(--f-mono);color:var(--muted);text-align:right}
+.row .live-note b{color:var(--text);font-weight:500}
+
+/* ---------- free help ---------- */
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card{position:relative;background:var(--panel);border:1px solid var(--line);padding:30px 30px 44px;display:flex;flex-direction:column;gap:14px;transition:border-color .3s,transform .4s var(--ease)}
+.card:hover{border-color:var(--line2);transform:translateY(-3px)}
+.card .ic{width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line2);color:var(--amber)}
+.card h3{margin:6px 0 0;font:800 34px/1 var(--f-disp);text-transform:uppercase}
+.card p{margin:0;color:var(--soft);flex:1}
+.card .btn{align-self:flex-start;height:44px;font-size:15px;margin-top:auto}
+.copied{position:absolute;left:30px;bottom:16px;font:12px var(--f-mono);color:var(--green);letter-spacing:.08em}
+
+/* ---------- coffee band ---------- */
+.band{margin-top:clamp(56px,8vw,110px);background:var(--coffee);border:1px solid var(--amber-deep);padding:clamp(30px,5vw,64px);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:30px;align-items:center}
+.band h2{margin:0;font:900 clamp(40px,5vw,76px)/.88 var(--f-disp);text-transform:uppercase}
+.band p{margin:14px 0 0;color:#D6CAB5;max-width:640px}
+
+/* ---------- faq ---------- */
+.faq{border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;font:700 clamp(22px,2.2vw,30px)/1.1 var(--f-disp);text-transform:uppercase}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary span:last-child{font:400 26px var(--f-mono);color:var(--amber);transition:transform .3s var(--ease)}
+.faq details[open] summary span:last-child{transform:rotate(45deg)}
+.faq details p{margin:0 0 24px;max-width:760px;color:var(--soft)}
+
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:60px 0 calc(40px + env(safe-area-inset-bottom,0px));font:12px var(--f-mono);letter-spacing:.12em;color:var(--muted)}
+footer a{color:var(--muted)}footer a:hover{color:var(--amber)}
+
+@media (max-width:1100px){
+  .row{grid-template-columns:70px minmax(0,1fr);row-gap:10px}
+  .row p,.row .live-note{grid-column:2}
+  .row .live-note{text-align:left}
+}
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr}
+  .cupwrap{order:-1;max-width:220px;justify-self:start}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stat:nth-child(2){border-right:0}
+  .stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .cards{grid-template-columns:1fr}
+  .band{grid-template-columns:1fr}
+  .navlinks{display:none}
+}
+@media (max-width:560px){
+  :root{--navh:60px}
+  .logo,.slash,.page{font-size:24px}
+  .live{display:none}
+  .stat{padding:18px}
+  .row{grid-template-columns:1fr}
+  .row p,.row .live-note{grid-column:1}
+  .ctas .btn{width:100%}
+  .btn-lg{height:56px}
+}
+
+@media (hover:none),(pointer:coarse){.grain{animation:none}}
+
+.doc{max-width:760px;margin:0 auto;padding:clamp(40px,6vw,80px) var(--gut) 40px}
+.doc .eyebrow{font:500 12px var(--f-mono);letter-spacing:.24em;color:var(--amber);text-transform:uppercase}
+.doc h1{font:900 clamp(44px,6vw,84px)/.92 var(--f-disp);text-transform:uppercase;margin:14px 0 22px}
+.doc h1 .hl{color:var(--amber)}
+.doc h2{font:800 clamp(26px,3vw,36px)/1.05 var(--f-disp);text-transform:uppercase;letter-spacing:.02em;margin:48px 0 12px}
+.doc p,.doc li{font-size:17px;line-height:1.65;color:var(--soft)}
+.doc p b,.doc li b{color:var(--text);font-weight:600}
+.doc ul,.doc ol{padding-left:22px}.doc li{margin:6px 0}
+.doc .lede{font-size:clamp(18px,1.6vw,21px);color:var(--text)}
+.doc table{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px}
+.doc th,.doc td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.doc th{font:500 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.doc td:first-child{color:var(--text);font-weight:600;white-space:nowrap}
+.doc .ctas{display:flex;flex-wrap:wrap;gap:12px;margin:34px 0 0}
+.doc .updated{font:12px var(--f-mono);color:var(--muted);margin-top:40px}
+.pfoot{max-width:760px;margin:0 auto;padding:30px var(--gut) calc(40px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font:12px/1.6 var(--f-mono);letter-spacing:.06em;color:var(--muted)}
+.pfoot a{color:var(--muted)}.pfoot a:hover{color:var(--amber)}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<header class="nav">
+  <a class="brand" href="index.html" aria-label="Blotter home"><span class="logo">Blotter</span><span class="slash">/</span><span class="page">How it works</span></a>
+  <nav class="navlinks" aria-label="Pages"><a href="index.html">← The story</a><a href="desk.html">The desk</a><a href="duel.html">Standoff</a><a href="support.html">Support</a></nav>
+  <span class="nav-mid"></span>
+  <button class="themebtn" type="button" data-theme-toggle aria-label="Switch to light mode"></button>
+  <a class="btn btn-amber" href="desk.html" style="height:44px;font-size:15px">Live desk</a>
+</header>
+<main>
+<article class="doc">
+  <div class="eyebrow">How it works</div>
+  <h1>Evolving trading bots, <span class="hl">explained.</span></h1>
+  <p class="lede">Blotter is a trading desk where bots trade with real-time data, and the bad ones are killed every midnight (UTC+5). It is survival of the fittest for trading bots: losers are removed, winners have children, and the pool slowly evolves. All of it runs on paper money, so it is a way to test trading strategies without risking money.</p>
+
+  <h2>The rules, exactly</h2>
+  <table>
+    <tbody>
+      <tr><td>Wallet</td><td>$1,000 of paper money per bot</td></tr>
+      <tr><td>Markets</td><td>Ten Binance pairs against USDT: BTC, ETH, SOL, BNB, XRP, DOGE, ADA, AVAX, LINK, LTC</td></tr>
+      <tr><td>Charts</td><td>1, 5 or 15-minute candles; a bot decides on every closed candle</td></tr>
+      <tr><td>Fills</td><td>Priced off Binance's live order book, with a 0.1% fee on every fill</td></tr>
+      <tr><td>Leverage</td><td>Every trade uses at least 2–5× (a gene per bot), capped by the bot's own limit</td></tr>
+      <tr><td>Risk per trade</td><td>2% to 6% of equity, set by the bot's genes</td></tr>
+    </tbody>
+  </table>
+
+  <h2>How a bot is killed</h2>
+  <ol>
+    <li><b>The midnight kill.</b> Every day at 00:00 UTC+5 (Tashkent time), every bot older than 24 hours must show a profit over its last 24 hours, open trades marked to market. A loss, or no trades at all, and it is removed.</li>
+    <li><b>The hourly fast-fail.</b> Any bot whose equity drops below $600, or that is down more than 15% over 24 hours after at least 5 trades, is removed on the spot.</li>
+    <li><b>The kill switch.</b> A bot that falls 40% from its own peak is stopped.</li>
+  </ol>
+  <p>New bots are protected for their first 24 hours, so every bot gets one full day before it is judged.</p>
+
+  <h2>How the winners evolve</h2>
+  <p>This is a simple genetic algorithm for trading bots. Each bot is a genome: a strategy, a market, a chart speed, a leverage cap and a handful of numbers such as its stop distance and risk. At midnight, profitable bots can have children:</p>
+  <ul>
+    <li>Each winner has at most <b>2 children</b> per night, and one strategy family can hold at most <b>7 bots</b>, so no single idea takes over.</li>
+    <li>Each number in a child has a coin-flip chance to change, by a random step of about <b>15% of its range</b>.</li>
+    <li>Sometimes a child moves to a different pair (15% chance), a different chart speed (10%) or a different leverage cap (15%).</li>
+  </ul>
+  <p>On top of that, Claude designs a brand-new strategy every hour, chosen to be something nothing else in the pool is doing. The <a href="duel.html">Standoff</a> adds five bots written by different AI models from the same brief.</p>
+
+  <h2>What these results do not tell you</h2>
+  <ul>
+    <li><b>Paper is not real.</b> Fills are modelled on the live order book, but no real orders move the market, and nobody panics.</li>
+    <li><b>One day is a small sample.</b> A bot can survive a night by luck. Look at the number of trades before trusting any ranking.</li>
+    <li><b>Past results do not predict future ones.</b> A winner today is not a signal to copy, and nothing here is financial advice.</li>
+  </ul>
+  <div class="ctas"><a class="btn btn-amber" href="desk.html">Watch the live desk</a><a class="btn btn-line" href="duel.html">See the AI Standoff</a></div>
+  <p class="updated">Rules as of 30 September 2026</p>
+</article>
+</main>
+<footer class="pfoot"><span>SIMULATED RESULTS · PAPER MONEY ONLY · NOT FINANCIAL ADVICE</span><span><a href="how-it-works.html">HOW IT WORKS</a> · <a href="privacy.html">PRIVACY</a> · <a href="support.html">SUPPORT</a></span></footer>
+</body>
+</html>

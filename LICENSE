@@ -1,0 +1,10 @@
+Copyright (c) 2026 the Blotter project (github.com/daniiiiilllll546-oss). All rights reserved.
+
+The website code, text, logo and the five Standoff strategies in this repository are not licensed
+for reuse without written permission. Viewing the site is free.
+
+Third-party files keep their own licences:
+- docs/fonts: Big Shoulders Display, Barlow and IBM Plex Mono (SIL Open Font License 1.1, via Fontsource)
+- docs/vendor/three.min.js and lenis.min.js: MIT
+- docs/vendor/gsap and its plugins: GSAP Standard "no charge" licence (https://gsap.com/standard-license)
+- docs/vendor/lightweight-charts: Apache 2.0, TradingView
