@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://daniiiiilllll546-oss.github.io/Blotter/sitemap.xml

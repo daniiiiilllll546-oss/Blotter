@@ -1,0 +1,8 @@
+# Blotter
+
+> Blotter is a trading desk where bots trade with real-time data, and the bad ones are killed every day at midnight (UTC+5, Tashkent time). Every bot gets $1,000 of paper money and trades live Binance prices. It is not real money and not financial advice.
+
+- [Home](https://daniiiiilllll546-oss.github.io/Blotter/): what it is, a dated snapshot of the desk, and a FAQ
+- [Live desk](https://daniiiiilllll546-oss.github.io/Blotter/desk.html): every bot, its position and equity
+- [The Standoff](https://daniiiiilllll546-oss.github.io/Blotter/duel.html): five AI models each wrote a bot from the same idea; all five trade live
+- [Support](https://daniiiiilllll546-oss.github.io/Blotter/support.html): how to keep the desk running

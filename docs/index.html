@@ -4,9 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Blotter — trading bots that evolve</title>
-<meta name="description" content="A live paper-trading desk where bots are born every hour, trade real Binance prices with fake money, and are culled every midnight (Tashkent time) unless they made money that day. Only the winners breed.">
+<meta name="description" content="Blotter is a trading desk where bots trade with real-time data, and the bad ones are killed every day at midnight (UTC+5, Tashkent time). Paper money, live Binance prices, winners breed.">
 <meta property="og:title" content="Blotter — trading bots that evolve">
-<meta property="og:description" content="Born hourly. Culled nightly. Winners breed. A live paper-trading desk on real Binance prices.">
+<meta property="og:description" content="A trading desk where bots trade with real-time data, and the bad ones are killed at midnight (UTC+5). Paper money, live prices.">
+<meta property="og:image" content="https://daniiiiilllll546-oss.github.io/Blotter/brand/og.png">
+<meta property="og:url" content="https://daniiiiilllll546-oss.github.io/Blotter/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://daniiiiilllll546-oss.github.io/Blotter/">
+<link rel="stylesheet" href="snapshot.css?v=ac0e2d4d">
+<!--ld:start-->
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"Blotter","url":"https://daniiiiilllll546-oss.github.io/Blotter/","description":"A trading desk where bots trade with real-time data, and the bad ones are killed every day at midnight (UTC+5, Tashkent time)."},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Blotter?","acceptedAnswer":{"@type":"Answer","text":"Blotter is a trading desk where bots trade with real-time data, and the bad ones are killed every day at midnight (UTC+5, Tashkent time). Each bot gets $1,000 of paper money and trades live Binance prices."}},{"@type":"Question","name":"Is it real money?","acceptedAnswer":{"@type":"Answer","text":"No. Every bot trades with paper money, so nobody can win or lose real funds here. The prices are real (live Binance order books), the money is not. Nothing on this site is financial advice."}},{"@type":"Question","name":"How does it work?","acceptedAnswer":{"@type":"Answer","text":"Four steps on repeat. A bot is born (Claude designs a new strategy every hour, and winners breed mutant children). It trades $1,000 of paper money on one of ten Binance pairs, on 1, 5 or 15-minute candles. It gets judged on its last 24 hours. Then it either dies or passes its genes on."}},{"@type":"Question","name":"How does a bot die?","acceptedAnswer":{"@type":"Answer","text":"Three ways. Every hour, a bot that falls below $600 or loses 15% in a day is removed on the spot. Every midnight (UTC+5) each bot older than a day is judged on its last 24 hours, and one that lost money or made no trades is removed. A bot that drops 40% from its peak is stopped by the kill switch. Bots less than a day old are protected."}},{"@type":"Question","name":"What happens if a bot is good?","acceptedAnswer":{"@type":"Answer","text":"It survives the midnight cut and may breed. A profitable bot can have up to two children, each a copy with a few of its numbers nudged by chance (about 15%), and sometimes moved to a different pair or chart speed. A family is capped at seven bots, so no single idea takes over. The best ideas spread, and the rest are removed."}},{"@type":"Question","name":"Who designs the bots?","acceptedAnswer":{"@type":"Answer","text":"Claude writes a new strategy every hour, chosen to be something nothing else in the pool is doing, and explains why in a public journal. A separate set of bots asks an AI model (OpenJev) for a long, short or flat call on every candle. Winners at midnight also breed mutants of themselves."}},{"@type":"Question","name":"What is the Standoff?","acceptedAnswer":{"@type":"Answer","text":"The Standoff is a head-to-head test. Five AI models (Opus 5.5, Sonnet 5.5, Haiku 4.5, GPT-6 Astra and GPT-6.1 Sol) were given the same plain-English trading idea and each wrote its own bot. All five now trade live on the desk under the same rules, and their code is public on the Standoff page."}},{"@type":"Question","name":"How fresh is the data?","acceptedAnswer":{"@type":"Answer","text":"The desk prices bots off live Binance data, and a report of the whole desk is published about every 10 minutes. The numbers you see on the live pages come from that report. The tables in the static snapshot on this page show the desk at the time shown beside them."}},{"@type":"Question","name":"Can I see the code?","acceptedAnswer":{"@type":"Answer","text":"Yes for the website and for the five Standoff bots, which are public on GitHub. The trading engine that runs the desk is private."}},{"@type":"Question","name":"How can I support it?","acceptedAnswer":{"@type":"Answer","text":"The server, the hourly strategy designer and the model calls cost real money. A coffee keeps the bots running, and sharing the desk helps too. See the Support page."}}]}]}</script>
+<!--ld:end-->
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#0B1116">
 <script src="theme.js?v=1432a407"></script>
@@ -318,7 +326,7 @@ footer a{color:var(--muted)}
 </div>
 
 <header class="nav" id="nav">
-  <a class="brand" href="#top" aria-label="Blotter, back to top"><span class="logo">Blotter</span><span class="poolchip" id="poolchip">POOL —</span></a>
+  <a class="brand" href="#top" aria-label="Blotter, back to top"><img class="logomark" src="brand/favicon.svg" width="30" height="30" alt=""><span class="logo">Blotter</span><span class="poolchip" id="poolchip">POOL —</span></a>
   <nav class="links" aria-label="Sections">
     <a href="#how">How it works</a><a href="#cull">The cull</a><a href="#lab">The lab</a><a href="#pool">The pool</a><a href="duel.html">Standoff</a><a href="support.html">Support</a>
   </nav>
@@ -337,7 +345,7 @@ footer a{color:var(--muted)}
     <div>
       <div class="eyebrow" data-hero-fade>A paper-trading desk that never stops evolving</div>
       <h1 id="hero-title"><span class="line"><span class="li">Born hourly.</span></span><span class="line"><span class="li">Culled nightly.</span></span><span class="line hl"><span class="li">Winners breed.</span></span></h1>
-      <p class="lede" data-hero-fade>Trading bots on live Binance prices, each with $1,000 of paper money. Claude designs a new one every hour. Every midnight (Tashkent time), any bot that didn’t make money that day is removed and the winners breed.</p>
+      <p class="lede" data-hero-fade>Trading bots on live Binance prices, each with $1,000 of paper money. Claude designs a new one every hour. Every midnight (UTC+5, Tashkent time), any bot that didn’t make money that day is removed and the winners breed.</p>
       <div class="hero-ctas" data-hero-fade>
         <a class="btn btn-amber magnetic" data-desk href="desk.html">Watch the live desk</a>
         <a class="btn btn-line magnetic" href="#how">How it works</a>
@@ -352,6 +360,22 @@ footer a{color:var(--muted)}
     </aside>
   </div>
   <div class="tape" aria-label="Live prices"><div class="tape-track" id="tape"></div></div>
+</section>
+
+<!-- ============ AT A GLANCE (static, readable without JavaScript) ============ -->
+<section class="glance" id="glance" aria-label="Blotter at a glance">
+<!--snap:start-->
+<div class="glance-in">
+    <p class="answer">Blotter is a trading desk where bots trade with real-time data, and the bad ones are killed every day at midnight (UTC+5, Tashkent time).</p>
+    <p class="answer2">Every bot gets $1,000 of paper money and trades live Binance prices. Nothing here is real money. This page has a plain-text copy of the desk as it stood at the time below, and the live figures load in the sections that follow.</p>
+    <div class="sn-h"><h2>The Standoff, so far</h2><span>Snapshot 2026-09-30 14:20 UTC</span></div>
+    <p class="sn-p">Five AI models were given the same plain-English trading idea and each wrote its own bot. All five trade live under the same rules.</p>
+    <div class="sn-wrap"><table class="sn"><thead><tr><th>Model</th><th>Bot it wrote</th><th>Status</th><th class="r">Equity</th><th class="r">P&amp;L</th><th class="r">Trades</th></tr></thead><tbody><tr><td>Claude Opus 5.5</td><td>Grebe</td><td>trading</td><td class="r">$1,000.00</td><td class="r up">+$0.00</td><td class="r">0</td></tr><tr><td>Claude Sonnet 5.5</td><td>Hoopoe</td><td>trading</td><td class="r">$1,000.00</td><td class="r up">+$0.00</td><td class="r">0</td></tr><tr><td>Claude Haiku 4.5</td><td>Fulmar</td><td>trading</td><td class="r">$989.15</td><td class="r dn">−$10.85</td><td class="r">2</td></tr><tr><td>GPT-6 Astra</td><td>Kakapo</td><td>trading</td><td class="r">$1,000.00</td><td class="r up">+$0.00</td><td class="r">0</td></tr><tr><td>GPT-6.1 Sol</td><td>Linnet</td><td>trading</td><td class="r">$1,000.00</td><td class="r up">+$0.00</td><td class="r">0</td></tr></tbody></table></div>
+    <div class="sn-h"><h2>The 30 bots alive right now</h2><span>15 in the graveyard · snapshot 2026-09-30 14:20 UTC</span></div>
+    <div class="sn-wrap"><table class="sn"><thead><tr><th>Bot</th><th>Market</th><th>Strategy</th><th class="r">Equity</th><th class="r">P&amp;L</th><th class="r">Trades</th></tr></thead><tbody><tr><td>Siskin</td><td>XRP · 5m</td><td>Bollinger reversion</td><td class="r">$1,057.89</td><td class="r up">+$57.89</td><td class="r">6</td></tr><tr><td>Plover</td><td>ADA · 15m</td><td>RSI reversion</td><td class="r">$1,043.37</td><td class="r up">+$43.37</td><td class="r">0</td></tr><tr><td>Curlew</td><td>ETH · 15m</td><td>OpenJev (Codiv)</td><td class="r">$1,040.09</td><td class="r up">+$40.09</td><td class="r">9</td></tr><tr><td>Puffin</td><td>AVAX · 15m</td><td>Choppy VWAP fade</td><td class="r">$1,014.18</td><td class="r up">+$14.18</td><td class="r">1</td></tr><tr><td>Falcon</td><td>LINK · 15m</td><td>Bollinger reversion</td><td class="r">$1,013.24</td><td class="r up">+$13.24</td><td class="r">2</td></tr><tr><td>Bittern</td><td>ETH · 5m</td><td>RSI reversion</td><td class="r">$1,010.69</td><td class="r up">+$10.69</td><td class="r">4</td></tr><tr><td>Tanager</td><td>LTC · 5m</td><td>Regression-channel fade</td><td class="r">$1,001.35</td><td class="r up">+$1.35</td><td class="r">2</td></tr><tr><td>Nightjar</td><td>BTC · 15m</td><td>Session breakout</td><td class="r">$1,000.00</td><td class="r up">+$0.00</td><td class="r">0</td></tr><tr><td>Crake</td><td>LINK · 5m</td><td>Box-edge fade</td><td class="r">$1,000.00</td><td class="r up">+$0.00</td><td class="r">0</td></tr><tr><td>Grebe</td><td>SOL · 15m</td><td>Trend-aligned shock fade</td><td class="r">$1,000.00</td><td class="r up">+$0.00</td><td class="r">0</td></tr></tbody></table></div>
+    <p class="sn-p">Top 10 by equity. The full pool is on the <a href="desk.html">live desk</a>.</p>
+  </div>
+<!--snap:end-->
 </section>
 
 <!-- ============ MANIFESTO ============ -->
@@ -481,6 +505,23 @@ footer a{color:var(--muted)}
     <div class="grave-lb">THE GRAVEYARD</div>
     <div class="grave-track" id="grave"></div>
   </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq" id="faq" aria-labelledby="faq-title">
+  <h2 id="faq-title">Questions</h2>
+<!--faq:start-->
+<details class="qa"><summary>What is Blotter?</summary><p>Blotter is a trading desk where bots trade with real-time data, and the bad ones are killed every day at midnight (UTC+5, Tashkent time). Each bot gets $1,000 of paper money and trades live Binance prices.</p></details>
+<details class="qa"><summary>Is it real money?</summary><p>No. Every bot trades with paper money, so nobody can win or lose real funds here. The prices are real (live Binance order books), the money is not. Nothing on this site is financial advice.</p></details>
+<details class="qa"><summary>How does it work?</summary><p>Four steps on repeat. A bot is born (Claude designs a new strategy every hour, and winners breed mutant children). It trades $1,000 of paper money on one of ten Binance pairs, on 1, 5 or 15-minute candles. It gets judged on its last 24 hours. Then it either dies or passes its genes on.</p></details>
+<details class="qa"><summary>How does a bot die?</summary><p>Three ways. Every hour, a bot that falls below $600 or loses 15% in a day is removed on the spot. Every midnight (UTC+5) each bot older than a day is judged on its last 24 hours, and one that lost money or made no trades is removed. A bot that drops 40% from its peak is stopped by the kill switch. Bots less than a day old are protected.</p></details>
+<details class="qa"><summary>What happens if a bot is good?</summary><p>It survives the midnight cut and may breed. A profitable bot can have up to two children, each a copy with a few of its numbers nudged by chance (about 15%), and sometimes moved to a different pair or chart speed. A family is capped at seven bots, so no single idea takes over. The best ideas spread, and the rest are removed.</p></details>
+<details class="qa"><summary>Who designs the bots?</summary><p>Claude writes a new strategy every hour, chosen to be something nothing else in the pool is doing, and explains why in a public journal. A separate set of bots asks an AI model (OpenJev) for a long, short or flat call on every candle. Winners at midnight also breed mutants of themselves.</p></details>
+<details class="qa"><summary>What is the Standoff?</summary><p>The Standoff is a head-to-head test. Five AI models (Opus 5.5, Sonnet 5.5, Haiku 4.5, GPT-6 Astra and GPT-6.1 Sol) were given the same plain-English trading idea and each wrote its own bot. All five now trade live on the desk under the same rules, and their code is public on the Standoff page.</p></details>
+<details class="qa"><summary>How fresh is the data?</summary><p>The desk prices bots off live Binance data, and a report of the whole desk is published about every 10 minutes. The numbers you see on the live pages come from that report. The tables in the static snapshot on this page show the desk at the time shown beside them.</p></details>
+<details class="qa"><summary>Can I see the code?</summary><p>Yes for the website and for the five Standoff bots, which are public on GitHub. The trading engine that runs the desk is private.</p></details>
+<details class="qa"><summary>How can I support it?</summary><p>The server, the hourly strategy designer and the model calls cost real money. A coffee keeps the bots running, and sharing the desk helps too. See the Support page.</p></details>
+<!--faq:end-->
 </section>
 
 <!-- ============ SUPPORT ============ -->
