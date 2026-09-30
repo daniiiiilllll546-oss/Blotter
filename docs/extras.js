@@ -20,6 +20,57 @@
   document.querySelectorAll('[data-starthere]').forEach(el => {
     const key = 'blotter-starthere-' + el.dataset.starthere;
     try { if (localStorage.getItem(key)) { el.remove(); return; } } catch (e) {}
-    el.querySelector('button').addEventListener('click', () => { el.remove(); try { localStorage.setItem(key, '1'); } catch (e) {} });
+    el.querySelector('[data-close]').addEventListener('click', () => { el.remove(); try { localStorage.setItem(key, '1'); } catch (e) {} });
   });
+
+  /* ---------- first-visit guide: 4 short cards, shown once, reopened by any [data-guide-open] ---------- */
+  const IC = {
+    wallet: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="8" y="16" width="48" height="36"/><path d="M8 26h48"/><path d="M40 38h8"/><polyline points="14 10 46 10 46 16"/></svg>',
+    born: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><circle cx="32" cy="34" r="20"/><path d="M32 22v12l8 6"/><path d="M32 6v6M22 8l2 5M42 8l-2 5"/></svg>',
+    kill: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 18 20 30 30 22 44 40 58 46"/><path d="M50 8l10 10M60 8L50 18"/><path d="M6 56h52"/></svg>',
+    look: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="10" width="52" height="40"/><path d="M6 20h52"/><path d="M14 30h20M14 38h14"/><polyline points="38 42 44 34 50 38 56 28"/></svg>' };
+  const here = location.pathname.split('/').pop() || 'index.html';
+  const STEPS = [
+    { ico: IC.wallet, k: 'Welcome', h: 'Bots trade. <span>You watch.</span>', p: 'Blotter is a desk of trading bots. Each one gets <b>$1,000 of paper money</b> and trades <b>live Binance prices</b>, around the clock.', n: 'Paper money only. Nobody can win or lose real money here.' },
+    { ico: IC.born, k: 'Born', h: 'A new bot <span>every hour.</span>', p: 'Every hour Claude designs a bot with a strategy nothing else in the pool is using. Five more were written by different AI models in <b>the Standoff</b>.' },
+    { ico: IC.kill, k: 'Killed', h: 'Losers die <span>at midnight.</span>', p: 'Every day at <b>00:00 (UTC+5)</b>, a bot that lost money over its last 24 hours is killed. Winners survive and <b>evolve</b>: they get children with slightly changed settings.', n: 'New bots are safe for their first day.' },
+    { ico: IC.look, k: 'Your turn', h: 'Pick a bot. <span>Watch it fight.</span>', p: 'The <b>live desk</b> ranks every bot by money. Green over 24 hours means it survives tonight; red means it is on the chopping block. Tap any bot for its chart and trades.', links: true } ];
+  const KEY = 'blotter-guide-seen';
+  let back = null, i = 0, lastFocus = null;
+  function render() {
+    const s = STEPS[i], last = i === STEPS.length - 1;
+    const links = s.links ? `<div class="g-links">${here === 'desk.html' ? '' : '<a class="g-btn pri" href="desk.html" data-g-done>Open the live desk</a>'}${here === 'duel.html' ? '' : '<a class="g-btn" href="duel.html" data-g-done>See the Standoff</a>'}<a class="g-btn" href="how-it-works.html" data-g-done>Full rules</a></div>` : '';
+    back.querySelector('.guide').innerHTML = `<button class="g-close" type="button" aria-label="Close the guide" data-g-done>×</button>
+      <div class="g-step">${i + 1} / ${STEPS.length} · ${s.k}</div><div class="g-ico">${s.ico}</div>
+      <h2 id="g-title">${s.h}</h2><p>${s.p}</p>${s.n ? `<div class="g-note">${s.n}</div>` : ''}${links}
+      <div class="g-foot"><div class="g-dots" aria-hidden="true">${STEPS.map((_, j) => `<i class="${j === i ? 'on' : ''}"></i>`).join('')}</div>
+      ${i ? '<button class="g-btn" type="button" data-g-prev>Back</button>' : '<button class="g-btn" type="button" data-g-done>Skip</button>'}
+      <button class="g-btn pri" type="button" ${last ? 'data-g-done' : 'data-g-next'}>${last ? (here === 'desk.html' ? 'Show me the desk' : 'Got it') : 'Next'}</button></div>`;
+    back.querySelector(last ? '[data-g-done].pri, .g-foot [data-g-done]' : '[data-g-next]').focus();
+  }
+  function close() { if (!back) return; back.remove(); back = null; document.removeEventListener('keydown', onKey); try { localStorage.setItem(KEY, '1'); } catch (e) {} if (lastFocus && lastFocus.focus) lastFocus.focus(); }
+  function onKey(e) {
+    if (e.key === 'Escape') return close();
+    if (e.key === 'ArrowRight' && i < STEPS.length - 1) { i++; render(); }
+    if (e.key === 'ArrowLeft' && i > 0) { i--; render(); }
+    if (e.key === 'Tab') { const f = [...back.querySelectorAll('button,a[href]')]; if (!f.length) return; const a = f[0], z = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); } else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); } }
+  }
+  function open() {
+    if (back) return; lastFocus = document.activeElement; i = 0;
+    try { localStorage.setItem(KEY, '1'); } catch (e) {} // shown once is enough, however the visitor leaves it
+    back = document.createElement('div'); back.className = 'guide-back';
+    back.innerHTML = '<div class="guide" role="dialog" aria-modal="true" aria-labelledby="g-title"></div>';
+    back.addEventListener('click', e => {
+      const link = e.target.closest('a[href]');
+      if (link) { try { localStorage.setItem(KEY, '1'); } catch (err) {} return; } // let the browser follow it; removing the link first would cancel the navigation
+      if (e.target === back || e.target.closest('[data-g-done]')) return close();
+      if (e.target.closest('[data-g-next]')) { i++; render(); } else if (e.target.closest('[data-g-prev]')) { i--; render(); }
+    });
+    document.body.appendChild(back); document.addEventListener('keydown', onKey); render();
+  }
+  window.BlotterGuide = { open };
+  document.querySelectorAll('[data-guide-open]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); open(); }));
+  let seen = false; try { seen = !!localStorage.getItem(KEY); } catch (e) {}
+  if (!seen && !/[?&]noguide\b/.test(location.search) && ['index.html', 'desk.html', 'duel.html', ''].includes(here)) setTimeout(open, here === 'index.html' ? 1600 : 700);
 })();

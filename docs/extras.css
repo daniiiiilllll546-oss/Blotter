@@ -14,3 +14,31 @@
 .starthere button{min-width:44px;min-height:44px;margin:-10px -10px -10px 0;border:0;background:transparent;color:var(--muted);font:20px/1 var(--f-mono);cursor:pointer}
 .starthere button:hover{color:var(--amber)}
 @media (max-width:640px){.starthere{grid-template-columns:minmax(0,1fr) auto}.starthere .tag{grid-column:1/-1;justify-self:start}}
+
+/* ---------- first-visit guide ---------- */
+.starthere .tag{border:0;cursor:pointer;font:500 11px var(--f-mono);letter-spacing:.16em;min-height:32px;display:inline-flex;align-items:center;gap:6px}
+.starthere .tag:hover{filter:brightness(1.12)}
+.guide-back{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:16px;background:rgba(6,10,13,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:gfade .25s ease both}
+.guide{position:relative;width:min(520px,100%);max-height:calc(100dvh - 32px);overflow:auto;background:var(--panel);color:var(--text);border:1px solid var(--line2);box-shadow:0 30px 80px rgba(0,0,0,.45);padding:34px 32px 26px;animation:grise .35s cubic-bezier(.2,.7,.1,1) both}
+.guide .g-close{position:absolute;top:8px;right:8px;width:44px;height:44px;border:0;background:transparent;color:var(--muted);font:22px/1 var(--f-mono);cursor:pointer}
+.guide .g-close:hover{color:var(--amber)}
+.guide .g-step{font:500 11px var(--f-mono);letter-spacing:.2em;color:var(--amber);text-transform:uppercase}
+.guide .g-ico{width:64px;height:64px;margin:18px 0 6px;color:var(--amber)}
+.guide h2{font:900 clamp(34px,6vw,46px)/.95 var(--f-disp);text-transform:uppercase;margin:10px 0 14px;letter-spacing:.01em}
+.guide h2 span{color:var(--amber)}
+.guide p{margin:0;font-size:17px;line-height:1.6;color:var(--soft)}
+.guide p b{color:var(--text);font-weight:600}
+.guide .g-note{margin-top:12px;font:12px/1.6 var(--f-mono);color:var(--muted)}
+.guide .g-foot{display:flex;align-items:center;gap:12px;margin-top:28px}
+.guide .g-dots{display:flex;gap:6px;flex:1}
+.guide .g-dots i{width:22px;height:4px;background:var(--line2)}
+.guide .g-dots i.on{background:var(--amber)}
+.guide .g-btn{min-height:44px;padding:0 18px;border:1px solid var(--line2);background:transparent;color:var(--text);font:600 15px var(--f-body);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.guide .g-btn:hover{border-color:var(--amber);color:var(--amber)}
+.guide .g-btn.pri{background:var(--amber);border-color:var(--amber);color:var(--amber-ink)}
+.guide .g-btn.pri:hover{color:var(--amber-ink);filter:brightness(1.08)}
+.guide .g-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+@keyframes gfade{from{opacity:0}}
+@keyframes grise{from{opacity:0;transform:translateY(16px) scale(.98)}}
+@media (prefers-reduced-motion:reduce){.guide-back,.guide{animation:none}}
+@media (max-width:480px){.guide{padding:30px 22px 22px}.guide .g-btn{padding:0 14px}}
