@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en" data-tx-wait>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Blotter — trading bots that evolve</title>
+<meta name="description" content="A live paper-trading desk where bots are born every hour, trade real Binance prices with fake money, and are culled every midnight (Tashkent time) unless they made money that day. Only the winners breed.">
+<meta property="og:title" content="Blotter — trading bots that evolve">
+<meta property="og:description" content="Born hourly. Culled nightly. Winners breed. A live paper-trading desk on real Binance prices.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0B1116">
+<script src="theme.js?v=1432a407"></script>
+<link rel="stylesheet" href="theme.css?v=69bb1f0f">
+<script src="transition.js?v=ae901faa"></script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B1116'/%3E%3Cpath d='M4 22 11 15l5 4 12-11' fill='none' stroke='%23E8A33D' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme: dark;
+  --ink:#0B1116; --ink2:#0F171D; --panel:#121B22; --panel2:#18232D; --line:#22313D; --line2:#2B3C4A;
+  --text:#ECE6D6; --soft:#C3CACF; --muted:#8593A0;
+  --amber:#E8A33D; --amber-hi:#F4BE6B; --amber-deep:#6B4E1F; --amber-ink:#17110A;
+  --green:#3EC690; --red:#F0625A; --violet:#B99BE8; --cyan:#72B8D8;
+  --f-disp:'Big Shoulders Display','Arial Narrow','Helvetica Neue',sans-serif;
+  --f-body:Barlow,'Segoe UI',system-ui,sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --gut:clamp(16px,4.4vw,64px);
+  --ease:cubic-bezier(.2,.7,.1,1);
+}
+*{box-sizing:border-box}
+html{background:var(--ink);overflow-x:clip}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{margin:0;background:var(--ink);color:var(--text);font:17px/1.55 var(--f-body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.loading{overflow:hidden}
+a{color:var(--amber)}
+img,svg{max-width:100%}
+::selection{background:var(--amber);color:var(--amber-ink)}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- grain + cursor ---------- */
+.grain{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1.2s steps(6) infinite}
+@keyframes grain{0%{background-position:0 0}20%{background-position:-61px 37px}40%{background-position:43px -71px}60%{background-position:-29px -17px}80%{background-position:67px 53px}100%{background-position:0 0}}
+.cursor{position:fixed;left:0;top:0;z-index:70;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--amber);pointer-events:none;mix-blend-mode:difference;transition:width .3s var(--ease),height .3s var(--ease),margin .3s var(--ease),opacity .3s;opacity:0}
+.cursor.big{width:56px;height:56px;margin:-28px 0 0 -28px}
+@media (pointer:coarse){.cursor{display:none}}
+
+/* ---------- preloader ---------- */
+.pre{position:fixed;inset:0;z-index:80;background:var(--ink);display:grid;place-items:center;padding:var(--gut)}
+.pre-in{display:flex;flex-direction:column;align-items:center;gap:18px}
+.pre-word{font:900 clamp(64px,14vw,200px)/.8 var(--f-disp);letter-spacing:.02em;text-transform:uppercase;overflow:hidden;display:flex}
+.pre-word span{display:inline-block}
+.pre-bar{width:min(320px,60vw);height:2px;background:var(--line);position:relative;overflow:hidden}
+.pre-bar i{position:absolute;inset:0;background:var(--amber);transform-origin:left;transform:scaleX(0)}
+.pre-num{font:500 12px var(--f-mono);letter-spacing:.22em;color:var(--muted)}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;left:0;right:0;top:0;z-index:50;display:flex;align-items:center;gap:32px;padding:calc(18px + env(safe-area-inset-top,0px)) var(--gut) 18px;transition:background .4s,border-color .4s;border-bottom:1px solid transparent}
+.nav.solid{background:rgba(11,17,22,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom-color:var(--line)}
+.brand{display:flex;align-items:baseline;gap:12px;text-decoration:none;color:var(--text)}
+.logo{font:900 30px/1 var(--f-disp);letter-spacing:.04em;text-transform:uppercase}
+.poolchip{font:500 12px var(--f-mono);letter-spacing:.12em;color:var(--amber);border:1px solid var(--amber-deep);padding:4px 8px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.links{display:flex;gap:28px;flex:1;font-weight:500;font-size:15px}
+.links a{color:#B6BEC4;text-decoration:none;position:relative}
+.links a::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:1px;background:var(--amber);transform:scaleX(0);transform-origin:right;transition:transform .45s var(--ease)}
+.links a:hover{color:var(--text)}
+.links a:hover::after{transform:scaleX(1);transform-origin:left}
+.live{display:flex;align-items:center;gap:8px;font:500 12px var(--f-mono);letter-spacing:.12em;color:var(--green);white-space:nowrap}
+.live i{width:8px;height:8px;border-radius:50%;background:currentColor;animation:pulse 1.6s ease-in-out infinite}
+.live.sample{color:var(--muted)}
+@keyframes pulse{50%{opacity:.3}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:48px;padding:0 22px;font:600 15px var(--f-body);text-decoration:none;white-space:nowrap;border:0;cursor:pointer;transition:background .3s,color .3s,border-color .3s}
+.btn-amber{background:var(--amber);color:var(--amber-ink)}
+.btn-amber:hover{background:var(--amber-hi)}
+.btn-line{border:1px solid var(--line2);color:var(--text);background:transparent}
+.btn-line:hover{border-color:var(--amber);color:var(--amber)}
+.btn[aria-disabled="true"]{opacity:.5;pointer-events:none}
+
+/* ---------- hero ---------- */
+.hero{position:relative;height:100vh;height:100svh;min-height:640px;overflow:hidden}
+#hero3d{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero-shade{position:absolute;inset:0;pointer-events:none;background:
+  radial-gradient(120% 90% at 72% 55%,transparent 38%,rgba(11,17,22,.5) 74%,rgba(11,17,22,.94) 100%),
+  linear-gradient(90deg,rgba(11,17,22,.92) 0%,rgba(11,17,22,.5) 36%,transparent 62%),
+  linear-gradient(0deg,rgba(11,17,22,1) 0%,transparent 22%)}
+.hero-grid{position:absolute;inset:0;display:grid;grid-template-columns:minmax(0,1fr) 340px;align-items:end;gap:40px;padding:0 var(--gut) 96px;pointer-events:none}
+.hero-grid a,.hero-grid button{pointer-events:auto}
+.eyebrow{font:500 13px var(--f-mono);letter-spacing:.22em;color:var(--amber);text-transform:uppercase}
+.hero h1{margin:22px 0 26px;font:900 clamp(58px,min(10.6vw,15.5vh),160px)/.84 var(--f-disp);text-transform:uppercase;letter-spacing:-.005em}
+.hero h1 .line{display:block;overflow:hidden;padding-bottom:.02em}
+.hero h1 .hl{color:var(--amber)}
+.lede{margin:0;max-width:56ch;font-size:clamp(16px,1.35vw,20px);color:var(--soft)}
+.hero-ctas{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
+.side{display:flex;flex-direction:column;gap:10px}
+.lab-lb{display:flex;justify-content:space-between;gap:12px;font:500 12px var(--f-mono);letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+.countdown{font:800 64px/1 var(--f-disp);font-variant-numeric:tabular-nums;letter-spacing:.01em}
+.feed{border-top:1px solid var(--line);margin-top:6px;min-height:196px}
+.ev{padding:11px 0;border-bottom:1px solid var(--line);font-size:15px;line-height:1.4}
+.ev b{font-weight:600}
+.ev time{display:block;font:11px var(--f-mono);color:var(--muted);margin-top:2px}
+.datanote{font:11px/1.5 var(--f-mono);color:var(--muted)}
+.tape{position:absolute;left:0;right:0;bottom:0;height:52px;border-top:1px solid var(--line);overflow:hidden;background:rgba(11,17,22,.86)}
+.tape-track{display:flex;width:max-content;animation:tape 60s linear infinite}
+.tape-set{display:flex;gap:44px;align-items:center;height:52px;padding-right:44px;font:14px var(--f-mono);white-space:nowrap;font-variant-numeric:tabular-nums}
+.tape-set span b{font-weight:500;color:var(--muted);margin-right:8px}
+.tape-set .up{color:var(--green)}.tape-set .dn{color:var(--red)}
+@keyframes tape{to{transform:translateX(-50%)}}
+.scrollcue{position:absolute;right:var(--gut);bottom:72px;display:none}
+
+/* ---------- shared section chrome ---------- */
+section{position:relative}
+.wrap{padding:0 var(--gut)}
+.sec-top{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:140px var(--gut) 0}
+.idx{font:500 13px var(--f-mono);letter-spacing:.22em;color:var(--amber)}
+.h2{margin:0;font:900 clamp(56px,8.4vw,132px)/.86 var(--f-disp);text-transform:uppercase;text-wrap:balance}
+.h2 .hl{color:var(--amber)}
+.body{max-width:58ch;font-size:clamp(16px,1.3vw,19px);color:var(--soft);margin:0}
+
+/* ---------- manifesto ---------- */
+.manifesto{padding:180px var(--gut) 160px}
+.manifesto p{margin:0;max-width:24ch;font:800 clamp(40px,6.2vw,96px)/1 var(--f-disp);text-transform:uppercase;letter-spacing:.005em}
+.manifesto .w{opacity:.14;display:inline-block;margin-right:.18em}
+.manifesto .w.amber{color:var(--amber)}
+.manifesto .kicker{margin-top:44px;font:500 13px var(--f-mono);letter-spacing:.2em;color:var(--muted)}
+
+/* ---------- how (horizontal) ---------- */
+.how{overflow:hidden}
+.how-pin{height:100vh;height:100svh;display:flex;flex-direction:column;justify-content:center;gap:48px}
+.how-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;padding:0 var(--gut)}
+.how-track{display:flex;gap:24px;padding:0 var(--gut);width:max-content;will-change:transform}
+.how-hint{display:none;font:500 12px var(--f-mono);letter-spacing:.2em;color:var(--amber)}
+/* phones + reduced motion: native swipe instead of the pinned scroll */
+.how.swipe .how-pin{height:auto;padding:96px 0 72px}
+.how.swipe .how-track{width:auto;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-padding-left:var(--gut);overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px;touch-action:pan-x pan-y}
+.how.swipe .how-track::-webkit-scrollbar{display:none}
+.how.swipe .how-track::after{content:"";flex:0 0 1px}
+.how.swipe .step{flex:none;scroll-snap-align:start}
+.how.swipe .how-hint{display:inline-block}
+.step{width:min(560px,78vw);min-height:440px;background:var(--panel);border:1px solid var(--line);padding:36px;display:flex;flex-direction:column;gap:18px;position:relative;overflow:hidden}
+.step .num{font:900 150px/.8 var(--f-disp);color:transparent;-webkit-text-stroke:1.5px var(--line2)}
+.step h3{margin:0;font:800 46px/.95 var(--f-disp);text-transform:uppercase}
+.step p{margin:0;color:var(--soft);font-size:17px}
+.step .tag{margin-top:auto;display:flex;flex-wrap:wrap;gap:8px}
+.step .tag span{font:500 12px var(--f-mono);letter-spacing:.06em;padding:6px 10px;border:1px solid var(--line2);color:var(--soft)}
+.step svg.ico{position:absolute;right:30px;top:30px;width:44px;height:44px;color:var(--amber)}
+.progress{height:2px;background:var(--line);margin:0 var(--gut);position:relative}
+.progress i{position:absolute;inset:0;background:var(--amber);transform-origin:left;transform:scaleX(0)}
+
+/* ---------- cull ---------- */
+.cull-pin{min-height:100vh;min-height:100svh;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:64px;padding:120px var(--gut) 72px;align-items:center}
+.clock{font:900 clamp(120px,15vw,240px)/.78 var(--f-disp);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.clock .s{color:var(--muted);font-size:.42em;letter-spacing:0}
+.clock{transition:color .4s}
+.clock.zero{color:var(--amber)}.clock.zero .s{color:var(--amber)}
+.clock-lb{display:flex;align-items:center;gap:10px;font:500 12px var(--f-mono);letter-spacing:.2em;color:var(--muted)}
+.clock-lb i{width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulse 1.6s ease-in-out infinite}
+.clock-lb.ff{color:var(--amber)}.clock-lb.ff i{background:var(--amber);animation-duration:.4s}
+.clock-lb.zero{color:var(--red)}
+.rules{display:flex;flex-direction:column;border-top:1px solid var(--line);font:14px var(--f-mono);margin-top:28px}
+.rules div{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--line)}
+.rules span:first-child{color:var(--soft)}
+.c-cyan{color:var(--cyan)}.c-red{color:var(--red)}.c-green{color:var(--green)}.c-amber{color:var(--amber)}.c-violet{color:var(--violet)}
+.tiles-head{display:flex;justify-content:space-between;gap:16px;font:500 12px var(--f-mono);letter-spacing:.14em;color:var(--muted);margin-bottom:14px}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;position:relative}
+.tile{height:100px;padding:13px;display:flex;flex-direction:column;justify-content:space-between;background:#101A21;border:1px solid #1F3A30;will-change:transform}
+.tile .t1{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.tile .nm{font:800 21px/1 var(--f-disp);text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile .fm{font:11px var(--f-mono);color:var(--muted);white-space:nowrap}
+.tile .st{font:500 12px var(--f-mono);letter-spacing:.08em;color:var(--green)}
+.tile.kill{background:#1B1214;border-color:#5A2226}
+.tile.kill .st{color:var(--red)}
+.tile.grace{border-color:#244556}.tile.grace .st{color:var(--cyan)}
+.tile.born{position:absolute;background:#1C1710;border-color:var(--amber-deep);opacity:0}
+.tile.born .st{color:var(--amber)}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font:12px var(--f-mono);color:var(--soft)}
+.legend span{display:flex;align-items:center;gap:8px}
+.legend i{width:10px;height:10px}
+
+/* ---------- genome ---------- */
+.genome{padding-bottom:40px}
+.gen-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:center;padding:56px var(--gut) 0}
+#helix{width:100%;height:clamp(420px,62vh,640px);display:block}
+.genes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.gene{background:var(--panel);border-top:3px solid var(--c,var(--line2));padding:14px;display:flex;flex-direction:column;gap:8px;min-height:92px}
+.gene .k{font:11px var(--f-mono);letter-spacing:.1em;color:var(--muted)}
+.gene .v{font:800 30px/1 var(--f-disp);font-variant-numeric:tabular-nums}
+.gene.mut{background:#221A0F}
+.gene.mut .v{color:var(--amber)}
+.genes-lb{display:flex;justify-content:space-between;gap:12px;font:500 12px var(--f-mono);letter-spacing:.14em;color:var(--muted);margin:22px 0 10px}
+.fams{display:flex;flex-wrap:wrap;gap:10px;padding:48px var(--gut) 0}
+.fams span{display:flex;align-items:center;gap:10px;padding:12px 16px;border:1px solid var(--line2);font-size:15px;font-weight:500}
+.fams i{width:8px;height:8px}
+
+/* ---------- lab ---------- */
+.lab-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;padding:56px var(--gut) 0}
+.card{background:var(--ink2);border:1px solid var(--line);display:flex;flex-direction:column;min-width:0}
+.card-h{display:flex;align-items:center;gap:10px;padding:13px 18px;border-bottom:1px solid var(--line);font:12px var(--f-mono);color:var(--muted)}
+.card-h i{width:8px;height:8px;border-radius:50%}
+.who{display:flex;align-items:center;gap:12px;font-size:19px;font-weight:600;margin-bottom:14px}
+.who b{display:inline-flex;width:34px;height:34px;align-items:center;justify-content:center;font:500 13px var(--f-mono)}
+pre.code{margin:0;padding:20px 22px;font:14px/1.75 var(--f-mono);color:var(--soft);white-space:pre-wrap;min-height:330px;overflow-x:auto}
+pre.code .caret{display:inline-block;width:8px;height:1.1em;background:var(--violet);vertical-align:-2px;animation:pulse 1s steps(1) infinite}
+.k-s{color:var(--amber)}.k-c{color:var(--muted)}.k-k{color:var(--violet)}
+.journal{margin-top:auto;padding:16px 22px;border-top:1px solid var(--line);color:var(--soft);font-size:15px}
+.journal b{display:block;font:500 12px var(--f-mono);color:var(--violet);margin-bottom:4px}
+.jev{padding:22px;display:flex;flex-direction:column;gap:18px;flex:1}
+.snap{font:13px/1.65 var(--f-mono);color:var(--soft);padding:14px;background:var(--panel)}
+.bars{display:flex;flex-direction:column;gap:12px}
+.bar{display:grid;grid-template-columns:64px minmax(0,1fr) 48px;gap:12px;align-items:center;font:14px var(--f-mono)}
+.bar .tr{height:14px;background:#1A2730;position:relative;overflow:hidden}
+.bar .tr i{position:absolute;inset:0;transform-origin:left;transform:scaleX(0)}
+.bar .val{text-align:right}
+.bar.win span:first-child{color:var(--text);font-weight:500}
+.jev p{margin:auto 0 0;color:var(--soft);font-size:15px}
+
+/* ---------- pool ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:56px var(--gut) 0}
+.stat{padding:26px 22px;border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat .v{font:800 clamp(40px,5vw,72px)/1 var(--f-disp);font-variant-numeric:tabular-nums}
+.stat .l{font:500 12px var(--f-mono);letter-spacing:.14em;color:var(--muted);margin-top:8px}
+.board{margin:28px var(--gut) 0;overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:760px;font:14px var(--f-mono);font-variant-numeric:tabular-nums}
+th{text-align:right;font:500 11px var(--f-mono);letter-spacing:.14em;color:var(--muted);padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:12px 14px;text-align:right;border-bottom:1px solid rgba(34,49,61,.7);white-space:nowrap}
+th.l,td.l{text-align:left}
+td.nm{font:800 20px/1 var(--f-disp);text-transform:uppercase;letter-spacing:.02em}
+td.nm small{display:block;font:11px var(--f-mono);color:var(--muted);text-transform:none;letter-spacing:0;margin-top:4px}
+td svg{display:block}
+.chip{display:inline-block;font:500 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border:1px solid var(--line2)}
+.chip.safe{border-color:var(--green);color:var(--green)}.chip.grace{border-color:var(--cyan);color:var(--cyan)}.chip.kill{background:var(--red);border-color:var(--red);color:#1a0a0a}
+.chip.claude{border-color:var(--violet);color:var(--violet)}.chip.jev{border-color:var(--cyan);color:var(--cyan)}
+.board-foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:18px var(--gut) 0;font:12px var(--f-mono);color:var(--muted)}
+
+/* ---------- graveyard ---------- */
+.grave{margin-top:140px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:26px 0}
+.grave-lb{padding:0 var(--gut) 18px;font:500 12px var(--f-mono);letter-spacing:.2em;color:var(--muted)}
+.grave-track{display:flex;width:max-content;animation:tape 80s linear infinite}
+.grave-set{display:flex;gap:56px;padding-right:56px;align-items:baseline;white-space:nowrap}
+.grave-set span{font:800 44px/1 var(--f-disp);text-transform:uppercase;color:#5A4546;text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:var(--red)}
+.grave-set em{font:12px var(--f-mono);font-style:normal;color:var(--muted);margin-left:14px;text-decoration:none}
+
+/* ---------- support ---------- */
+.support{padding:140px var(--gut) 40px}
+.bigcta{display:flex;align-items:center;justify-content:space-between;gap:24px;text-decoration:none;color:var(--text);border-top:1px solid var(--line2);border-bottom:1px solid var(--line2);padding:28px 0;margin-top:28px}
+.bigcta .w{font:900 clamp(40px,10.4vw,168px)/.82 var(--f-disp);text-transform:uppercase;white-space:nowrap;min-width:0}
+@media (max-width:860px){.bigcta .w{white-space:normal;font-size:clamp(40px,15vw,110px)}}
+.bigcta .w .c{display:inline-block}
+.bigcta svg{width:clamp(56px,8vw,120px);height:auto;flex:none;color:var(--amber);transition:transform .5s var(--ease)}
+.bigcta:hover svg{transform:rotate(45deg)}
+.bigcta:hover{color:var(--amber)}
+.cards{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;margin-top:48px}
+.scard{padding:34px;display:flex;flex-direction:column;gap:16px}
+.scard h3{margin:0;font:800 42px/1 var(--f-disp);text-transform:uppercase}
+.scard p{margin:0;color:var(--soft)}
+.coffee{background:#1C1710;border:1px solid var(--amber-deep)}
+.coffee p{color:#D6CAB5}
+.coffee>div{display:flex;flex-wrap:wrap;align-items:center;gap:18px}
+.morehelp{font:500 13px var(--f-mono);letter-spacing:.06em;color:var(--amber);text-decoration:none;white-space:nowrap}
+.morehelp:hover{color:var(--amber-hi)}
+.gh{background:var(--panel);border:1px solid var(--line)}
+.steam{position:relative;display:inline-flex}
+.steam i{position:absolute;left:7px;bottom:22px;width:2px;height:8px;border-radius:2px;background:var(--amber-ink);opacity:0;animation:steam 2.4s ease-in infinite}
+.steam i:nth-child(2){left:11px;animation-delay:.8s}.steam i:nth-child(3){left:15px;animation-delay:1.6s}
+@keyframes steam{0%{opacity:0;transform:translateY(0)}30%{opacity:.7}100%{opacity:0;transform:translateY(-12px)}}
+footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:88px;padding:22px 0 calc(22px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);font:12px var(--f-mono);letter-spacing:.06em;color:var(--muted)}
+footer a{color:var(--muted)}
+
+/* ---------- responsive ---------- */
+@media (max-width:1100px){
+  .hero-grid{grid-template-columns:1fr}
+  .side{display:none}
+  .cull-pin{grid-template-columns:1fr;gap:40px}
+  .gen-grid,.lab-grid,.cards{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stat:nth-child(2){border-right:0}.stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+}
+@media (max-width:860px){
+  .links,.nav .live{display:none}
+  .nav{justify-content:space-between}
+  .hero-grid{padding-bottom:84px}
+  .tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .genes{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .how-head{flex-direction:column;align-items:flex-start}
+}
+@media (max-width:520px){
+  .logo{font-size:24px}
+  .nav .btn{height:42px;padding:0 14px;font-size:14px}
+  .hero-ctas .btn{flex:1}
+  .step{padding:26px;min-height:400px}.step .num{font-size:110px}
+  .stat{padding:20px 14px}
+  .scard{padding:24px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .manifesto .w{opacity:1}
+}
+
+@media (hover:none),(pointer:coarse){.grain{animation:none}}
+</style>
+</head>
+<body class="loading">
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"></div>
+
+<div class="pre" aria-hidden="true">
+  <div class="pre-in">
+    <div class="pre-word"><span>B</span><span>L</span><span>O</span><span>T</span><span>T</span><span>E</span><span>R</span></div>
+    <div class="pre-bar"><i></i></div>
+    <div class="pre-num">LOADING THE POOL · <span id="pre-pct">0</span>%</div>
+  </div>
+</div>
+
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="Blotter, back to top"><span class="logo">Blotter</span><span class="poolchip" id="poolchip">POOL —</span></a>
+  <nav class="links" aria-label="Sections">
+    <a href="#how">How it works</a><a href="#cull">The cull</a><a href="#lab">The lab</a><a href="#pool">The pool</a><a href="duel.html">Standoff</a><a href="support.html">Support</a>
+  </nav>
+  <span class="live" id="livebadge"><i></i><span id="livetext">CONNECTING</span></span>
+  <button class="themebtn" type="button" data-theme-toggle aria-label="Switch to light mode"></button>
+  <a class="btn btn-amber magnetic" data-desk href="desk.html">Live desk
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+</header>
+
+<main id="top">
+<!-- ============ HERO ============ -->
+<section class="hero" aria-labelledby="hero-title">
+  <canvas id="hero3d" aria-hidden="true"></canvas>
+  <div class="hero-shade"></div>
+  <div class="hero-grid">
+    <div>
+      <div class="eyebrow" data-hero-fade>A paper-trading desk that never stops evolving</div>
+      <h1 id="hero-title"><span class="line"><span class="li">Born hourly.</span></span><span class="line"><span class="li">Culled nightly.</span></span><span class="line hl"><span class="li">Winners breed.</span></span></h1>
+      <p class="lede" data-hero-fade>Trading bots on live Binance prices, each with $1,000 of paper money. Claude designs a new one every hour. Every midnight (Tashkent time), any bot that didn’t make money that day is removed and the winners breed.</p>
+      <div class="hero-ctas" data-hero-fade>
+        <a class="btn btn-amber magnetic" data-desk href="desk.html">Watch the live desk</a>
+        <a class="btn btn-line magnetic" href="#how">How it works</a>
+      </div>
+    </div>
+    <aside class="side" aria-label="Live status">
+      <div class="lab-lb"><span>Next cull · midnight Tashkent</span><span id="genlabel">GEN —</span></div>
+      <div class="countdown mono" id="countdown">--:--:--</div>
+      <div class="lab-lb" style="margin-top:14px"><span>Just happened</span></div>
+      <div class="feed" id="feed" aria-live="polite"></div>
+      <div class="datanote" id="datanote">Connecting to the desk…</div>
+    </aside>
+  </div>
+  <div class="tape" aria-label="Live prices"><div class="tape-track" id="tape"></div></div>
+</section>
+
+<!-- ============ MANIFESTO ============ -->
+<section class="manifesto" aria-label="Why">
+  <p id="manifesto">Most trading bots are written once and left to rot. <span class="amber">These ones compete.</span> Every trade is judged. Every loser is removed. <span class="amber">Only the profitable get to have children.</span></p>
+  <div class="kicker">PAPER MONEY · REAL PRICES · REAL CONSEQUENCES FOR THE BOTS</div>
+</section>
+
+<!-- ============ HOW (horizontal) ============ -->
+<section class="how" id="how" aria-labelledby="how-title">
+  <div class="how-pin">
+    <div class="how-head">
+      <div><div class="idx">01 — THE LOOP <span class="how-hint" aria-hidden="true">· SWIPE →</span></div><h2 class="h2" id="how-title" style="margin-top:18px">Four stages,<br><span class="hl">forever.</span></h2></div>
+      <p class="body">A bot is born, trades, gets judged, and either dies or passes its genes on. The loop never stops, so the pool is never the same twice.</p>
+    </div>
+    <div class="how-track" id="howtrack">
+      <article class="step">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v3"/><path d="M12 18v3"/><path d="m4.9 4.9 2.1 2.1"/><path d="m17 17 2.1 2.1"/><path d="M3 12h3"/><path d="M18 12h3"/><circle cx="12" cy="12" r="4"/></svg>
+        <div class="num">01</div><h3>Born</h3>
+        <p>Every hour Claude reads the desk's report and writes a strategy nothing else in the pool is doing. OpenJev bots join too, and every midnight winners breed mutants.</p>
+        <div class="tag"><span>Claude, hourly</span><span>OpenJev</span><span>Mutants of winners</span></div>
+      </article>
+      <article class="step">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-7"/></svg>
+        <div class="num">02</div><h3>Trade</h3>
+        <p>$1,000 of paper money on one of ten Binance pairs, on 1, 5 or 15-minute candles. Fills are priced off the live order book with a 0.1% fee, stops and all.</p>
+        <div class="tag"><span>10 USDT pairs</span><span>1m · 5m · 15m</span><span>2–10× leverage</span></div>
+      </article>
+      <article class="step">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>
+        <div class="num">03</div><h3>Judged</h3>
+        <p>Every hour, bots below $600 or down 15% in a day are removed on the spot. At midnight Tashkent, every bot older than a day is judged on its last 24 hours.</p>
+        <div class="tag"><span>Hourly fast-fail</span><span>Midnight cut</span><span>40% kill switch</span></div>
+      </article>
+      <article class="step">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 15c6.667-6 13.333 0 20-6"/><path d="M9 22c1.798-1.998 2.518-3.995 2.807-5.993"/><path d="M15 2c-1.798 1.998-2.518 3.995-2.807 5.993"/><path d="m17 6-2.5-2.5"/><path d="m14 8-1-1"/><path d="m7 18 2.5 2.5"/><path d="m3.5 14.5.5.5"/><path d="m20 9 .5.5"/><path d="m6.5 12.5 1 1"/><path d="m16.5 10.5 1 1"/><path d="m10 16 1.5 1.5"/></svg>
+        <div class="num">04</div><h3>Breed</h3>
+        <p>Winners pass their genes on. Each gene has a coin-flip chance to drift, and sometimes a child moves to a new pair or a faster chart. The best ideas spread.</p>
+        <div class="tag"><span>2 children max</span><span>7 per family max</span><span>Genes drift ~15%</span></div>
+      </article>
+    </div>
+    <div class="progress" aria-hidden="true"><i id="howprog"></i></div>
+  </div>
+</section>
+
+<!-- ============ CULL ============ -->
+<section class="cull" id="cull" aria-labelledby="cull-title">
+  <div class="cull-pin">
+    <div>
+      <div class="idx">02 — SELECTION</div>
+      <div class="clock-lb" id="clocklb" style="margin-top:22px"><i></i><span id="clocklbt">NEXT CUT IN · MIDNIGHT TASHKENT</span></div>
+      <div class="clock mono" id="clock" style="margin-top:12px" aria-live="off">--:--<span class="s">:--</span></div>
+      <h2 class="h2" id="cull-title" style="font-size:clamp(44px,5.2vw,80px);margin-top:26px">Every midnight,<br><span class="hl">the weak get cut.</span></h2>
+      <div class="rules">
+        <div><span>Less than a day old</span><span class="c-cyan">protected</span></div>
+        <div><span>Lost money over the last 24 hours</span><span class="c-red">removed</span></div>
+        <div><span>No trades in the last 24 hours</span><span class="c-red">removed · no profit</span></div>
+        <div><span>Down 40% from its peak</span><span class="c-red">kill switch</span></div>
+        <div><span>Profitable over the last 24 hours</span><span class="c-green">survives · may breed</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="tiles-head"><span id="tileslabel">THE POOL · AT THE NEXT CULL</span><span id="tilescount">—</span></div>
+      <div class="tiles" id="tiles"></div>
+      <div class="legend"><span><i style="background:var(--green)"></i>survives</span><span><i style="background:var(--cyan)"></i>protected</span><span><i style="background:var(--red)"></i>cut at midnight</span><span><i style="background:var(--amber)"></i>newborn</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GENOME ============ -->
+<section class="genome" id="genome" aria-labelledby="gen-title">
+  <div class="sec-top"><div><div class="idx">03 — HEREDITY</div><h2 class="h2" id="gen-title" style="margin-top:18px">Every bot<br><span class="hl">is a genome.</span></h2></div></div>
+  <div class="gen-grid">
+    <canvas id="helix" aria-hidden="true"></canvas>
+    <div>
+      <p class="body">A strategy, a market, a timeframe, a leverage cap and a handful of numbers. When a winner breeds, every gene has a coin-flip chance to drift. Scroll to watch one become its child.</p>
+      <div class="genes-lb"><span id="genewho">PARENT · GEN 0</span><span class="c-amber" id="genemut">&nbsp;</span></div>
+      <div class="genes" id="genes"></div>
+    </div>
+  </div>
+  <div class="fams" id="fams"></div>
+</section>
+
+<!-- ============ LAB ============ -->
+<section class="lab" id="lab" aria-labelledby="lab-title">
+  <div class="sec-top"><div><div class="idx">04 — THE LAB</div><h2 class="h2" id="lab-title" style="margin-top:18px">New species,<br><span class="hl">every hour.</span></h2></div></div>
+  <div class="lab-grid">
+    <div>
+      <div class="who"><b style="background:#221A2E;border:1px solid #5B4A7A;color:var(--violet)">C</b>Claude writes a new strategy every hour</div>
+      <div class="card" style="min-height:520px">
+        <div class="card-h"><i style="background:var(--violet)"></i>lab/strategies/failed-breakout.js</div>
+        <pre class="code" id="code" aria-label="Strategy source code"></pre>
+        <div class="journal"><b>JOURNAL · CLAUDE</b>“Nothing in the pool trades breakout failures. Added a turtle-soup fade on LINK 5m.”</div>
+      </div>
+    </div>
+    <div>
+      <div class="who"><b style="background:#10212A;border:1px solid #2E5A6E;color:var(--cyan)">J</b>OpenJev decides on every candle</div>
+      <div class="card" style="min-height:520px">
+        <div class="card-h"><i style="background:var(--cyan)"></i>POST api.codiv.ai/v1/systemone</div>
+        <div class="jev">
+          <div class="snap">BTCUSDT on 5m candles. RSI14 68.3. Price 2.9% above EMA20. ADX 23.5. Current position: flat.</div>
+          <div class="lab-lb"><span>Long, short or flat?</span><span>Example answer</span></div>
+          <div class="bars" id="jevbars">
+            <div class="bar win"><span>long</span><span class="tr"><i style="background:var(--green)" data-p=".62"></i></span><span class="val mono" data-v="0.62">0.00</span></div>
+            <div class="bar"><span>flat</span><span class="tr"><i style="background:var(--muted)" data-p=".29"></i></span><span class="val mono" data-v="0.29">0.00</span></div>
+            <div class="bar"><span>short</span><span class="tr"><i style="background:var(--red)" data-p=".09"></i></span><span class="val mono" data-v="0.09">0.00</span></div>
+          </div>
+          <p>The bot only acts when the answer clears its own confidence bar. Those thresholds are genes too, so the cull decides how far to trust the model.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ POOL ============ -->
+<section class="pool" id="pool" aria-labelledby="pool-title">
+  <div class="sec-top"><div><div class="idx">05 — RIGHT NOW</div><h2 class="h2" id="pool-title" style="margin-top:18px">The pool,<br><span class="hl">live.</span></h2></div></div>
+  <div class="stats">
+    <div class="stat"><div class="v" id="st-pool">—</div><div class="l">BOTS ALIVE</div></div>
+    <div class="stat"><div class="v" id="st-gen">—</div><div class="l">GENERATION</div></div>
+    <div class="stat"><div class="v" id="st-risk">—</div><div class="l">FACING THE CULL</div></div>
+    <div class="stat"><div class="v" id="st-dead">—</div><div class="l">IN THE GRAVEYARD</div></div>
+  </div>
+  <div class="board"><table><thead><tr><th class="l">#</th><th class="l">Bot</th><th class="l">Market</th><th>Equity</th><th>24h P&amp;L</th><th>Trades</th><th class="l">Curve</th><th class="l">At midnight</th></tr></thead><tbody id="board"></tbody></table></div>
+  <div class="board-foot"><span id="boardnote">—</span><a href="desk.html" data-desk>Full dashboard →</a></div>
+  <div class="grave" aria-label="Recently culled bots">
+    <div class="grave-lb">THE GRAVEYARD</div>
+    <div class="grave-track" id="grave"></div>
+  </div>
+</section>
+
+<!-- ============ SUPPORT ============ -->
+<section class="support" id="support" aria-labelledby="sup-title">
+  <div class="idx">06 — WATCH IT LIVE</div>
+  <h2 class="sr" id="sup-title">Open the desk</h2>
+  <a class="bigcta" data-desk href="desk.html"><span class="w" id="bigw">Open the desk</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a>
+  <div class="cards">
+    <div class="scard coffee">
+      <h3>Keep the desk running</h3>
+      <p>The server, the hourly strategy designer and the model calls cost real money. If you enjoy watching the bots fight, a coffee keeps them alive.</p>
+      <div><a class="btn btn-amber magnetic" id="bmc" href="#"><span class="steam" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/></svg><i></i><i></i><i></i></span><span id="bmctext">Buy me a coffee</span></a> <a class="morehelp" href="support.html">All the ways to help →</a></div>
+    </div>
+    <div class="scard gh">
+      <h3>Read the code</h3>
+      <p>Every strategy, every mutation rule and every hourly lab design is open source, with the reasoning behind each one in the lab journal.</p>
+      <div><a class="btn btn-line magnetic" id="ghlink" href="https://github.com/daniiiiilllll546-oss/blotter">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65S8.93 17.38 9 18v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>View on GitHub</a></div>
+    </div>
+  </div>
+  <footer>
+    <span>PAPER TRADING ONLY · NO REAL MONEY · NOT FINANCIAL ADVICE</span>
+    <span>BLOTTER · <a href="https://github.com/daniiiiilllll546-oss/blotter">LAB JOURNAL</a></span>
+  </footer>
+</section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrambleTextPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/DrawSVGPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/CustomEase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+<script src="config.js?v=4f41a903"></script>
+<script src="site.js?v=164eacf7"></script>
+</body>
+</html>

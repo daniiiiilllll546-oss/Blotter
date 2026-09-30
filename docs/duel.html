@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Standoff · Blotter</title>
+<meta name="description" content="Opus 5.5, Sonnet 5.5, Haiku, GPT-6 Astra and GPT-6.1 Sol were given the same plain-English trading idea and each built a bot. All five now trade live on the Blotter desk.">
+<meta name="theme-color" content="#0B1116">
+<script src="theme.js?v=1432a407"></script>
+<link rel="stylesheet" href="theme.css?v=69bb1f0f">
+<link rel="stylesheet" href="judge.css?v=864942a6">
+<script src="transition.js?v=ae901faa"></script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B1116'/%3E%3Cpath d='M4 22 11 15l5 4 12-11' fill='none' stroke='%23E8A33D' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{--rose:#E58FB5}
+:root{
+  color-scheme: dark;
+  --ink:#0B1116; --panel:#121B22; --panel2:#18232D; --line:#22313D; --line2:#2B3C4A;
+  --text:#ECE6D6; --soft:#C3CACF; --muted:#8593A0;
+  --amber:#E8A33D; --amber-ink:#17110A; --green:#3EC690; --red:#F0625A; --cyan:#72B8D8; --violet:#B99BE8;
+  --f-disp:'Big Shoulders Display','Arial Narrow','Helvetica Neue',sans-serif;
+  --f-body:Barlow,'Segoe UI',system-ui,sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --gut:clamp(16px,3.2vw,48px); --ease:cubic-bezier(.2,.7,.1,1); --navh:72px;
+}
+*{box-sizing:border-box}
+html{background:var(--ink);overflow-x:clip}
+body{margin:0;background:var(--ink);color:var(--text);font:16px/1.55 var(--f-body);-webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:var(--amber)}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.up{color:var(--green)}.dn{color:var(--red)}.mu{color:var(--muted)}
+@keyframes pulse{50%{opacity:.3}}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.rise{animation:rise .9s var(--ease) both}.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001s!important;animation-delay:0s!important;transition-duration:.001s!important}}
+
+.nav{position:sticky;top:0;z-index:40;height:calc(var(--navh) + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) var(--gut) 0;display:flex;align-items:center;gap:24px;background:rgba(11,17,22,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:baseline;gap:10px;text-decoration:none;color:var(--text)}
+.logo{font:900 28px/1 var(--f-disp);letter-spacing:.04em;text-transform:uppercase}
+.slash{font:800 28px/1 var(--f-disp);color:var(--amber)}
+.page{font:800 28px/1 var(--f-disp);letter-spacing:.04em;text-transform:uppercase;color:var(--soft)}
+.navlinks{display:flex;gap:22px;margin-left:12px}
+.navlinks a{font:500 13px var(--f-mono);letter-spacing:.08em;color:var(--muted);text-decoration:none;white-space:nowrap}
+.navlinks a:hover{color:var(--amber)}
+.nav-mid{flex:1}
+.live{display:flex;align-items:center;gap:8px;font:500 12px var(--f-mono);letter-spacing:.12em;color:var(--green);white-space:nowrap}
+.live i{width:8px;height:8px;border-radius:50%;background:currentColor;animation:pulse 1.6s ease-in-out infinite}
+.live.wait{color:var(--muted)}.live.wait i{animation:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:44px;padding:0 18px;font:600 15px var(--f-body);text-decoration:none;white-space:nowrap;border:1px solid var(--line2);color:var(--text);background:transparent;cursor:pointer}
+.btn:hover{border-color:var(--amber);color:var(--amber)}
+
+main{padding:0 var(--gut)}
+.head{padding:clamp(40px,6vw,80px) 0 34px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,60px);align-items:end}
+.eyebrow{font:500 12px var(--f-mono);letter-spacing:.24em;color:var(--amber);text-transform:uppercase}
+.h1{font:900 clamp(52px,6.6vw,112px)/.86 var(--f-disp);text-transform:uppercase;margin:14px 0 0}
+.h1 .o{color:var(--amber)}.h1 .s{color:var(--violet)}.h1 .h{color:var(--cyan)}.h1 .a{color:var(--rose)}.h1 .x{color:var(--text)}.h1 .vs{color:var(--muted);font-size:.55em;vertical-align:.35em;margin:0 .12em}
+.brief{border:1px solid var(--line);background:var(--panel);padding:22px 24px}
+.brief .k{font:500 11px var(--f-mono);letter-spacing:.2em;color:var(--muted)}
+.brief q{display:block;margin-top:10px;font-size:clamp(16px,1.35vw,19px);color:var(--text);quotes:none}
+.brief .s{margin-top:12px;font:12px/1.6 var(--f-mono);color:var(--muted)}
+
+.lead{display:flex;align-items:center;justify-content:center;gap:14px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0;font:500 13px var(--f-mono);letter-spacing:.12em;color:var(--soft);text-align:center;flex-wrap:wrap}
+.lead b{color:var(--text);font-weight:500}
+
+.split{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;margin-top:0}
+.side{padding:34px clamp(14px,2vw,32px) 60px;min-width:0;border-left:1px solid var(--line)}
+.side:first-child{border-left:0;padding-left:0}.side:last-child{padding-right:0}
+.side.opus{--acc:var(--amber)}.side.sonnet{--acc:var(--violet)}.side.haiku{--acc:var(--cyan)}.side.astra{--acc:var(--rose)}.side.sol{--acc:var(--text)}
+.rank{font:500 11px var(--f-mono);letter-spacing:.18em;color:var(--acc);margin-bottom:10px;min-height:14px}
+.who{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.who h2{margin:0;font:900 clamp(44px,4.4vw,76px)/.85 var(--f-disp);text-transform:uppercase;color:var(--acc)}
+.who .tag{font:500 11px var(--f-mono);letter-spacing:.18em;color:var(--muted);border:1px solid var(--line2);padding:6px 10px}
+.bstats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:22px;border:1px solid var(--line)}
+.bstats>div{padding:12px 12px;border-right:1px solid var(--line);min-width:0}
+.bstats>div:last-child{border-right:0}
+.bstats .k{font:500 10px var(--f-mono);letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+.bstats .v{font:800 clamp(20px,1.9vw,28px)/1.1 var(--f-disp);margin-top:6px;white-space:nowrap}
+
+.sec{margin-top:30px}
+.lbl{display:flex;justify-content:space-between;gap:10px;font:500 11px var(--f-mono);letter-spacing:.2em;color:var(--muted);text-transform:uppercase;padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.live-card{border:1px solid var(--line);background:var(--panel);padding:20px}
+.lc-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.lc-name{font:900 32px/.9 var(--f-disp);text-transform:uppercase}
+.lc-eq{font:800 32px/.9 var(--f-disp)}
+.lc-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.lc-row .k{font:500 10px var(--f-mono);letter-spacing:.16em;color:var(--muted);text-transform:uppercase}
+.lc-row .v{font:500 15px var(--f-mono);margin-top:4px}
+.lc-now{margin-top:14px;font:13px/1.5 var(--f-mono);color:var(--soft);border-top:1px solid var(--line);padding-top:12px}
+.lc-now b{display:block;font:500 10px var(--f-mono);letter-spacing:.16em;color:var(--muted);margin-bottom:4px}
+.spark{width:100%;height:70px;display:block;margin-top:14px}
+.wait-card{border:1px dashed var(--line2);padding:22px;font:13px/1.6 var(--f-mono);color:var(--muted)}
+.dead{border-color:rgba(240,98,90,.45)}
+.chip{font:500 11px var(--f-mono);letter-spacing:.14em;padding:4px 8px;border:1px solid currentColor}
+.chip.alive{color:var(--cyan)}.chip.cut{color:var(--red)}.chip.safe{color:var(--green)}
+
+.reads p{margin:0 0 10px;color:var(--soft)}
+.notes{list-style:none;margin:0;padding:0}
+.notes li{position:relative;padding:10px 0 10px 26px;border-bottom:1px solid var(--line);color:var(--soft)}
+.notes li::before{content:"";position:absolute;left:4px;top:18px;width:9px;height:9px;border-radius:50%}
+.notes li.g::before{background:var(--green)}.notes li.r::before{background:var(--red)}.notes li.n::before{background:var(--muted)}
+
+details.code{border:1px solid var(--line);background:#0D141A}
+details.code summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;padding:14px 16px;font:500 12px var(--f-mono);letter-spacing:.12em;color:var(--soft)}
+details.code summary::-webkit-details-marker{display:none}
+details.code summary span:last-child{color:var(--acc)}
+details.code pre{margin:0;max-height:520px;overflow:auto;padding:14px 16px;border-top:1px solid var(--line);font:12px/1.55 var(--f-mono);color:#BFC7CD;tab-size:2;white-space:pre}
+.ln{display:inline-block;width:3ch;margin-right:14px;color:#4B5A66;text-align:right;user-select:none}
+
+.foot{border-top:1px solid var(--line);padding:30px 0 calc(40px + env(safe-area-inset-bottom,0px));display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:start;color:var(--muted);font:13px/1.6 var(--f-mono)}
+
+@media (max-width:1699px) and (min-width:1101px){
+  .split{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .side:nth-child(3n+1){border-left:0;padding-left:0}.side:nth-child(3n){padding-right:0}
+  .side:nth-child(n+4){border-top:1px solid var(--line)}
+}
+@media (max-width:1100px){
+  .split{grid-template-columns:1fr}
+  .side,.side:first-child,.side:last-child{border-left:0;border-top:1px solid var(--line);padding:30px 0 40px}
+}
+@media (max-width:980px){
+  .head{grid-template-columns:1fr}
+  .navlinks{display:none}
+  .foot{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  :root{--navh:60px}
+  .logo,.slash,.page{font-size:24px}
+  .nav .live{display:none}
+  .lc-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .bstats .v{font-size:22px}
+}
+
+@media (hover:none),(pointer:coarse){.grain{animation:none}}
+</style>
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="index.html" aria-label="Blotter home"><span class="logo">Blotter</span><span class="slash">/</span><span class="page">Standoff</span></a>
+  <nav class="navlinks" aria-label="Pages"><a href="index.html">← The story</a><a href="desk.html">The desk</a><a href="support.html">Support</a></nav>
+  <span class="nav-mid"></span>
+  <span class="live wait" id="live"><i></i><span id="livetext">CONNECTING</span></span>
+  <button class="themebtn" type="button" data-theme-toggle aria-label="Switch to light mode"></button>
+  <a class="btn" href="desk.html">Live desk</a>
+</header>
+
+<main>
+  <section class="head">
+    <div>
+      <div class="eyebrow rise">The standoff · same idea, five builders · who blinks first?</div>
+      <h1 class="h1 rise d1"><span class="o">Opus</span> <span class="vs">vs</span> <span class="s">Sonnet</span> <span class="vs">vs</span> <span class="h">Haiku</span> <span class="vs">vs</span> <span class="a">GPT-6 Astra</span> <span class="vs">vs</span> <span class="x">GPT-6.1 Sol</span></h1>
+    </div>
+    <div class="brief rise d2">
+      <div class="k">THE CUSTOMER'S REQUEST, GIVEN TO ALL FIVE, WORD FOR WORD</div>
+      <q>I want a bot for Solana. The idea: when SOL drops hard in a short time but the bigger trend is still going up, buy the dip, and take profit fairly quickly on the bounce. If the bigger trend is down, do the opposite: short the sharp rallies. Don't trade when the market is flat and boring. Trades should last a few hours at most. Keep the risk sensible, I don't want it blown up in a day.</q>
+      <div class="s">Since Sep 30 the desk puts every bot on at least 2% risk and a 2–5× leverage floor, so the risk each model picked is now overridden. Each model worked in a fresh session with no memory of anything else, read the same contract docs, and had to pass the same checker. All five trade SOL on 15-minute candles with a $1,000 paper wallet and face the same midnight cut as every other bot: once a day old, a bot must be profitable over its last 24 hours or it is removed.</div>
+    </div>
+  </section>
+
+  <div class="lead" id="lead">WAITING FOR THE DESK'S REPORT</div>
+
+  <section class="split">
+    <article class="side opus" data-side="opus">
+      <div class="rank" data-rank></div>
+      <div class="who"><h2>Opus 5.5</h2><span class="tag">LARGEST MODEL</span></div>
+      <div class="bstats">
+        <div><div class="k">Build time</div><div class="v">3m 11s</div></div>
+        <div><div class="k">Tokens used</div><div class="v">114k</div></div>
+        <div><div class="k">Code</div><div class="v" data-lines>—</div></div>
+      </div>
+      <div class="sec"><div class="lbl"><span>On the live desk</span><span data-upd></span></div><div data-live><div class="wait-card">Joining the desk. The server picks up new bots within about 10 minutes and reports every 10.</div></div></div>
+      <div class="sec"><div class="lbl"><span>The judge</span><span>OpenJev</span></div><div data-judge></div></div>
+      <div class="sec reads"><div class="lbl"><span>How it read the request</span></div>
+        <p>Measures the bigger trend with a slow 2-day average, and checks its direction <em>before</em> the move so the dip itself can't flip it. In an uptrend it buys a drop of about 3.4× normal volatility within 2 hours, but only once price has turned back up. In a downtrend it shorts the mirror image.</p>
+        <p>Takes profit when half the drop is won back, or leaves after 3 hours. Sits out when the trend is too weak or volatility is below its daily norm. Risks 1% per trade and stops trading for the day after 3 losses.</p>
+      </div>
+      <div class="sec"><div class="lbl"><span>Notes from reading the code</span></div>
+        <ul class="notes">
+          <li class="g">Follows every part of the brief: trend direction, both sides, flat filter, a hard 3-hour limit, and a daily loss brake.</li>
+          <li class="g">Chose the lowest risk per trade (1%), before the desk raised everyone to 2%+.</li>
+          <li class="r">Very picky. It made 1 trade in 3 simulated days, and under the midnight rule a day without profit, including a day with no trades, gets it cut.</li>
+        </ul>
+      </div>
+      <div class="sec"><details class="code"><summary><span>THE CODE IT WROTE</span><span>SHOW +</span></summary><pre data-code>Loading…</pre></details></div>
+    </article>
+
+    <article class="side sonnet" data-side="sonnet">
+      <div class="rank" data-rank></div>
+      <div class="who"><h2>Sonnet 5.5</h2><span class="tag">MID-SIZE MODEL</span></div>
+      <div class="bstats">
+        <div><div class="k">Build time</div><div class="v">1m 00s</div></div>
+        <div><div class="k">Tokens used</div><div class="v">98k</div></div>
+        <div><div class="k">Code</div><div class="v" data-lines>—</div></div>
+      </div>
+      <div class="sec"><div class="lbl"><span>On the live desk</span><span data-upd></span></div><div data-live><div class="wait-card">Joining the desk. The server picks up new bots within about 10 minutes and reports every 10.</div></div></div>
+      <div class="sec"><div class="lbl"><span>The judge</span><span>OpenJev</span></div><div data-judge></div></div>
+      <div class="sec reads"><div class="lbl"><span>How it read the request</span></div>
+        <p>Calls it an uptrend when a 6-hour average sits well above a rising 24-hour average. Then it buys when price has dropped about 1.9× normal volatility below its high of the last hour and RSI is washed out. In a downtrend it shorts the mirror image.</p>
+        <p>Exits on a bounce back to the 6-hour average, when the trend breaks, or after 3 hours, with the desk's stop, target and trailing stop behind that. Skips markets with no clear trend or with volatility below 70% of normal. Risks 1% per trade, waits 45 minutes after each exit, and pauses 4 hours after 3 straight losses.</p>
+      </div>
+      <div class="sec"><div class="lbl"><span>Notes from reading the code</span></div>
+        <ul class="notes">
+          <li class="g">Covers every part of the brief: trend direction, both sides, flat filter, a 3-hour limit and a losing-streak pause.</li>
+          <li class="g">1% risk per trade, and built in about a minute.</li>
+          <li class="r">It checks the trend on the same candle as the dip, so a deep enough drop can switch its "uptrend" off right when it should buy. Also picky: 2 trades in 3 simulated days.</li>
+          <li class="n">Joined the desk about 10 minutes after the other two.</li>
+        </ul>
+      </div>
+      <div class="sec"><details class="code"><summary><span>THE CODE IT WROTE</span><span>SHOW +</span></summary><pre data-code>Loading…</pre></details></div>
+    </article>
+
+    <article class="side haiku" data-side="haiku">
+      <div class="rank" data-rank></div>
+      <div class="who"><h2>Haiku 4.5</h2><span class="tag">SMALLEST MODEL</span></div>
+      <div class="bstats">
+        <div><div class="k">Build time</div><div class="v">1m 07s</div></div>
+        <div><div class="k">Tokens used</div><div class="v">75k</div></div>
+        <div><div class="k">Code</div><div class="v" data-lines>—</div></div>
+      </div>
+      <div class="sec"><div class="lbl"><span>On the live desk</span><span data-upd></span></div><div data-live><div class="wait-card">Joining the desk. The server picks up new bots within about 10 minutes and reports every 10.</div></div></div>
+      <div class="sec"><div class="lbl"><span>The judge</span><span>OpenJev</span></div><div data-judge></div></div>
+      <div class="sec reads"><div class="lbl"><span>How it read the request</span></div>
+        <p>Uses ADX above 25 as its "not flat" filter. Goes long when RSI drops below 30 while price is under its 60-candle average, and short when RSI tops 70 while price is above it.</p>
+        <p>Exits come from the desk: take profit at 0.8× volatility, a 1.2× trailing stop and a 1.5× stop loss. Risks 1.5% per trade at up to 3× leverage.</p>
+      </div>
+      <div class="sec"><div class="lbl"><span>Notes from reading the code</span></div>
+        <ul class="notes">
+          <li class="r">Never checks which way the bigger trend points. Price below its average with RSI under 30 usually means a <em>down</em>trend, so it tends to buy exactly where the customer said to short.</li>
+          <li class="r">No time limit on trades, and it force-closes any trade the moment ADX dips under 25.</li>
+          <li class="g">Simple, fast and cheap, and it trades often (34 trades in 3 simulated days), so it won't be cut for doing nothing.</li>
+        </ul>
+      </div>
+      <div class="sec"><details class="code"><summary><span>THE CODE IT WROTE</span><span>SHOW +</span></summary><pre data-code>Loading…</pre></details></div>
+    </article>
+    <article class="side astra" data-side="astra">
+      <div class="rank" data-rank></div>
+      <div class="who"><h2>GPT-6 Astra</h2><span class="tag">OPENAI'S ENTRANT</span></div>
+      <div class="bstats">
+        <div><div class="k">Build time</div><div class="v">n/a</div></div>
+        <div><div class="k">Tokens used</div><div class="v">n/a</div></div>
+        <div><div class="k">Code</div><div class="v" data-lines>—</div></div>
+      </div>
+      <div class="sec"><div class="lbl"><span>On the live desk</span><span data-upd></span></div><div data-live><div class="wait-card">Joining the desk. The server picks up new bots within about 10 minutes and reports every 10.</div></div></div>
+      <div class="sec"><div class="lbl"><span>The judge</span><span>OpenJev</span></div><div data-judge></div></div>
+      <div class="sec reads"><div class="lbl"><span>How it read the request</span></div>
+        <p>Calls it an uptrend when a 32-candle average sits at least half a volatility unit above a 96-candle average that is itself rising. Below 0.2% volatility it calls the market flat and stays out.</p>
+        <p>Measures the drop against volatility from <em>before</em> the drop, then waits for the next candle to turn back and close in its upper half. Exits at a bounce to the 12-candle average, when the trend fades, or after 3 hours, then rests for two candles.</p>
+      </div>
+      <div class="sec"><div class="lbl"><span>Notes from reading the code</span></div>
+        <ul class="notes">
+          <li class="g">Covers every part of the brief: both sides, a flat filter, a confirmed turn before entry and a hard 3-hour limit. It also refuses to trade on broken data.</li>
+          <li class="g">Sized the shock against the calm before it, so the drop can't raise its own bar.</li>
+          <li class="r">Six conditions have to line up at once, so it is picky: 4 trades in 3 simulated days. A quiet day means no profit, and that gets a bot cut at midnight.</li>
+          <li class="n">Built in ChatGPT, not in the repo's session. The owner pasted the finished code in, and the desk's checker passed it unchanged.</li>
+        </ul>
+      </div>
+      <div class="sec"><details class="code"><summary><span>THE CODE IT WROTE</span><span>SHOW +</span></summary><pre data-code>Loading…</pre></details></div>
+    </article>
+    <article class="side sol" data-side="sol">
+      <div class="rank" data-rank></div>
+      <div class="who"><h2>GPT-6.1 Sol</h2><span class="tag">OPENAI'S SECOND ENTRANT</span></div>
+      <div class="bstats">
+        <div><div class="k">Build time</div><div class="v">n/a</div></div>
+        <div><div class="k">Tokens used</div><div class="v">n/a</div></div>
+        <div><div class="k">Code</div><div class="v" data-lines>—</div></div>
+      </div>
+      <div class="sec"><div class="lbl"><span>On the live desk</span><span data-upd></span></div><div data-live><div class="wait-card">Joining the desk. The server picks up new bots within about 10 minutes and reports every 10.</div></div></div>
+      <div class="sec"><div class="lbl"><span>The judge</span><span>OpenJev</span></div><div data-judge></div></div>
+      <div class="sec reads"><div class="lbl"><span>How it read the request</span></div>
+        <p>Calls a trend when a 36-candle average sits at least a third of a volatility unit from a 120-candle average, and that slow average has been moving the same way over the last hour. Quiet markets and extreme candles are skipped.</p>
+        <p>Entry takes two steps. First it notes a sharp pullback, then it waits up to two candles for price to win back a quarter of a volatility unit, with at least 0.5% of room left to the 14-candle average. It leaves at that average, when the trend fails, or after 2 hours.</p>
+      </div>
+      <div class="sec"><div class="lbl"><span>Notes from reading the code</span></div>
+        <ul class="notes">
+          <li class="g">Covers every part of the brief: both sides, a flat filter, a confirmed recovery before entry and a hard time limit, checked from both the candle count and the clock.</li>
+          <li class="g">Also skips extreme candles, which none of the other four do.</li>
+          <li class="r">Its first version crashed the desk's checker on every call (it used <em>this</em>, which the desk doesn't provide). One fix round and it passed.</li>
+          <li class="r">Two-step entry plus a minimum bounce makes it picky: 3 trades in 3 simulated days.</li>
+        </ul>
+      </div>
+      <div class="sec"><details class="code"><summary><span>THE CODE IT WROTE</span><span>SHOW +</span></summary><pre data-code>Loading…</pre></details></div>
+    </article>
+  </section>
+
+  <footer class="foot">
+    <div>How this was run: Opus, Sonnet and Haiku got the identical brief in a brand-new session, could read only the strategy contract, the example strategy and the indicator helpers, and had to pass the desk's checker before their bot went live. GPT-6 Astra and GPT-6.1 Sol got the same brief and contract in fresh ChatGPT chats with no repo access; their code was pasted in by hand and had to pass the same checker (Sol needed one fix round). Build time and tokens are for the whole session, including reading the docs. The simulated test uses random prices, so only live results count. Paper trading only, not financial advice.</div>
+    <a class="btn" href="desk.html">Open the desk</a>
+  </footer>
+</main>
+
+<script src="judge.js?v=ca0eb302"></script>
+<script src="config.js?v=4f41a903"></script>
+<script>
+(() => {
+  const CFG = Object.assign({ repo: 'daniiiiilllll546-oss/blotter' }, window.BLOTTER_CFG || {});
+  const RAW = `https://raw.githubusercontent.com/${CFG.repo}`;
+  const REPORT = `${RAW}/desk-data/state.json`;
+  const START = 1000, FAM = { opus: 'lab/duel-opus', sonnet: 'lab/duel-sonnet', haiku: 'lab/duel-haiku', astra: 'lab/duel-astra', sol: 'lab/duel-sol' }, SIDES = Object.keys(FAM), NAMES = { opus: 'OPUS', sonnet: 'SONNET', haiku: 'HAIKU', astra: 'ASTRA', sol: 'SOL' };
+  const $ = (s, r = document) => r.querySelector(s);
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const fin = Number.isFinite;
+  const usd = v => (v < 0 ? '−$' : '$') + Math.abs(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const susd = v => (v >= 0 ? '+' : '−') + '$' + Math.abs(v).toFixed(2);
+  const cls = v => v > 0.005 ? 'up' : v < -0.005 ? 'dn' : 'mu';
+  const ago = ms => { const m = Math.round((Date.now() - ms) / 60000); return m < 1 ? 'just now' : m < 60 ? `${m} min ago` : m < 2880 ? `${Math.round(m / 60)} h ago` : `${Math.round(m / 1440)} d ago`; };
+  const dur = h => h < 1 ? `${Math.round(h * 60)}m` : h < 48 ? `${h.toFixed(1)}h` : `${(h / 24).toFixed(1)}d`;
+
+  // the code each model wrote, straight from the repo
+  for (const side of SIDES) {
+    fetch(`${RAW}/main/lab/strategies/duel-${side}.js?t=${Date.now()}`, { cache: 'no-store' }).then(r => r.ok ? r.text() : Promise.reject()).then(txt => {
+      const lines = txt.replace(/\s+$/, '').split('\n'), el = $(`[data-side="${side}"]`);
+      $('[data-lines]', el).textContent = lines.length + ' lines';
+      $('[data-code]', el).innerHTML = lines.map((l, i) => `<span class="ln">${i + 1}</span>${esc(l)}`).join('\n');
+    }).catch(() => { $(`[data-side="${side}"] [data-code]`).textContent = 'Could not load the code from GitHub right now.'; });
+  }
+  document.querySelectorAll('details.code').forEach(d => d.addEventListener('toggle', () => { d.querySelector('summary span:last-child').textContent = d.open ? 'HIDE −' : 'SHOW +'; }));
+
+  function spark(curve, col) {
+    const c = (curve || []).map(x => x[1]); if (c.length < 2) return '';
+    const W = 400, H = 70, mn = Math.min(...c, START), mx = Math.max(...c, START), rg = mx - mn || 1, y = v => (H - 4 - (v - mn) / rg * (H - 8)).toFixed(1);
+    const pts = c.map((v, i) => `${(i / (c.length - 1) * W).toFixed(1)},${y(v)}`).join(' ');
+    return `<svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><line x1="0" x2="${W}" y1="${y(START)}" y2="${y(START)}" style="stroke:var(--line2)" stroke-dasharray="3 4"/><polyline points="${pts}" fill="none" style="stroke:${col}" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>`;
+  }
+  function card(side, r) {
+    const col = { opus: 'var(--amber)', sonnet: 'var(--violet)', haiku: 'var(--cyan)', astra: 'var(--rose)', sol: 'var(--text)' }[side];
+    const b = r.bots.find(x => x.fam === FAM[side]);
+    if (b) {
+      const pnl = b.equity - START, pos = b.pos ? `<span class="${b.pos.side > 0 ? 'up' : 'dn'}">${b.pos.side > 0 ? 'LONG' : 'SHORT'}</span>` : 'FLAT';
+      const chip = b.status === 'stopped' ? '<span class="chip cut">STOPPED</span>' : b.verdict === 'grace' ? '<span class="chip safe">PROTECTED · FIRST DAY</span>' : b.verdict === 'kill' ? '<span class="chip cut">FACING THE CUT</span>' : '<span class="chip alive">SURVIVES</span>';
+      return { eq: b.equity, alive: true, trades: b.trades || 0, html: `<div class="live-card">
+        <div class="lc-top"><div><div class="lc-name">${esc(b.name)}</div><div class="mono mu" style="font-size:12px;margin-top:6px">${chip} &nbsp;${fin(b.ageH) ? dur(b.ageH) + ' old' : ''}</div></div>
+        <div style="text-align:right"><div class="lc-eq mono">${usd(b.equity)}</div><div class="mono ${cls(pnl)}" style="font-size:13px;margin-top:6px">${susd(pnl)} · ${(pnl / START * 100).toFixed(2)}%</div></div></div>
+        ${spark(b.curve, col)}
+        <div class="lc-row"><div><div class="k">Trades</div><div class="v">${b.trades ?? 0}</div></div><div><div class="k">Won</div><div class="v">${b.trades ? Math.round((b.win || 0) * 100) + '%' : '—'}</div></div><div><div class="k">Position</div><div class="v">${pos}</div></div><div><div class="k">Max drawdown</div><div class="v">${fin(b.maxDD) ? (b.maxDD * 100).toFixed(1) + '%' : '—'}</div></div></div>
+        <div class="lc-now"><b>WHAT IT'S THINKING</b>${esc(b.now || '—')}</div></div>` };
+    }
+    const g = (r.graveyard || []).find(x => x.fam === FAM[side]);
+    if (g) return { eq: g.equity, alive: false, trades: g.trades || 0, html: `<div class="live-card dead"><div class="lc-top"><div><div class="lc-name">${esc(g.name)}</div><div class="mono" style="font-size:12px;margin-top:6px"><span class="chip cut">CUT</span></div></div><div class="lc-eq mono">${usd(g.equity)}</div></div><div class="lc-now"><b>WHY IT DIED</b>${esc(g.reason)} · lived ${dur(g.livedH || 0)} · ${g.trades} trades</div></div>` };
+    return null;
+  }
+  async function load() {
+    let r;
+    try { const res = await fetch(REPORT + '?t=' + Date.now(), { cache: 'no-store' }); if (!res.ok) throw 0; r = await res.json(); } catch (e) { return; }
+    const at = Date.parse(r.generatedAt), fresh = Date.now() - at < 25 * 60e3;
+    $('#live').className = fresh ? 'live' : 'live wait'; $('#livetext').textContent = fresh ? 'DESK LIVE' : 'REPORT ' + ago(at).toUpperCase();
+    const res = {};
+    for (const side of SIDES) {
+      const el = $(`[data-side="${side}"]`), c = card(side, r); res[side] = c;
+      $('[data-upd]', el).textContent = 'report ' + ago(at);
+      if (c) $('[data-live]', el).innerHTML = c.html;
+      const jb = r.bots.find(x => x.fam === FAM[side]) || (r.graveyard || []).find(x => x.fam === FAM[side]);
+      if (window.BJudge) BJudge.panel($('[data-judge]', el), jb ? jb.judge : null, 'duel' + side, r.judge, jb && jb.id);
+    }
+    const lead = $('#lead'), inn = SIDES.filter(k => res[k]);
+    // ranking: alive bots first, then by equity
+    const order = inn.slice().sort((a, b) => (res[b].alive - res[a].alive) || (res[b].eq - res[a].eq));
+    const ord = ['1ST', '2ND', '3RD', '4TH', '5TH'];
+    for (const side of SIDES) { const i = order.indexOf(side); $(`[data-side="${side}"] [data-rank]`).textContent = i < 0 ? '' : ord[i] + (res[side].alive ? '' : ' · CUT'); }
+    if (!inn.length) lead.innerHTML = 'THE BOTS ARE JOINING THE DESK · CHECK BACK IN A FEW MINUTES';
+    else if (inn.length < SIDES.length) lead.innerHTML = `${inn.length} OF ${SIDES.length} BOTS HAVE JOINED · THE REST ARE ON THEIR WAY`;
+    else {
+      const a = res[order[0]], b = res[order[1]];
+      if (!SIDES.some(k => res[k].alive)) lead.innerHTML = 'ALL FIVE BOTS HAVE BEEN CUT';
+      else if (SIDES.every(k => res[k].alive && !res[k].trades)) lead.innerHTML = 'STANDOFF · NOBODY HAS BLINKED YET · <b>0 TRADES</b> BETWEEN THEM, ALL AT <b>$1,000</b>';
+      else if (a.alive && b.alive && Math.abs(a.eq - b.eq) < 0.01) lead.innerHTML = 'TOO CLOSE TO CALL · ' + order.map(k => `${NAMES[k]} <b>${usd(res[k].eq)}</b>`).join(' · ');
+      else lead.innerHTML = `<b>${NAMES[order[0]]}</b> LEADS · ` + order.map(k => `${NAMES[k]} <b>${usd(res[k].eq)}</b>${res[k].alive ? '' : ' (cut)'}`).join(' · ');
+    }
+  }
+  load(); setInterval(load, 5 * 60e3);
+})();
+</script>
+</body>
+</html>

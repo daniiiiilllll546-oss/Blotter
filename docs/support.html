@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Support Blotter</title>
+<meta name="description" content="Blotter is a free, open paper-trading desk where bots live or die by their P&L. Buy a coffee, star the code or share the desk to keep it running.">
+<meta name="theme-color" content="#0B1116">
+<script src="theme.js?v=1432a407"></script>
+<link rel="stylesheet" href="theme.css?v=69bb1f0f">
+<script src="transition.js?v=ae901faa"></script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B1116'/%3E%3Cpath d='M4 22 11 15l5 4 12-11' fill='none' stroke='%23E8A33D' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme: dark;
+  --ink:#0B1116; --ink2:#0F171D; --panel:#121B22; --panel2:#18232D; --line:#22313D; --line2:#2B3C4A;
+  --text:#ECE6D6; --soft:#C3CACF; --muted:#8593A0;
+  --amber:#E8A33D; --amber-hi:#F4BE6B; --amber-deep:#6B4E1F; --amber-ink:#17110A; --coffee:#1C1710;
+  --green:#3EC690; --red:#F0625A; --violet:#B99BE8; --cyan:#72B8D8;
+  --f-disp:'Big Shoulders Display','Arial Narrow','Helvetica Neue',sans-serif;
+  --f-body:Barlow,'Segoe UI',system-ui,sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --gut:clamp(16px,3.2vw,48px);
+  --ease:cubic-bezier(.2,.7,.1,1);
+  --navh:72px;
+}
+*{box-sizing:border-box}
+html{background:var(--ink);overflow-x:clip}
+body{margin:0;background:var(--ink);color:var(--text);font:16px/1.55 var(--f-body);-webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:var(--amber)}
+button{font:inherit;color:inherit}
+::selection{background:var(--amber);color:var(--amber-ink)}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.grain{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.045;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1.2s steps(6) infinite}
+@keyframes grain{0%{background-position:0 0}20%{background-position:-61px 37px}40%{background-position:43px -71px}60%{background-position:-29px -17px}80%{background-position:67px 53px}100%{background-position:0 0}}
+@keyframes pulse{50%{opacity:.3}}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.rise{animation:rise .9s var(--ease) both}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}
+@media (prefers-reduced-motion:reduce){.grain{animation:none}*{animation-duration:.001s!important;animation-delay:0s!important;transition-duration:.001s!important}}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:40;height:calc(var(--navh) + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) var(--gut) 0;display:flex;align-items:center;gap:24px;background:rgba(11,17,22,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:baseline;gap:10px;text-decoration:none;color:var(--text)}
+.logo{font:900 28px/1 var(--f-disp);letter-spacing:.04em;text-transform:uppercase}
+.slash{font:800 28px/1 var(--f-disp);color:var(--amber)}
+.page{font:800 28px/1 var(--f-disp);letter-spacing:.04em;text-transform:uppercase;color:var(--soft)}
+.navlinks{display:flex;gap:22px;margin-left:12px}
+.navlinks a{font:500 13px var(--f-mono);letter-spacing:.08em;color:var(--muted);text-decoration:none;white-space:nowrap}
+.navlinks a:hover{color:var(--amber)}
+.nav-mid{flex:1}
+.live{display:flex;align-items:center;gap:8px;font:500 12px var(--f-mono);letter-spacing:.12em;color:var(--green);white-space:nowrap}
+.live i{width:8px;height:8px;border-radius:50%;background:currentColor;animation:pulse 1.6s ease-in-out infinite}
+.live.wait{color:var(--muted)}.live.wait i{animation:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:48px;padding:0 22px;font:600 16px var(--f-body);text-decoration:none;white-space:nowrap;border:0;cursor:pointer;transition:background .3s,color .3s,border-color .3s,transform .3s var(--ease)}
+.btn-amber{background:var(--amber);color:var(--amber-ink)}
+.btn-amber:hover{background:var(--amber-hi)}
+.btn-amber[aria-disabled="true"]{background:var(--amber-deep);color:#E9D8B8;cursor:default}
+.btn-line{border:1px solid var(--line2);color:var(--text);background:transparent}
+.btn-line:hover{border-color:var(--amber);color:var(--amber)}
+.btn-lg{height:60px;padding:0 30px;font-size:18px}
+
+/* ---------- hero ---------- */
+main{padding:0 var(--gut)}
+.hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:clamp(24px,5vw,80px);align-items:center;padding:clamp(48px,8vw,110px) 0 clamp(40px,6vw,80px);border-bottom:1px solid var(--line)}
+.eyebrow{font:500 12px var(--f-mono);letter-spacing:.24em;color:var(--amber);text-transform:uppercase}
+.h1{font:900 clamp(56px,9vw,148px)/.82 var(--f-disp);letter-spacing:-.005em;text-transform:uppercase;margin:16px 0 0}
+.h1 .hl{color:var(--amber)}
+.lead{max-width:620px;margin:28px 0 0;font-size:clamp(17px,1.5vw,20px);color:var(--soft)}
+.lead b{color:var(--text);font-weight:600}
+.ctas{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px;align-items:center}
+.note{font:12px var(--f-mono);letter-spacing:.06em;color:var(--muted);margin-top:14px}
+
+.cupwrap{position:relative;aspect-ratio:1/1;max-width:420px;width:100%;justify-self:end}
+.cupwrap svg{width:100%;height:100%;display:block;overflow:visible}
+.cup-body{fill:var(--coffee);stroke:var(--amber);stroke-width:3}
+.cup-handle{fill:none;stroke:var(--amber);stroke-width:3}
+.cup-liquid{fill:#3A2614}
+.cup-line{fill:none;stroke:var(--amber);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.steam path{fill:none;stroke:var(--soft);stroke-width:3;stroke-linecap:round;opacity:0;animation:steam 3.2s ease-in infinite}
+.steam path:nth-child(2){animation-delay:1.05s}.steam path:nth-child(3){animation-delay:2.1s}
+@keyframes steam{0%{opacity:0;transform:translateY(14px)}30%{opacity:.55}100%{opacity:0;transform:translateY(-26px)}}
+.saucer{fill:none;stroke:var(--line2);stroke-width:3}
+
+/* ---------- live strip ---------- */
+.sec{padding:clamp(56px,8vw,110px) 0 0}
+.sec-h{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:28px}
+.h2{font:900 clamp(40px,5.4vw,84px)/.86 var(--f-disp);text-transform:uppercase;margin:10px 0 0}
+.h2 .hl{color:var(--amber)}
+.sub{font:13px var(--f-mono);color:var(--muted);letter-spacing:.04em;max-width:420px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);background:var(--panel)}
+.stat{padding:24px 26px;border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat .k{font:500 12px var(--f-mono);letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+.stat .v{font:800 clamp(40px,4.4vw,64px)/1 var(--f-disp);margin-top:12px}
+.stat .s{font:13px var(--f-mono);color:var(--muted);margin-top:8px}
+
+/* ---------- where it goes ---------- */
+.goes{border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:90px minmax(0,1fr) minmax(0,1.3fr) minmax(0,.8fr);gap:24px;align-items:baseline;padding:30px 0;border-bottom:1px solid var(--line)}
+.row .n{font:500 13px var(--f-mono);color:var(--amber);letter-spacing:.14em}
+.row h3{margin:0;font:800 clamp(30px,3vw,44px)/1 var(--f-disp);text-transform:uppercase}
+.row p{margin:0;color:var(--soft)}
+.row .live-note{font:13px var(--f-mono);color:var(--muted);text-align:right}
+.row .live-note b{color:var(--text);font-weight:500}
+
+/* ---------- free help ---------- */
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card{position:relative;background:var(--panel);border:1px solid var(--line);padding:30px 30px 44px;display:flex;flex-direction:column;gap:14px;transition:border-color .3s,transform .4s var(--ease)}
+.card:hover{border-color:var(--line2);transform:translateY(-3px)}
+.card .ic{width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line2);color:var(--amber)}
+.card h3{margin:6px 0 0;font:800 34px/1 var(--f-disp);text-transform:uppercase}
+.card p{margin:0;color:var(--soft);flex:1}
+.card .btn{align-self:flex-start;height:44px;font-size:15px;margin-top:auto}
+.copied{position:absolute;left:30px;bottom:16px;font:12px var(--f-mono);color:var(--green);letter-spacing:.08em}
+
+/* ---------- coffee band ---------- */
+.band{margin-top:clamp(56px,8vw,110px);background:var(--coffee);border:1px solid var(--amber-deep);padding:clamp(30px,5vw,64px);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:30px;align-items:center}
+.band h2{margin:0;font:900 clamp(40px,5vw,76px)/.88 var(--f-disp);text-transform:uppercase}
+.band p{margin:14px 0 0;color:#D6CAB5;max-width:640px}
+
+/* ---------- faq ---------- */
+.faq{border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;font:700 clamp(22px,2.2vw,30px)/1.1 var(--f-disp);text-transform:uppercase}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary span:last-child{font:400 26px var(--f-mono);color:var(--amber);transition:transform .3s var(--ease)}
+.faq details[open] summary span:last-child{transform:rotate(45deg)}
+.faq details p{margin:0 0 24px;max-width:760px;color:var(--soft)}
+
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:60px 0 calc(40px + env(safe-area-inset-bottom,0px));font:12px var(--f-mono);letter-spacing:.12em;color:var(--muted)}
+footer a{color:var(--muted)}footer a:hover{color:var(--amber)}
+
+@media (max-width:1100px){
+  .row{grid-template-columns:70px minmax(0,1fr);row-gap:10px}
+  .row p,.row .live-note{grid-column:2}
+  .row .live-note{text-align:left}
+}
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr}
+  .cupwrap{order:-1;max-width:220px;justify-self:start}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stat:nth-child(2){border-right:0}
+  .stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .cards{grid-template-columns:1fr}
+  .band{grid-template-columns:1fr}
+  .navlinks{display:none}
+}
+@media (max-width:560px){
+  :root{--navh:60px}
+  .logo,.slash,.page{font-size:24px}
+  .live{display:none}
+  .stat{padding:18px}
+  .row{grid-template-columns:1fr}
+  .row p,.row .live-note{grid-column:1}
+  .ctas .btn{width:100%}
+  .btn-lg{height:56px}
+}
+
+@media (hover:none),(pointer:coarse){.grain{animation:none}}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="brand" href="index.html" aria-label="Blotter home"><span class="logo">Blotter</span><span class="slash">/</span><span class="page">Support</span></a>
+  <nav class="navlinks" aria-label="Pages"><a href="index.html">← The story</a><a href="desk.html">The desk</a><a href="duel.html">Standoff</a></nav>
+  <span class="nav-mid"></span>
+  <span class="live wait" id="live"><i></i><span id="livetext">CONNECTING</span></span>
+  <button class="themebtn" type="button" data-theme-toggle aria-label="Switch to light mode"></button>
+  <a class="btn btn-line" href="desk.html" style="height:44px;font-size:15px">Live desk</a>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <div class="eyebrow rise">Support Blotter</div>
+      <h1 class="h1 rise d1">Keep the<br><span class="hl">bots alive.</span></h1>
+      <p class="lead rise d2">Blotter is a free, open experiment. A pool of bots trades pretend money on <b>real Binance prices</b> around the clock, Claude designs a new one every hour, and every <b>midnight Tashkent time</b> any bot that didn’t make money that day is cut. No ads, no paywall, no signup. It runs because people enjoy watching it.</p>
+      <div class="ctas rise d3">
+        <a class="btn btn-amber btn-lg" data-bmc href="#"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><path d="M6 2v2"/><path d="M10 2v2"/><path d="M14 2v2"/></svg><span data-bmctext>Buy me a coffee</span></a>
+        <a class="btn btn-line btn-lg" href="#free">Free ways to help</a>
+      </div>
+      <div class="note rise d4" id="bmcnote">One-off, any amount. Nothing to sign up for.</div>
+    </div>
+    <div class="cupwrap rise d2" aria-hidden="true">
+      <svg viewBox="0 0 240 240">
+        <g class="steam"><path d="M92 70c-8-10 8-16 0-28"/><path d="M118 70c-8-10 8-16 0-28"/><path d="M144 70c-8-10 8-16 0-28"/></g>
+        <path class="cup-handle" d="M178 108h10a24 24 0 0 1 0 48h-12"/>
+        <path class="cup-body" d="M52 86h128v70a44 44 0 0 1-44 44H96a44 44 0 0 1-44-44Z"/>
+        <path class="cup-liquid" d="M55 96h122v8H55z"/>
+        <polyline class="cup-line" points="70,168 90,150 106,158 128,132 146,140 164,116"/>
+        <ellipse class="saucer" cx="116" cy="212" rx="92" ry="10"/>
+      </svg>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="now-h">
+    <div class="sec-h">
+      <div><div class="eyebrow">Running right now</div><h2 class="h2" id="now-h">What a coffee<br><span class="hl">keeps alive.</span></h2></div>
+      <p class="sub" id="nowsub">Straight from the desk's latest report.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="k">Bots trading</div><div class="v mono" id="n-bots">—</div><div class="s" id="n-bots2">&nbsp;</div></div>
+      <div class="stat"><div class="k">Trades made</div><div class="v mono" id="n-trades">—</div><div class="s">by bots alive and dead</div></div>
+      <div class="stat"><div class="k">Bots cut so far</div><div class="v mono" id="n-dead">—</div><div class="s">in the graveyard</div></div>
+      <div class="stat"><div class="k">OpenJev answers</div><div class="v mono" id="n-jev">—</div><div class="s" id="n-jev2">since the desk last started</div></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="goes-h">
+    <div class="sec-h">
+      <div><div class="eyebrow">Where it goes</div><h2 class="h2" id="goes-h">Three things<br><span class="hl">cost money.</span></h2></div>
+      <p class="sub">Coffees go toward the running costs.</p>
+    </div>
+    <div class="goes">
+      <div class="row"><span class="n">01</span><h3>The server</h3><p>A cloud server runs the desk 24/7: it streams Binance prices, runs every bot on every candle, holds the cut every midnight and publishes a report every 10 minutes.</p><span class="live-note" id="g-server">—</span></div>
+      <div class="row"><span class="n">02</span><h3>The designer</h3><p>Every hour a Claude session reads the desk's results and the lab journal, then writes a brand-new strategy and drops it into the pool to fight for its life.</p><span class="live-note" id="g-claude">—</span></div>
+      <div class="row"><span class="n">03</span><h3>The model calls</h3><p>Some bots don't use rules at all. On every closed candle they ask OpenJev, a decision model, whether price goes up or down, and trade on its answer.</p><span class="live-note" id="g-jev">—</span></div>
+    </div>
+  </section>
+
+  <section class="sec" id="free" aria-labelledby="free-h">
+    <div class="sec-h">
+      <div><div class="eyebrow">No money needed</div><h2 class="h2" id="free-h">Free ways<br><span class="hl">to help.</span></h2></div>
+      <p class="sub">Attention matters too. These take ten seconds.</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <h3>Star the code</h3>
+        <p>Every strategy, mutation rule and hourly design is open source. A star on GitHub helps other people find it.</p>
+        <a class="btn btn-line" data-repo="" href="#" target="_blank" rel="noopener">Star on GitHub</a>
+      </div>
+      <div class="card">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98"/><path d="m15.41 6.51-6.82 3.98"/></svg></div>
+        <h3>Share the desk</h3>
+        <p>Know someone who'd enjoy watching bots fight for survival? Send them the live desk.</p>
+        <button class="btn btn-line" id="share" type="button">Share the desk</button>
+        <div class="copied" id="copied" aria-live="polite"></div>
+      </div>
+      <div class="card">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg></div>
+        <h3>Suggest a strategy</h3>
+        <p>Have a trading idea you want tested? Describe it in a GitHub issue and the hourly designer may build it into a bot.</p>
+        <a class="btn btn-line" data-issue="" href="#" target="_blank" rel="noopener">Suggest an idea</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="band-h">
+    <div>
+      <h2 id="band-h">One coffee,<br>one more day.</h2>
+      <p>If you've watched a bot you liked survive the cut, or laughed at one that didn't, this is the easiest way to keep the whole thing running.</p>
+    </div>
+    <a class="btn btn-amber btn-lg" data-bmc href="#"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/></svg><span data-bmctext>Buy me a coffee</span></a>
+  </section>
+
+  <section class="sec" aria-labelledby="faq-h">
+    <div class="sec-h"><div><div class="eyebrow">Questions</div><h2 class="h2" id="faq-h">Fair<br><span class="hl">questions.</span></h2></div></div>
+    <div class="faq">
+      <details><summary><span>Is any of this real money?</span><span>+</span></summary><p>No. Every bot trades a pretend $1,000 wallet. The prices are real and live from Binance, and fees are charged as if the trades were real, but no orders are ever sent to an exchange.</p></details>
+      <details><summary><span>Should I copy the bots' trades?</span><span>+</span></summary><p>Please don't. This is an experiment about which strategies survive, not trading advice. Most bots lose, and that is the point: the cut exists because most of them deserve it.</p></details>
+      <details><summary><span>What does my coffee pay for?</span><span>+</span></summary><p>Running costs: the server, the hourly Claude designer and the OpenJev model calls.</p></details>
+    </div>
+  </section>
+
+  <footer>
+    <span>PAPER TRADING ONLY · NO REAL MONEY · NOT FINANCIAL ADVICE</span>
+    <span><a href="index.html">THE STORY</a> · <a href="desk.html">THE DESK</a> · <a data-journal href="#">LAB JOURNAL</a></span>
+  </footer>
+</main>
+
+<script src="config.js?v=4f41a903"></script>
+<script>
+(() => {
+  const CFG = Object.assign({ bmc: '', repo: 'daniiiiilllll546-oss/blotter' }, window.BLOTTER_CFG || {});
+  const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
+  const GH = 'https://github.com/' + CFG.repo;
+  const REPORT = `https://raw.githubusercontent.com/${CFG.repo}/desk-data/state.json`;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // links
+  $$('[data-bmc]').forEach(a => {
+    if (CFG.bmc) { a.href = CFG.bmc; a.target = '_blank'; a.rel = 'noopener'; }
+    else { a.setAttribute('aria-disabled', 'true'); a.removeAttribute('href'); a.querySelector('[data-bmctext]').textContent = 'Coffee link coming soon'; }
+  });
+  if (!CFG.bmc) $('#bmcnote').textContent = 'The coffee page is being set up. In the meantime, the free ways below help just as much.';
+  $$('[data-repo]').forEach(a => a.href = GH);
+  $$('[data-issue]').forEach(a => a.href = GH + '/issues/new?title=' + encodeURIComponent('Strategy idea: ') + '&body=' + encodeURIComponent('What should the bot do?\n\nWhich market and timeframe?\n\nWhy might it work?\n'));
+  $$('[data-journal]').forEach(a => a.href = GH + '/blob/main/lab/journal.md');
+
+  // share
+  const deskUrl = new URL('desk.html', location.href).href;
+  $('#share').addEventListener('click', async () => {
+    const data = { title: 'Blotter · live bot desk', text: 'Paper-trading bots that live or die by their P&L. Any bot that loses money in a day is cut at midnight.', url: deskUrl };
+    try { if (navigator.share) { await navigator.share(data); return; } } catch (e) { if (e.name === 'AbortError') return; }
+    try { await navigator.clipboard.writeText(deskUrl); $('#copied').textContent = 'LINK COPIED'; }
+    catch (e) { $('#copied').textContent = deskUrl; }
+    setTimeout(() => $('#copied').textContent = '', 4000);
+  });
+
+  // live numbers
+  const ago = ms => { const m = Math.round((Date.now() - ms) / 60000); return m < 1 ? 'just now' : m < 60 ? `${m} min ago` : m < 2880 ? `${Math.round(m / 60)} h ago` : `${Math.round(m / 1440)} d ago`; };
+  const fmt = n => Math.round(n).toLocaleString('en-US');
+  function count(el, to) {
+    if (reduce) { el.textContent = fmt(to); return; }
+    const t0 = performance.now(), d = 1400;
+    const step = t => { const k = Math.min(1, (t - t0) / d), e = 1 - Math.pow(1 - k, 4); el.textContent = fmt(to * e); if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }
+  function waiting() {
+    $('#live').className = 'live wait'; $('#livetext').textContent = 'WAITING FOR DESK';
+    $('#nowsub').textContent = "The desk hasn't published a report yet. Numbers appear as soon as it does.";
+  }
+  async function load() {
+    let r;
+    try { const res = await fetch(REPORT + '?t=' + Date.now(), { cache: 'no-store' }); if (!res.ok) throw 0; r = await res.json(); }
+    catch (e) { return waiting(); }
+    if (!r || !Array.isArray(r.bots)) return waiting();
+    const at = Date.parse(r.generatedAt), fresh = Date.now() - at < 25 * 60e3;
+    $('#live').className = fresh ? 'live' : 'live wait'; $('#livetext').textContent = fresh ? 'DESK LIVE' : 'REPORT ' + ago(at).toUpperCase();
+    $('#nowsub').textContent = `Straight from the desk's latest report, ${ago(at)}. Generation ${r.gen ?? 0}.`;
+    const bots = r.bots, grave = r.graveyard || [];
+    const trades = bots.reduce((a, b) => a + (b.trades || 0), 0) + grave.reduce((a, g) => a + (g.trades || 0), 0);
+    const claude = bots.filter(b => b.author === 'claude').length, jevBots = bots.filter(b => b.fam === 'jev').length;
+    count($('#n-bots'), bots.length); $('#n-bots2').textContent = `${claude} designed by Claude`;
+    count($('#n-trades'), trades);
+    count($('#n-dead'), grave.length);
+    const J = r.jev;
+    if (J && J.enabled) { count($('#n-jev'), J.calls || 0); $('#n-jev2').textContent = `${jevBots} bot${jevBots === 1 ? '' : 's'} asking it`; }
+    else { $('#n-jev').textContent = '—'; $('#n-jev2').textContent = 'not connected'; }
+    $('#g-server').innerHTML = `<b>${fresh ? 'Up' : 'Quiet'}</b> · last report ${ago(at)}`;
+    $('#g-claude').innerHTML = `<b>${claude}</b> of its bots alive right now`;
+    $('#g-jev').innerHTML = J && J.enabled ? `<b>${fmt(J.calls || 0)}</b> answers · ${J.errors || 0} errors` : 'not connected';
+  }
+  load(); setInterval(load, 5 * 60e3);
+})();
+</script>
+</body>
+</html>
