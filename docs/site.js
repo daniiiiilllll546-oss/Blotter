@@ -93,7 +93,7 @@ function renderStatus() {
   else if (age > 3 * 3600e3) { badge.className = 'live sample'; txt.textContent = `REPORT ${ago(Date.parse(S.generatedAt)).toUpperCase()}`; $('#datanote').textContent = `Last desk report ${ago(Date.parse(S.generatedAt))}.`; }
   else { badge.className = 'live'; txt.textContent = 'LIVE'; $('#datanote').textContent = `From the desk's report, ${ago(Date.parse(S.generatedAt))} · refreshes every 10 min.`; }
 }
-const EVK = { spawn: ['Born', 'var(--violet)'], fastfail: ['Removed', 'var(--red)'], claudekill: ['Removed', 'var(--red)'], laberror: ['Rejected', 'var(--muted)'], cull: ['Cull', 'var(--amber)'], reset: ['Reset', 'var(--amber)'] };
+const EVK = { spawn: ['Born', 'var(--violet)'], fastfail: ['Removed', 'var(--red)'], claudekill: ['Removed', 'var(--red)'], laberror: ['Rejected', 'var(--muted)'], cull: ['Kill', 'var(--amber)'], reset: ['Reset', 'var(--amber)'] };
 function feedItems() {
   const ev = S.events.map(e => ({ t: e.t, kind: e.kind, text: e.text }));
   for (const c of S.culls || []) ev.push({ t: c.t, kind: 'cull', text: `gen ${c.gen}: ${c.killed.length} removed, ${c.born.length} born` });
@@ -303,7 +303,7 @@ function helixScene(canvas) {
 function buildTiles() {
   const pick = [...S.bots.filter(b => b.verdict === 'kill').slice(0, 5), ...S.bots.filter(b => b.verdict !== 'kill')].slice(0, 16);
   const order = pick.sort((a, b) => a.id - b.id), box = $('#tiles');
-  box.innerHTML = order.map((b, i) => `<div class="tile ${b.verdict === 'kill' ? 'kill' : b.verdict === 'grace' ? 'grace' : ''}" data-v="${b.verdict}"><div class="t1"><span class="nm">${S.sample ? 'Bot ' + String(i + 1).padStart(2, '0') : esc(b.name)}</span><span class="fm">${famShort(b.fam)}</span></div><div class="st">${b.verdict === 'kill' ? 'CULLED' : b.verdict === 'grace' ? 'PROTECTED' : 'SURVIVES'}</div></div>`).join('');
+  box.innerHTML = order.map((b, i) => `<div class="tile ${b.verdict === 'kill' ? 'kill' : b.verdict === 'grace' ? 'grace' : ''}" data-v="${b.verdict}"><div class="t1"><span class="nm">${S.sample ? 'Bot ' + String(i + 1).padStart(2, '0') : esc(b.name)}</span><span class="fm">${famShort(b.fam)}</span></div><div class="st">${b.verdict === 'kill' ? 'KILLED' : b.verdict === 'grace' ? 'PROTECTED' : 'SURVIVES'}</div></div>`).join('');
   const winners = S.sample ? ['a winner'] : S.bots.filter(b => b.verdict === 'safe' && b.pnl3d > 0).map(b => b.name);
   let w = 0;
   for (const t of $$('.tile.kill', box)) {
@@ -403,7 +403,7 @@ function renderBoard() {
   if (!rows.length) $('#board').innerHTML = `<tr><td colspan="8" class="l" style="padding:28px 12px;color:var(--muted)">${S.sample ? "Waiting for the desk's first report. Bots appear here as soon as it arrives." : 'No bots yet.'}</td></tr>`;
   else $('#board').innerHTML = rows.map((b, i) => {
     const col = b.verdict === 'kill' ? 'var(--red)' : b.pnl >= 0 ? 'var(--green)' : 'var(--muted)';
-    const chip = b.verdict === 'kill' ? '<span class="chip kill">cull</span>' : b.verdict === 'grace' ? '<span class="chip grace">protected</span>' : '<span class="chip safe">safe</span>';
+    const chip = b.verdict === 'kill' ? '<span class="chip kill">kill</span>' : b.verdict === 'grace' ? '<span class="chip grace">protected</span>' : '<span class="chip safe">safe</span>';
     const by = b.author === 'claude' ? ' <span class="chip claude">by Claude</span>' : b.fam === 'jev' ? ' <span class="chip jev">OpenJev</span>' : '';
     return `<tr><td class="l mono">${String(i + 1).padStart(2, '0')}</td><td class="l nm">${esc(b.name)}${by}<small>${esc(famLabel(b.fam, S.strategies))} · gen ${b.gen ?? 0}</small></td><td class="l">${esc(b.sym.replace('USDT', ''))} · ${esc(b.tf)} · ${b.maxLev}×</td><td>${usd(b.equity)}</td><td class="${b.pnl3d >= 0 ? 'c-green' : 'c-red'}">${susd(b.pnl3d)}</td><td>${b.trades3d ?? b.trades ?? '—'}</td><td class="l">${spark(b.curve, col)}</td><td class="l">${chip}</td></tr>`;
   }).join('');

@@ -11,7 +11,6 @@
 <meta name="theme-color" content="#0B1116">
 <script src="theme.js?v=1432a407"></script>
 <link rel="stylesheet" href="theme.css?v=69bb1f0f">
-<link rel="stylesheet" href="judge.css?v=864942a6">
 <script src="transition.js?v=ae901faa"></script>
 <link rel="icon" type="image/svg+xml" href="brand/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png">
@@ -59,7 +58,7 @@ a{color:var(--amber)}
 .btn:hover{border-color:var(--amber);color:var(--amber)}
 
 main{padding:0 var(--gut)}
-.head{padding:clamp(40px,6vw,80px) 0 34px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,60px);align-items:end}
+.head{padding:clamp(40px,6vw,80px) 0 34px;display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(24px,4vw,60px);align-items:end}
 .eyebrow{font:500 12px var(--f-mono);letter-spacing:.24em;color:var(--amber);text-transform:uppercase}
 .h1{font:900 clamp(52px,6.6vw,112px)/.86 var(--f-disp);text-transform:uppercase;margin:14px 0 0}
 .h1 .o{color:var(--amber)}.h1 .s{color:var(--violet)}.h1 .h{color:var(--cyan)}.h1 .a{color:var(--rose)}.h1 .x{color:var(--text)}.h1 .vs{color:var(--muted);font-size:.55em;vertical-align:.35em;margin:0 .12em}
@@ -108,6 +107,15 @@ main{padding:0 var(--gut)}
 .notes li::before{content:"";position:absolute;left:4px;top:18px;width:9px;height:9px;border-radius:50%}
 .notes li.g::before{background:var(--green)}.notes li.r::before{background:var(--red)}.notes li.n::before{background:var(--muted)}
 
+.chartbox{margin-top:22px;border:1px solid var(--line);background:var(--panel);padding:16px 18px}
+.gl-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;font-size:13px}
+.gl-eq{font:800 28px/1 var(--f-disp)}
+.gl-none{margin-top:12px;font:12px var(--f-mono);color:var(--muted)}
+details.more{margin-top:18px}
+details.more>summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;min-height:44px;padding:0 16px;border:1px solid var(--line2);font:500 12px var(--f-mono);letter-spacing:.14em;color:var(--soft)}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary span:last-child{color:var(--acc)}
+details.more>summary:hover{border-color:var(--acc)}
 details.code{border:1px solid var(--line);background:#0D141A}
 details.code summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;padding:14px 16px;font:500 12px var(--f-mono);letter-spacing:.12em;color:var(--soft)}
 details.code summary::-webkit-details-marker{display:none}
@@ -158,16 +166,11 @@ details.code pre{margin:0;max-height:520px;overflow:auto;padding:14px 16px;borde
       <div class="eyebrow rise">The standoff · same idea, five builders · who blinks first?</div>
       <h1 class="h1 rise d1"><span class="o">Opus</span> <span class="vs">vs</span> <span class="s">Sonnet</span> <span class="vs">vs</span> <span class="h">Haiku</span> <span class="vs">vs</span> <span class="a">GPT-6 Astra</span> <span class="vs">vs</span> <span class="x">GPT-6.1 Sol</span></h1>
     </div>
-    <div class="brief rise d2">
-      <div class="k">THE CUSTOMER'S REQUEST, GIVEN TO ALL FIVE, WORD FOR WORD</div>
-      <q>I want a bot for Solana. The idea: when SOL drops hard in a short time but the bigger trend is still going up, buy the dip, and take profit fairly quickly on the bounce. If the bigger trend is down, do the opposite: short the sharp rallies. Don't trade when the market is flat and boring. Trades should last a few hours at most. Keep the risk sensible, I don't want it blown up in a day.</q>
-      <div class="s">Since Sep 30 the desk puts every bot on at least 2% risk and a 2–5× leverage floor, so the risk each model picked is now overridden. Each model worked in a fresh session with no memory of anything else, read the same contract docs, and had to pass the same checker. All five trade SOL on 15-minute candles with a $1,000 paper wallet and face the same midnight cut as every other bot: once a day old, a bot must be profitable over its last 24 hours or it is removed.</div>
-    </div>
   </section>
 
   <div class="glance" style="padding-top:8px;padding-bottom:0">
 <!--snap:start-->
-<div class="sn-h"><h2>The scoreboard</h2><span>Snapshot 2026-09-30 14:20 UTC. The live cards below update on their own.</span></div><div class="sn-wrap"><table class="sn"><thead><tr><th>Model</th><th>Bot it wrote</th><th>Status</th><th class="r">Equity</th><th class="r">P&amp;L</th><th class="r">Trades</th></tr></thead><tbody><tr><td>Claude Opus 5.5</td><td>Grebe</td><td>trading</td><td class="r">$1,000.00</td><td class="r up">+$0.00</td><td class="r">0</td></tr><tr><td>Claude Sonnet 5.5</td><td>Hoopoe</td><td>trading</td><td class="r">$1,000.00</td><td class="r up">+$0.00</td><td class="r">0</td></tr><tr><td>Claude Haiku 4.5</td><td>Fulmar</td><td>trading</td><td class="r">$989.15</td><td class="r dn">−$10.85</td><td class="r">2</td></tr><tr><td>GPT-6 Astra</td><td>Kakapo</td><td>trading</td><td class="r">$1,000.00</td><td class="r up">+$0.00</td><td class="r">0</td></tr><tr><td>GPT-6.1 Sol</td><td>Linnet</td><td>trading</td><td class="r">$1,000.00</td><td class="r up">+$0.00</td><td class="r">0</td></tr></tbody></table></div>
+<div class="sn-h"><h2>The scoreboard</h2><span>Snapshot 2026-09-30 14:30 UTC. The live cards below update on their own.</span></div><div class="sn-wrap"><table class="sn"><thead><tr><th>Model</th><th>Bot it wrote</th><th>Status</th><th class="r">Equity</th><th class="r">P&amp;L</th><th class="r">Trades</th></tr></thead><tbody><tr><td>Claude Opus 5.5</td><td>Grebe</td><td>trading</td><td class="r">$1,000.00</td><td class="r up">+$0.00</td><td class="r">0</td></tr><tr><td>Claude Sonnet 5.5</td><td>Hoopoe</td><td>trading</td><td class="r">$1,000.00</td><td class="r up">+$0.00</td><td class="r">0</td></tr><tr><td>Claude Haiku 4.5</td><td>Fulmar</td><td>trading</td><td class="r">$989.15</td><td class="r dn">−$10.85</td><td class="r">2</td></tr><tr><td>GPT-6 Astra</td><td>Kakapo</td><td>trading</td><td class="r">$1,000.00</td><td class="r up">+$0.00</td><td class="r">0</td></tr><tr><td>GPT-6.1 Sol</td><td>Linnet</td><td>trading</td><td class="r">$1,000.00</td><td class="r up">+$0.00</td><td class="r">0</td></tr></tbody></table></div>
 <!--snap:end-->
 </div>
 
@@ -182,8 +185,9 @@ details.code pre{margin:0;max-height:520px;overflow:auto;padding:14px 16px;borde
         <div><div class="k">Tokens used</div><div class="v">114k</div></div>
         <div><div class="k">Code</div><div class="v" data-lines>—</div></div>
       </div>
+      <div class="chartbox" data-chart><div class="wait-card">Chart appears with the next desk report.</div></div>
+      <details class="more"><summary><span>EVERYTHING ELSE</span><span>SHOW +</span></summary>
       <div class="sec"><div class="lbl"><span>On the live desk</span><span data-upd></span></div><div data-live><div class="wait-card">Joining the desk. The server picks up new bots within about 10 minutes and reports every 10.</div></div></div>
-      <div class="sec"><div class="lbl"><span>The judge</span><span>OpenJev</span></div><div data-judge></div></div>
       <div class="sec reads"><div class="lbl"><span>How it read the request</span></div>
         <p>Measures the bigger trend with a slow 2-day average, and checks its direction <em>before</em> the move so the dip itself can't flip it. In an uptrend it buys a drop of about 3.4× normal volatility within 2 hours, but only once price has turned back up. In a downtrend it shorts the mirror image.</p>
         <p>Takes profit when half the drop is won back, or leaves after 3 hours. Sits out when the trend is too weak or volatility is below its daily norm. Risks 1% per trade and stops trading for the day after 3 losses.</p>
@@ -196,6 +200,7 @@ details.code pre{margin:0;max-height:520px;overflow:auto;padding:14px 16px;borde
         </ul>
       </div>
       <div class="sec"><details class="code"><summary><span>THE CODE IT WROTE</span><span>SHOW +</span></summary><pre data-code>Loading…</pre></details></div>
+      </details>
     </article>
 
     <article class="side sonnet" data-side="sonnet">
@@ -206,8 +211,9 @@ details.code pre{margin:0;max-height:520px;overflow:auto;padding:14px 16px;borde
         <div><div class="k">Tokens used</div><div class="v">98k</div></div>
         <div><div class="k">Code</div><div class="v" data-lines>—</div></div>
       </div>
+      <div class="chartbox" data-chart><div class="wait-card">Chart appears with the next desk report.</div></div>
+      <details class="more"><summary><span>EVERYTHING ELSE</span><span>SHOW +</span></summary>
       <div class="sec"><div class="lbl"><span>On the live desk</span><span data-upd></span></div><div data-live><div class="wait-card">Joining the desk. The server picks up new bots within about 10 minutes and reports every 10.</div></div></div>
-      <div class="sec"><div class="lbl"><span>The judge</span><span>OpenJev</span></div><div data-judge></div></div>
       <div class="sec reads"><div class="lbl"><span>How it read the request</span></div>
         <p>Calls it an uptrend when a 6-hour average sits well above a rising 24-hour average. Then it buys when price has dropped about 1.9× normal volatility below its high of the last hour and RSI is washed out. In a downtrend it shorts the mirror image.</p>
         <p>Exits on a bounce back to the 6-hour average, when the trend breaks, or after 3 hours, with the desk's stop, target and trailing stop behind that. Skips markets with no clear trend or with volatility below 70% of normal. Risks 1% per trade, waits 45 minutes after each exit, and pauses 4 hours after 3 straight losses.</p>
@@ -221,6 +227,7 @@ details.code pre{margin:0;max-height:520px;overflow:auto;padding:14px 16px;borde
         </ul>
       </div>
       <div class="sec"><details class="code"><summary><span>THE CODE IT WROTE</span><span>SHOW +</span></summary><pre data-code>Loading…</pre></details></div>
+      </details>
     </article>
 
     <article class="side haiku" data-side="haiku">
@@ -231,8 +238,9 @@ details.code pre{margin:0;max-height:520px;overflow:auto;padding:14px 16px;borde
         <div><div class="k">Tokens used</div><div class="v">75k</div></div>
         <div><div class="k">Code</div><div class="v" data-lines>—</div></div>
       </div>
+      <div class="chartbox" data-chart><div class="wait-card">Chart appears with the next desk report.</div></div>
+      <details class="more"><summary><span>EVERYTHING ELSE</span><span>SHOW +</span></summary>
       <div class="sec"><div class="lbl"><span>On the live desk</span><span data-upd></span></div><div data-live><div class="wait-card">Joining the desk. The server picks up new bots within about 10 minutes and reports every 10.</div></div></div>
-      <div class="sec"><div class="lbl"><span>The judge</span><span>OpenJev</span></div><div data-judge></div></div>
       <div class="sec reads"><div class="lbl"><span>How it read the request</span></div>
         <p>Uses ADX above 25 as its "not flat" filter. Goes long when RSI drops below 30 while price is under its 60-candle average, and short when RSI tops 70 while price is above it.</p>
         <p>Exits come from the desk: take profit at 0.8× volatility, a 1.2× trailing stop and a 1.5× stop loss. Risks 1.5% per trade at up to 3× leverage.</p>
@@ -245,6 +253,7 @@ details.code pre{margin:0;max-height:520px;overflow:auto;padding:14px 16px;borde
         </ul>
       </div>
       <div class="sec"><details class="code"><summary><span>THE CODE IT WROTE</span><span>SHOW +</span></summary><pre data-code>Loading…</pre></details></div>
+      </details>
     </article>
     <article class="side astra" data-side="astra">
       <div class="rank" data-rank></div>
@@ -254,8 +263,9 @@ details.code pre{margin:0;max-height:520px;overflow:auto;padding:14px 16px;borde
         <div><div class="k">Tokens used</div><div class="v">n/a</div></div>
         <div><div class="k">Code</div><div class="v" data-lines>—</div></div>
       </div>
+      <div class="chartbox" data-chart><div class="wait-card">Chart appears with the next desk report.</div></div>
+      <details class="more"><summary><span>EVERYTHING ELSE</span><span>SHOW +</span></summary>
       <div class="sec"><div class="lbl"><span>On the live desk</span><span data-upd></span></div><div data-live><div class="wait-card">Joining the desk. The server picks up new bots within about 10 minutes and reports every 10.</div></div></div>
-      <div class="sec"><div class="lbl"><span>The judge</span><span>OpenJev</span></div><div data-judge></div></div>
       <div class="sec reads"><div class="lbl"><span>How it read the request</span></div>
         <p>Calls it an uptrend when a 32-candle average sits at least half a volatility unit above a 96-candle average that is itself rising. Below 0.2% volatility it calls the market flat and stays out.</p>
         <p>Measures the drop against volatility from <em>before</em> the drop, then waits for the next candle to turn back and close in its upper half. Exits at a bounce to the 12-candle average, when the trend fades, or after 3 hours, then rests for two candles.</p>
@@ -269,6 +279,7 @@ details.code pre{margin:0;max-height:520px;overflow:auto;padding:14px 16px;borde
         </ul>
       </div>
       <div class="sec"><details class="code"><summary><span>THE CODE IT WROTE</span><span>SHOW +</span></summary><pre data-code>Loading…</pre></details></div>
+      </details>
     </article>
     <article class="side sol" data-side="sol">
       <div class="rank" data-rank></div>
@@ -278,8 +289,9 @@ details.code pre{margin:0;max-height:520px;overflow:auto;padding:14px 16px;borde
         <div><div class="k">Tokens used</div><div class="v">n/a</div></div>
         <div><div class="k">Code</div><div class="v" data-lines>—</div></div>
       </div>
+      <div class="chartbox" data-chart><div class="wait-card">Chart appears with the next desk report.</div></div>
+      <details class="more"><summary><span>EVERYTHING ELSE</span><span>SHOW +</span></summary>
       <div class="sec"><div class="lbl"><span>On the live desk</span><span data-upd></span></div><div data-live><div class="wait-card">Joining the desk. The server picks up new bots within about 10 minutes and reports every 10.</div></div></div>
-      <div class="sec"><div class="lbl"><span>The judge</span><span>OpenJev</span></div><div data-judge></div></div>
       <div class="sec reads"><div class="lbl"><span>How it read the request</span></div>
         <p>Calls a trend when a 36-candle average sits at least a third of a volatility unit from a 120-candle average, and that slow average has been moving the same way over the last hour. Quiet markets and extreme candles are skipped.</p>
         <p>Entry takes two steps. First it notes a sharp pullback, then it waits up to two candles for price to win back a quarter of a volatility unit, with at least 0.5% of room left to the 14-candle average. It leaves at that average, when the trend fails, or after 2 hours.</p>
@@ -293,6 +305,7 @@ details.code pre{margin:0;max-height:520px;overflow:auto;padding:14px 16px;borde
         </ul>
       </div>
       <div class="sec"><details class="code"><summary><span>THE CODE IT WROTE</span><span>SHOW +</span></summary><pre data-code>Loading…</pre></details></div>
+      </details>
     </article>
   </section>
 
@@ -302,7 +315,6 @@ details.code pre{margin:0;max-height:520px;overflow:auto;padding:14px 16px;borde
   </footer>
 </main>
 
-<script src="judge.js?v=ca0eb302"></script>
 <script src="config.js?v=7fde69ab"></script>
 <script>
 (() => {
@@ -327,7 +339,7 @@ details.code pre{margin:0;max-height:520px;overflow:auto;padding:14px 16px;borde
       $('[data-code]', el).innerHTML = lines.map((l, i) => `<span class="ln">${i + 1}</span>${esc(l)}`).join('\n');
     }).catch(() => { $(`[data-side="${side}"] [data-code]`).textContent = 'Could not load the code from GitHub right now.'; });
   }
-  document.querySelectorAll('details.code').forEach(d => d.addEventListener('toggle', () => { d.querySelector('summary span:last-child').textContent = d.open ? 'HIDE −' : 'SHOW +'; }));
+  document.querySelectorAll('details.code, details.more').forEach(d => d.addEventListener('toggle', () => { d.querySelector(':scope > summary span:last-child').textContent = d.open ? 'HIDE −' : 'SHOW +'; }));
 
   function spark(curve, col) {
     const c = (curve || []).map(x => x[1]); if (c.length < 2) return '';
@@ -363,7 +375,9 @@ details.code pre{margin:0;max-height:520px;overflow:auto;padding:14px 16px;borde
       $('[data-upd]', el).textContent = 'report ' + ago(at);
       if (c) $('[data-live]', el).innerHTML = c.html;
       const jb = r.bots.find(x => x.fam === FAM[side]) || (r.graveyard || []).find(x => x.fam === FAM[side]);
-      if (window.BJudge) BJudge.panel($('[data-judge]', el), jb ? jb.judge : null, 'duel' + side, r.judge, jb && jb.id);
+      const col = { opus: 'var(--amber)', sonnet: 'var(--violet)', haiku: 'var(--cyan)', astra: 'var(--rose)', sol: 'var(--text)' }[side];
+      if (jb) { const pnl = jb.equity - START, sp = spark(jb.curve, col);
+        $('[data-chart]', el).innerHTML = `<div class="gl-top"><span class="gl-eq mono">${usd(jb.equity)}</span><span class="mono ${cls(pnl)}">${susd(pnl)} · ${(pnl / START * 100).toFixed(2)}%</span></div>${sp || '<div class="gl-none">No trades yet, so the line is flat.</div>'}`; }
     }
     const lead = $('#lead'), inn = SIDES.filter(k => res[k]);
     // ranking: alive bots first, then by equity
