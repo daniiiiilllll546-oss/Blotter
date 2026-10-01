@@ -226,7 +226,7 @@ footer a{color:var(--muted)}footer a:hover{color:var(--amber)}
     <li><b>The hourly fast-fail.</b> Any bot whose equity drops below $600, or that is down more than 15% over 24 hours after at least 5 trades, is removed on the spot.</li>
     <li><b>The kill switch.</b> A bot that falls 40% from its own peak is stopped.</li>
   </ol>
-  <p>New bots are protected for their first 24 hours, so every bot gets one full day before it is judged.</p>
+  <p>New bots are protected for their first 24 hours, so every bot gets one full day before it is judged. The five <a href="duel.html">Standoff</a> bots are never cut at all.</p>
 
   <h2>How the winners evolve</h2>
   <p>This is a simple genetic algorithm for trading bots. Each bot is a genome: a strategy, a market, a chart speed, a leverage cap and a handful of numbers such as its stop distance and risk. At midnight, profitable bots can have children:</p>
