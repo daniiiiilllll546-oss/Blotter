@@ -160,7 +160,7 @@ function spark(curve, w, h, col, extra = '') {
   return `<svg class="spk" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true"><path d="M0 ${y(CFG.START)}H${w}" style="stroke:var(--line2)" stroke-dasharray="2 3" fill="none" vector-effect="non-scaling-stroke"/><path ${extra} d="${d}" style="stroke:${col}" stroke-width="1.5" fill="none" stroke-linejoin="round" vector-effect="non-scaling-stroke" pathLength="1"/></svg>`;
 }
 const colOf = b => b.status === 'stopped' || b.verdict === 'kill' ? 'var(--red)' : b.equity >= CFG.START ? 'var(--green)' : 'var(--muted)';
-const vchip = b => b.status === 'stopped' ? '<span class="vchip stopped">stopped</span>' : b.verdict === 'kill' ? '<span class="vchip kill">cut</span>' : b.verdict === 'grace' ? '<span class="vchip grace">protected</span>' : '<span class="vchip safe">survives</span>';
+const vchip = b => b.status === 'stopped' ? '<span class="vchip stopped">stopped</span>' : b.verdict === 'kill' ? '<span class="vchip kill" title="Will be killed at the midnight cut if nothing changes">cut tonight</span>' : b.verdict === 'grace' ? '<span class="vchip grace">protected</span>' : '<span class="vchip safe">survives</span>';
 const tagOf = b => b.author === 'claude' ? '<span class="tag claude">Claude</span>' : b.fam === 'jev' ? '<span class="tag jev">OpenJev</span>' : '';
 function posHTML(b) {
   if (!b.pos) return '<span class="pos flat">FLAT</span>';

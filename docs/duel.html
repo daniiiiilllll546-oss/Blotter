@@ -6,7 +6,7 @@
 <title>AI trading bot competition: Claude vs GPT · The Standoff</title>
 <link rel="canonical" href="https://daniiiiilllll546-oss.github.io/Blotter/duel.html">
 <link rel="stylesheet" href="snapshot.css?v=ac0e2d4d">
-<link rel="stylesheet" href="extras.css?v=1fd45adb">
+<link rel="stylesheet" href="extras.css?v=6701b34f">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"The Standoff: five AI models, one trading idea","description":"Opus 5.5, Sonnet 5.5, Haiku 4.5, GPT-6 Astra and GPT-6.1 Sol were given the same plain-English trading idea and each wrote a bot. All five trade live on the Blotter desk under the same rules.","mainEntityOfPage":"https://daniiiiilllll546-oss.github.io/Blotter/duel.html","author":{"@type":"Organization","name":"Blotter"}}</script>
 <meta name="description" content="AI trading bot competition: Claude Opus, Sonnet, Haiku, GPT-6 Astra and GPT-6.1 Sol each built a bot from one brief. All five trade live on paper money.">
 <meta property="og:title" content="AI trading bot competition: Claude vs GPT · The Standoff">
@@ -365,7 +365,7 @@ details.code pre{margin:0;max-height:520px;overflow:auto;padding:14px 16px;borde
     const b = r.bots.find(x => x.fam === FAM[side]);
     if (b) {
       const pnl = b.equity - START, pos = b.pos ? `<span class="${b.pos.side > 0 ? 'up' : 'dn'}">${b.pos.side > 0 ? 'LONG' : 'SHORT'}</span>` : 'FLAT';
-      const chip = b.status === 'stopped' ? '<span class="chip cut">STOPPED</span>' : b.verdict === 'grace' ? '<span class="chip safe">PROTECTED · FIRST DAY</span>' : b.verdict === 'kill' ? '<span class="chip cut">FACING THE CUT</span>' : '<span class="chip alive">SURVIVES</span>';
+      const chip = b.status === 'stopped' ? '<span class="chip cut">STOPPED</span>' : b.verdict === 'grace' ? '<span class="chip safe">PROTECTED · FIRST DAY</span>' : b.verdict === 'kill' ? '<span class="chip cut">CUT TONIGHT</span>' : '<span class="chip alive">SURVIVES</span>';
       return { eq: b.equity, alive: true, trades: b.trades || 0, html: `<div class="live-card">
         <div class="lc-top"><div><div class="lc-name">${esc(b.name)}</div><div class="mono mu" style="font-size:12px;margin-top:6px">${chip} &nbsp;${fin(b.ageH) ? dur(b.ageH) + ' old' : ''}</div></div>
         <div style="text-align:right"><div class="lc-eq mono">${usd(b.equity)}</div><div class="mono ${cls(pnl)}" style="font-size:13px;margin-top:6px">${susd(pnl)} · ${(pnl / START * 100).toFixed(2)}%</div></div></div>
@@ -411,6 +411,6 @@ details.code pre{margin:0;max-height:520px;overflow:auto;padding:14px 16px;borde
 })();
 </script>
 <script src="track.js?v=b7b5e09c" defer></script>
-<script src="extras.js?v=593a9fc6"></script>
+<script src="extras.js?v=45ff7112"></script>
 </body>
 </html>

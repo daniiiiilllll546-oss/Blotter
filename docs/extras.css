@@ -40,7 +40,15 @@
 .guide .g-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
 @keyframes gfade{from{opacity:0}}
 @keyframes grise{from{opacity:0;transform:translateY(16px) scale(.98)}}
-@media (prefers-reduced-motion:reduce){.guide-back,.guide{animation:none}}
+/* spotlight mode (desk): the dimming comes from the ring's shadow, and the card sits next to what it explains */
+.g-spot{position:fixed;left:50%;top:50%;width:0;height:0;border:2px solid var(--amber);box-shadow:0 0 0 100vmax rgba(6,10,13,.72);pointer-events:none;opacity:0;transition:left .5s var(--ease,ease),top .5s var(--ease,ease),width .5s var(--ease,ease),height .5s var(--ease,ease),opacity .2s}
+.guide-back.spot{background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;display:block;padding:0;animation:none}
+.guide-back.spot .g-spot{opacity:1}
+.guide-back.spot .guide{position:fixed;left:50%;transform:translateX(-50%);width:min(520px,calc(100% - 24px));padding:22px 22px 18px;transition:top .5s var(--ease,ease)}
+.guide-back.spot .g-ico{display:none}
+.guide-back.spot h2{font-size:clamp(28px,5.5vw,38px);margin:8px 0 10px}
+.guide-back.spot p{font-size:16px}
+@media (prefers-reduced-motion:reduce){.guide-back,.guide{animation:none}.g-spot,.guide-back.spot .guide{transition:none}}
 @media (max-width:480px){.guide{padding:30px 22px 22px}.guide .g-btn{padding:0 14px}}
 
 /* home: the guide invite (non-blocking) */

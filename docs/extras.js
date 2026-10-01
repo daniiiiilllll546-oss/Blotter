@@ -34,7 +34,24 @@
     { ico: IC.wallet, k: 'Welcome', h: 'Bots trade. <span>You watch.</span>', p: 'Blotter is a desk of trading bots. Each one gets <b>$1,000 of paper money</b> and trades <b>live Binance prices</b>, around the clock.', n: 'Paper money only. Nobody can win or lose real money here.' },
     { ico: IC.born, k: 'Born', h: 'A new bot <span>every hour.</span>', p: 'Every hour Claude designs a bot with a strategy nothing else in the pool is using. Five more were written by different AI models in <b>the Standoff</b>.' },
     { ico: IC.kill, k: 'Killed', h: 'Losers die <span>at midnight.</span>', p: 'Every day at <b>00:00 (UTC+5)</b>, a bot that lost money over its last 24 hours is killed. Winners survive and <b>evolve</b>: they get children with slightly changed settings.', n: 'New bots are safe for their first day.' },
-    { ico: IC.look, k: 'Your turn', h: 'Pick a bot. <span>Watch it fight.</span>', p: 'The <b>live desk</b> ranks every bot by money. Green over 24 hours means it survives tonight; red means it is on the chopping block. Tap any bot for its chart and trades.', links: true } ];
+    { ico: IC.look, k: 'Your turn', h: 'Pick a bot. <span>Watch it fight.</span>', p: 'The <b>live desk</b> ranks every bot by money. Green over 24 hours means it survives tonight. <b>Cut</b> means it will be killed at midnight if it is still losing or idle by then. Tap any bot for its chart and trades.', links: true } ];
+  // where the guide points on each page, one selector per step (first visible match wins); pages not listed show the card centred
+  const TARGETS = { 'desk.html': ['.stats', '#cards .card, #rows tr', '.nav .cut', '#filters'] };
+  const aim = () => (TARGETS[here] || [])[i] && [...document.querySelectorAll(TARGETS[here][i])].find(el => el.offsetParent !== null || getComputedStyle(el).position === 'fixed');
+  function place(first) {
+    const g = back && back.querySelector('.guide'), sp = back && back.querySelector('.g-spot'); if (!g || !sp) return;
+    const el = aim();
+    back.classList.toggle('spot', !!el);
+    if (!el) { g.style.top = g.style.left = ''; return; }
+    if (!el.closest('.nav')) el.scrollIntoView({ block: 'center' });
+    const r = el.getBoundingClientRect(), pad = 8, gh = g.offsetHeight, vh = innerHeight;
+    if (first) { sp.style.transition = 'none'; }
+    Object.assign(sp.style, { left: r.left - pad + 'px', top: r.top - pad + 'px', width: r.width + pad * 2 + 'px', height: r.height + pad * 2 + 'px' });
+    const top = r.top - gh - 18 >= 12 ? r.top - gh - 18 : Math.min(r.bottom + 18, vh - gh - 12);
+    g.style.top = Math.max(12, top) + 'px';
+    if (first) { g.style.transition = 'none'; requestAnimationFrame(() => { sp.style.transition = g.style.transition = ''; }); }
+  }
+  const onResize = () => place();
   const KEY = 'blotter-guide-seen';
   let back = null, i = 0, lastFocus = null;
   function render() {
@@ -46,9 +63,10 @@
       <div class="g-foot"><div class="g-dots" aria-hidden="true">${STEPS.map((_, j) => `<i class="${j === i ? 'on' : ''}"></i>`).join('')}</div>
       ${i ? '<button class="g-btn" type="button" data-g-prev>Back</button>' : '<button class="g-btn" type="button" data-g-done>Skip</button>'}
       <button class="g-btn pri" type="button" ${last ? 'data-g-done' : 'data-g-next'}>${last ? (here === 'desk.html' ? 'Show me the desk' : 'Got it') : 'Next'}</button></div>`;
-    back.querySelector(last ? '[data-g-done].pri, .g-foot [data-g-done]' : '[data-g-next]').focus();
+    back.querySelector(last ? '[data-g-done].pri, .g-foot [data-g-done]' : '[data-g-next]').focus({ preventScroll: true });
+    place(!back.dataset.placed); back.dataset.placed = '1';
   }
-  function close() { if (!back) return; back.remove(); back = null; document.removeEventListener('keydown', onKey); try { localStorage.setItem(KEY, '1'); } catch (e) {} if (lastFocus && lastFocus.focus) lastFocus.focus(); }
+  function close() { if (!back) return; document.documentElement.style.overflow = ''; removeEventListener('resize', onResize); back.remove(); back = null; document.removeEventListener('keydown', onKey); try { localStorage.setItem(KEY, '1'); } catch (e) {} if (lastFocus && lastFocus.focus) lastFocus.focus(); }
   function onKey(e) {
     if (e.key === 'Escape') return close();
     if (e.key === 'ArrowRight' && i < STEPS.length - 1) { i++; render(); }
@@ -60,7 +78,8 @@
     if (back) return; lastFocus = document.activeElement; i = 0;
     try { localStorage.setItem(KEY, '1'); } catch (e) {} // shown once is enough, however the visitor leaves it
     back = document.createElement('div'); back.className = 'guide-back';
-    back.innerHTML = '<div class="guide" role="dialog" aria-modal="true" aria-labelledby="g-title"></div>';
+    back.innerHTML = '<div class="g-spot" aria-hidden="true"></div><div class="guide" role="dialog" aria-modal="true" aria-labelledby="g-title"></div>';
+    if (TARGETS[here]) { document.documentElement.style.overflow = 'hidden'; addEventListener('resize', onResize); } // the spotlight follows its target, so the page stays put while the guide is open
     back.addEventListener('click', e => {
       const link = e.target.closest('a[href]');
       if (link) { try { localStorage.setItem(KEY, '1'); } catch (err) {} return; } // let the browser follow it; removing the link first would cancel the navigation
