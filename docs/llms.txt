@@ -6,5 +6,4 @@
 - [Live desk](https://daniiiiilllll546-oss.github.io/Blotter/desk.html): every bot, its position and equity
 - [The Standoff](https://daniiiiilllll546-oss.github.io/Blotter/duel.html): five AI models each wrote a bot from the same idea; all five trade live
 - [How it works](https://daniiiiilllll546-oss.github.io/Blotter/how-it-works.html): the exact rules, the daily kill and how winners evolve
-- [Evolution](https://daniiiiilllll546-oss.github.io/Blotter/evolution.html): an animation of winners sprouting children and losers withering at midnight
 - [Support](https://daniiiiilllll546-oss.github.io/Blotter/support.html): how to keep the desk running
