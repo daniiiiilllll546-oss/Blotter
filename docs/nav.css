@@ -1,0 +1,10 @@
+/* phones: keep the header on one line on every sub-page */
+@media (max-width:560px){
+  header.nav{gap:10px !important}
+  header.nav .brand{gap:8px !important;min-width:0}
+  header.nav .brand .logo{font-size:22px !important}
+  header.nav .brand .slash,header.nav .brand .page{font-size:15px !important}
+  header.nav .btn{height:40px !important;padding:0 12px !important;font-size:14px !important}
+  header.nav .btn svg{display:none}
+}
+@media (max-width:430px){ header.nav .brand .slash,header.nav .brand .page{display:none} }
