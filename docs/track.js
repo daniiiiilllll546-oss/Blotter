@@ -121,7 +121,7 @@
   function eat(box) {
     const svg = box.querySelector('.ck-bisc'), bites = [...svg.querySelectorAll('.bite')];
     box.querySelector('h2').textContent = 'Nom. Thank you!';
-    box.querySelector('p').textContent = 'That one helps us see which links bring people to the desk.';
+    box.querySelector('p').textContent = 'That helps a lot.';
     box.querySelector('.ck-row').style.visibility = 'hidden';
     if (reduce) return close(box, 900);
     const spots = [[86, 18], [97, 50], [84, 82], [50, 98], [14, 80]];
@@ -141,7 +141,7 @@
   function roll(box) {
     const svg = box.querySelector('.ck-bisc');
     box.querySelector('h2').textContent = 'No cookie. Fair enough.';
-    box.querySelector('p').textContent = 'Nothing is tracked. You can change your mind on the privacy page.';
+    box.querySelector('p').textContent = 'Nothing is tracked.';
     box.querySelector('.ck-row').style.visibility = 'hidden';
     if (reduce) return close(box, 1200);
     svg.animate([{ transform: 'translateX(0) rotate(0)' }, { transform: 'translateX(-14px) rotate(-60deg)', offset: .2 }, { transform: `translateX(${innerWidth}px) rotate(900deg)` }], { duration: 1300, easing: 'cubic-bezier(.5,0,.8,.6)', fill: 'forwards' });
@@ -152,8 +152,8 @@
     if (document.querySelector('.ck')) return;
     if (!document.getElementById('ck-css')) { const s = document.createElement('style'); s.id = 'ck-css'; s.textContent = CSS; document.head.appendChild(s); }
     const box = document.createElement('aside'); box.className = 'ck'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-labelledby', 'ck-h');
-    box.innerHTML = `${BISCUIT}<h2 id="ck-h">Want a cookie?</h2>
-<p>It tells us which link brought you here, your country (from your time zone, never your IP) and how long you stay. No ads, never sold. <a href="privacy.html#cookies">Details</a></p>
+    box.innerHTML = `${BISCUIT}<h2 id="ck-h">Cookies</h2>
+<p>This site uses cookies to see how it's used. <a href="privacy.html#cookies">Learn more</a></p>
 <div class="ck-row"><button class="ck-yes" type="button">Accept cookie</button><button class="ck-no" type="button">No thanks</button></div>`;
     document.body.appendChild(box);
     box.querySelector('.ck-yes').addEventListener('click', () => { setC('bl_consent', 'yes', YEAR); track(); eat(box); });
