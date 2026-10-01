@@ -117,9 +117,25 @@ function renderJevDetail(b) {
   box.hidden = false; const L = b.jevLast, st = jevState();
   if (!L) { box.innerHTML = `<b>OPENJEV'S LAST ANSWER</b><span class="mu">${st && st.bad ? 'OpenJev is failing: ' + esc(st.J.lastError.m) : 'No answer yet. It asks on every closed candle.'}</span>`; return; }
   const P = L.probs && Object.keys(L.probs).length ? L.probs : { [L.choice]: L.pr };
-  box.innerHTML = `<b>OPENJEV'S LAST ANSWER${fin(L.t) ? ' · ' + esc(agoS(L.t).toUpperCase()) : ''}</b>` +
-    ['long', 'short', 'flat'].filter(k => k in P).map(k => `<div class="row${k === L.choice ? ' pick' : ''}"><span>${L.need != null ? (k === 'long' ? 'UP' : k === 'short' ? 'DOWN' : k.toUpperCase()) : k.toUpperCase()}</span><span class="bar"><span style="width:${(P[k] * 100).toFixed(0)}%"></span></span><span>${(P[k] * 100).toFixed(0)}%</span></div>`).join('') +
-    `<div class="mu" style="margin-top:6px">${L.need != null ? `Trades when one side reaches ${Math.round(L.need * 100)}% · ${L.pr >= L.need ? '<span style="color:var(--amber)">cleared</span>' : 'holding'}` : `Confidence ${(L.conf * 100).toFixed(0)}%`}</div>`;
+  const bars = ['long', 'short', 'flat'].filter(k => k in P).map(k => `<div class="row${k === L.choice ? ' pick' : ''}"><span>${L.need != null ? (k === 'long' ? 'UP' : k === 'short' ? 'DOWN' : k.toUpperCase()) : k.toUpperCase()}</span><span class="bar"><span style="width:${(P[k] * 100).toFixed(0)}%"></span></span><span>${(P[k] * 100).toFixed(0)}%</span></div>`).join('');
+  const head = `<b>OPENJEV'S LAST ANSWER${fin(L.t) ? ' · ' + esc(agoS(L.t).toUpperCase()) : ''}</b>`;
+  if (!L.checks || !L.checks.length) { // an answer stored before the risk engine existed
+    box.innerHTML = head + bars + `<div class="mu" style="margin-top:6px">${L.need != null ? `Trades when one side reaches ${Math.round(L.need * 100)}% · ${L.pr >= L.need ? '<span style="color:var(--amber)">cleared</span>' : 'holding'}` : `Confidence ${(L.conf * 100).toFixed(0)}%`}</div>`;
+    return;
+  }
+  const stage = L.action === 'ORDER' ? 5 : L.action === 'BLOCKED' ? 4 : 3;
+  const steps = ['DATA', 'STATE', 'ASK', 'DECIDE', 'RISK', 'ORDER', 'REPEAT'].map((n, k) => `<i class="${k < stage + 1 ? 'on' : ''}${k === stage ? ' now' : ''}">${n}</i>`).join('');
+  const dec = L.decision || 'HOLD', cls = dec === 'BUY' ? 'buy' : dec === 'SELL' ? 'sell' : 'hold';
+  const failed = L.checks.filter(c => !c.ok);
+  const note = L.action === 'ORDER' ? 'All checks passed. The engine placed the order.' : L.action === 'BLOCKED' ? `Risk engine blocked it: ${failed.map(c => c.label.toLowerCase()).join(', ')}.` : 'No edge, so no order.';
+  const plan = L.plan ? `<div class="jsec">ORDER PLAN${L.action === 'ORDER' ? '' : ' (NOT PLACED)'}</div><div class="plan"><span>ENTRY <u>${fmtPx(L.plan.entry)}</u></span><span>STOP <u>${fmtPx(L.plan.stop)}</u></span><span>TARGET <u>${fmtPx(L.plan.target)}</u></span><span class="mu">${L.plan.rr}:1</span></div>` : '';
+  box.innerHTML = head + `<div class="jloop">${steps}</div>` +
+    `<div class="jdec"><span class="jbadge ${cls}">${dec}</span><span class="mu">confidence ${(L.conf * 100).toFixed(0)}%</span></div>` + bars +
+    `<div class="jsec">RISK ENGINE</div>` + L.checks.map(c => `<div class="chk ${c.ok ? 'ok' : 'no'}"><span class="mk">${c.ok ? '✓' : '✗'}</span><span>${esc(c.label)}</span><span class="mu">${esc(c.detail)}</span></div>`).join('') +
+    `<div class="mu" style="margin-top:6px">${esc(note)}</div>` + plan +
+    (L.facts && L.facts.length ? `<div class="jsec">WHAT JEV WAS SHOWN</div><div class="mu">${L.facts.map(esc).join(' · ')}</div>` : '') +
+    (L.reason ? `<div class="jsec">JEV'S REASON</div><div class="mu">${esc(L.reason)}</div>` : '') +
+    `<div class="jsec">NEXT CHECK</div><div class="mu">on the next ${esc(L.nextCheck || b.tf)} candle close</div>`;
 }
 
 /* ================================================================ stats */

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-disp="desk">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -169,6 +169,15 @@ button{font:inherit;color:inherit}
 .jevd .bar{height:6px;background:var(--line);position:relative;overflow:hidden}.jevd .bar span{position:absolute;inset:0 auto 0 0;background:var(--cyan)}
 .jevd .row.pick{color:var(--text)}.jevd .row.pick .bar span{background:var(--amber)}
 .jevd .mu{color:var(--muted)}
+.jevd .jloop{display:flex;flex-wrap:wrap;gap:3px;margin:0 0 10px}.jevd .jloop i{font:500 9px var(--f-mono);letter-spacing:.1em;font-style:normal;padding:3px 5px;border:1px solid var(--line2);color:var(--muted)}
+.jevd .jloop i.on{color:var(--soft);border-color:rgba(114,184,216,.4)}.jevd .jloop i.now{color:var(--bg);background:var(--cyan);border-color:var(--cyan)}
+.jevd .jdec{display:flex;align-items:center;gap:12px;margin:0 0 6px}
+.jevd .jbadge{font:600 12px var(--f-mono);letter-spacing:.14em;padding:4px 10px;border:1px solid currentColor}
+.jevd .jbadge.buy{color:var(--green,#4cc38a)}.jevd .jbadge.sell{color:var(--red)}.jevd .jbadge.hold{color:var(--muted)}
+.jevd .jsec{font:500 10px var(--f-mono);letter-spacing:.14em;color:var(--cyan);margin:12px 0 5px}
+.jevd .chk{display:grid;grid-template-columns:16px 120px 1fr;gap:8px;margin:3px 0;align-items:baseline}
+.jevd .chk .mk{font-weight:700}.jevd .chk.ok .mk{color:var(--green,#4cc38a)}.jevd .chk.no .mk{color:var(--red)}.jevd .chk.no>span:nth-child(2){color:var(--text)}
+.jevd .plan{display:flex;flex-wrap:wrap;gap:4px 14px}.jevd .plan u{text-decoration:none;color:var(--text)}
 .think{margin:0 18px;padding:14px 0;border-bottom:1px solid var(--line);font:13px/1.5 var(--f-mono);color:var(--soft)}
 .think b{display:block;font:500 11px var(--f-mono);letter-spacing:.14em;color:var(--muted);margin-bottom:4px}
 .sec{padding:16px 18px;border-bottom:1px solid var(--line)}
@@ -281,6 +290,8 @@ footer a{color:var(--muted)}
 
 @media (hover:none),(pointer:coarse){.grain{animation:none}}
 </style>
+<link rel="preload" href="fonts/disp-desk.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="display.css?v=da26ebb9">
 </head>
 <body>
 <noscript><p style="margin:0;padding:12px 16px;background:#E8A33D;color:#17110A;font:600 15px sans-serif">The live numbers on this page need JavaScript. The rules are on <a href="how-it-works.html" style="color:#17110A">How it works</a>.</p></noscript>
@@ -413,9 +424,10 @@ footer a{color:var(--muted)}
 <script src="vendor/ScrambleTextPlugin.min.js"></script>
 <script src="vendor/lightweight-charts.standalone.production.js"></script>
 <script src="judge.js?v=ca0eb302"></script>
-<script src="desk.js?v=9272373e"></script>
+<script src="desk.js?v=26677f97"></script>
 <script src="config.js?v=7fde69ab"></script>
 <script src="track.js?v=b7b5e09c" defer></script>
 <script src="extras.js?v=45ff7112"></script>
+<script src="display.js?v=4e72a6b9" defer></script>
 </body>
 </html>
