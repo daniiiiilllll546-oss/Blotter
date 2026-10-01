@@ -75,8 +75,9 @@
   const quiet = /[?&]noguide\b/.test(location.search);
   if (!seen && !quiet && ['desk.html', 'duel.html'].includes(here)) setTimeout(open, 700);
   // home: no popup over the headline; a small invite in the corner instead, once the page has settled
-  if (!seen && !quiet && (here === 'index.html' || here === '')) setTimeout(() => {
+  if (!seen && !quiet && (here === 'index.html' || here === '')) setTimeout(function pillUp() {
     if (back || document.querySelector('.guide-pill')) return;
+    if (document.querySelector('.ck')) return addEventListener('blotter:cookie', () => setTimeout(pillUp, 400), { once: true }); // one corner card at a time
     const pill = document.createElement('div'); pill.className = 'guide-pill';
     pill.innerHTML = '<button type="button" class="gp-open">New here? <b>30-second guide</b> <span aria-hidden="true">→</span></button><button type="button" class="gp-x" aria-label="Dismiss">×</button>';
     pill.querySelector('.gp-open').onclick = () => { pill.remove(); open(); };

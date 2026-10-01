@@ -23,7 +23,7 @@
 <link rel="preload" href="fonts/barlow-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/ibm-plex-mono-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fonts/fonts.css">
-<link rel="stylesheet" href="extras.css?v=13066001">
+<link rel="stylesheet" href="extras.css?v=1fd45adb">
 <style>
 :root{
   color-scheme: dark;
@@ -272,6 +272,18 @@ footer a{color:var(--muted)}footer a:hover{color:var(--amber)}
     <a class="btn btn-amber btn-lg" data-bmc href="#"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/></svg><span data-bmctext>Buy me a coffee</span></a>
   </section>
 
+  <section class="sec" id="notify" aria-labelledby="notify-h">
+    <h2 id="notify-h">Real money, later.</h2>
+    <p>Paper money first. Once the best bots have a long, honest track record, we'll try them with real money. Leave your email and you'll get one message when that happens.</p>
+    <form class="notify-form" data-notify novalidate>
+        <label class="sr" for="notify-email-s">Email address</label>
+        <input id="notify-email-s" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
+        <button type="submit" class="btn btn-amber">Tell me</button>
+        <small>One email when it happens. Nothing else, never shared. <a href="privacy.html#email">Remove yourself any time</a>.</small>
+        <output data-msg aria-live="polite"></output>
+      </form>
+  </section>
+
   <section class="sec" aria-labelledby="faq-h">
     <div class="sec-h"><div><div class="eyebrow">Questions</div><h2 class="h2" id="faq-h">Fair<br><span class="hl">questions.</span></h2></div></div>
     <div class="faq">
@@ -353,6 +365,7 @@ footer a{color:var(--muted)}footer a:hover{color:var(--amber)}
   load(); setInterval(load, 5 * 60e3);
 })();
 </script>
-<script src="extras.js?v=fedc1afb"></script>
+<script src="track.js?v=b5538d66" defer></script>
+<script src="extras.js?v=593a9fc6"></script>
 </body>
 </html>

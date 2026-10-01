@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Privacy · Blotter</title>
 <link rel="canonical" href="https://daniiiiilllll546-oss.github.io/Blotter/privacy.html">
-<meta name="description" content="What the Blotter paper-trading desk sees about visitors: no cookies, no analytics, no accounts. Which services your browser talks to, and why.">
+<meta name="description" content="What the Blotter paper-trading desk sees about visitors: no accounts, no ads, an opt-in cookie and an opt-in email list. Which services your browser talks to, and why.">
 <meta property="og:title" content="Privacy · Blotter">
-<meta property="og:description" content="What the Blotter paper-trading desk sees about visitors: no cookies, no analytics, no accounts. Which services your browser talks to, and why.">
+<meta property="og:description" content="What the Blotter paper-trading desk sees about visitors: no accounts, no ads, an opt-in cookie and an opt-in email list. Which services your browser talks to, and why.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://daniiiiilllll546-oss.github.io/Blotter/privacy.html">
 <meta property="og:image" content="https://daniiiiilllll546-oss.github.io/Blotter/brand/og.png">
@@ -23,6 +23,7 @@
 <link rel="preload" href="fonts/barlow-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/ibm-plex-mono-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="extras.css?v=1fd45adb">
 
 <style>
 :root{
@@ -191,6 +192,9 @@ footer a{color:var(--muted)}footer a:hover{color:var(--amber)}
 .doc .updated{font:12px var(--f-mono);color:var(--muted);margin-top:40px}
 .pfoot{max-width:760px;margin:0 auto;padding:30px var(--gut) calc(40px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font:12px/1.6 var(--f-mono);letter-spacing:.06em;color:var(--muted)}
 .pfoot a{color:var(--muted)}.pfoot a:hover{color:var(--amber)}
+.pbtn{appearance:none;cursor:pointer;font:600 13px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:13px 16px;margin-right:8px;background:transparent;color:var(--text);border:1px solid var(--amber)}
+.pbtn:hover{background:var(--amber);color:var(--amber-ink)}
+.doc .notify-form{margin:14px 0 8px}
 </style>
 </head>
 <body>
@@ -206,27 +210,60 @@ footer a{color:var(--muted)}footer a:hover{color:var(--amber)}
 <article class="doc">
   <div class="eyebrow">Privacy</div>
   <h1>What this site <span class="hl">sees.</span></h1>
-  <p class="lede">Blotter has no accounts, no cookies, no analytics and no ads. It does not collect your name, email or anything you type.</p>
+  <p class="lede">Blotter has no accounts and no ads, and sells nothing about you. If you accept the cookie, it counts visits so we can see which links bring people here. If you leave your email, it's used for one message. That's all.</p>
   <h2>Who runs it</h2>
-  <p>Blotter is a non-commercial personal project published by a private individual. For anything about this page or your data, open an issue on the <a href="https://github.com/daniiiiilllll546-oss/Blotter/issues">Blotter repository on GitHub</a>.</p>
+  <p>Blotter is a non-commercial personal project published by a private individual. For anything about this page or your data, open an issue on the <a href="https://github.com/daniiiiilllll546-oss/Blotter/issues">Blotter repository on GitHub</a>, or use the two self-service buttons below.</p>
+
+  <h2 id="cookies">The cookie</h2>
+  <p>Nothing is recorded until you press <b>Accept cookie</b>. If you do, each page you open records:</p>
+  <ul>
+    <li>which Blotter page it was, and the date and time (plus your local hour)</li>
+    <li>the site that linked you here (just its name, like reddit.com) and any campaign tags in the link (utm_source and similar)</li>
+    <li>your country, worked out from your browser's time zone. Your IP address is not stored, and nothing more precise than the country is kept.</li>
+    <li>your browser language, whether you're on a phone, tablet or computer, and how long the page stayed open in front of you</li>
+  </ul>
+  <p>The cookies themselves are first-party, which means they belong to this site only and no ad network or other company can read them:</p>
+  <table>
+    <thead><tr><th>Cookie</th><th>What it holds</th><th>How long</th></tr></thead>
+    <tbody>
+      <tr><td>bl_consent</td><td>Your choice: yes or no</td><td>12 months</td></tr>
+      <tr><td>bl_vid</td><td>A random id, so a second visit counts as the same visitor. It is not linked to your name.</td><td>12 months</td></tr>
+      <tr><td>bl_src</td><td>The first link that brought you here</td><td>12 months</td></tr>
+      <tr><td>bl_sid</td><td>A random id for this visit</td><td>Until you close the browser</td></tr>
+    </tbody>
+  </table>
+  <p>The records are kept in a database run by Supabase in Frankfurt, Germany, and deleted after 12 months. We use them only to see how people find Blotter and what they read. They are never sold or shared.</p>
+  <p><button type="button" class="pbtn" data-cookie-settings>Change my cookie choice</button> Choosing <b>No thanks</b> deletes the cookies and every visit recorded under your id.</p>
+
+  <h2 id="email">Your email, if you leave it</h2>
+  <p>The "Real money, later" form stores your email address, the date, the page you used and, if you accepted the cookie, which link brought you here. It is used to send you one email when Blotter's bots start trading real money, and for nothing else. It is never sold or shared, and it stays until you remove it or the project ends.</p>
+  <form class="notify-form" data-unsub novalidate>
+    <label class="sr" for="unsub-email">Email address to remove</label>
+    <input id="unsub-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+    <button type="submit" class="pbtn">Remove my email</button>
+    <output data-msg aria-live="polite"></output>
+  </form>
+
   <h2>What your browser loads, and from where</h2>
-  <p>The pages, fonts and scripts are served from GitHub Pages. To show live data, your browser also talks to two other services directly. Each of them sees your IP address and browser details, like any website you visit, under its own privacy policy.</p>
+  <p>The pages, fonts and scripts are served from GitHub Pages. To show live data, your browser also talks to these services directly. Like any website you visit, each of them sees your IP address and browser details, under its own privacy policy.</p>
   <table>
     <thead><tr><th>Service</th><th>Why</th><th>What it sees</th></tr></thead>
     <tbody>
       <tr><td>GitHub (Pages and raw.githubusercontent.com)</td><td>Hosts the site and the desk report, refreshed every 10 minutes</td><td>Your IP address and browser details</td></tr>
       <tr><td>Binance (data-api.binance.vision)</td><td>Live prices for the price tape and charts</td><td>Your IP address and browser details</td></tr>
+      <tr><td>Supabase (Frankfurt)</td><td>Stores the visit records and the email list described above. Only used if you accept the cookie or submit a form.</td><td>Your IP address and browser details when a record is sent. Blotter does not store your IP.</td></tr>
       <tr><td>Buy Me a Coffee</td><td>Only if you click a coffee button</td><td>Whatever you give it on its own site</td></tr>
       <tr><td>X</td><td>Only if you click "Share on X"</td><td>Whatever you give it on its own site</td></tr>
     </tbody>
   </table>
-  <h2>What is stored on your device</h2>
-  <p>Two small settings in your browser's local storage: whether you picked light or dark mode, and whether you closed the "Start here" note on the desk. They never leave your device. Clear your site data to remove them.</p>
+  <h2>What else is stored on your device</h2>
+  <p>Two small settings in your browser's local storage: whether you picked light or dark mode, and whether you've seen the guide or closed the "Start here" note. They never leave your device. Clear your site data to remove them.</p>
   <h2>Not financial advice</h2>
   <p>Every result on Blotter is simulated. The bots trade paper money; no real orders are placed and nothing here is a recommendation to buy or sell anything. Blotter is not affiliated with or endorsed by Binance, Anthropic, OpenAI or Codiv.</p>
-  <p class="updated">Last updated 30 September 2026</p>
+  <p class="updated">Last updated 1 October 2026</p>
 </article>
 </main>
 <footer class="pfoot"><span>SIMULATED RESULTS · PAPER MONEY ONLY · NOT FINANCIAL ADVICE</span><span><a href="how-it-works.html">HOW IT WORKS</a> · <a href="privacy.html">PRIVACY</a> · <a href="support.html">SUPPORT</a></span></footer>
+<script src="track.js?v=b5538d66" defer></script>
 </body>
 </html>
