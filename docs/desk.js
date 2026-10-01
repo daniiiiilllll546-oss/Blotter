@@ -109,7 +109,7 @@ function renderJev() {
   if (!st) { c.hidden = true; return; }
   const { J, bad, idle, paused } = st; c.hidden = false;
   c.className = 'jevchip' + (bad ? ' bad' : idle ? ' idle' : '');
-  t.textContent = bad ? 'OPENJEV ERROR' : paused ? 'OPENJEV PAUSED' : idle ? 'OPENJEV STARTING' : `OPENJEV · ${J.calls.toLocaleString('en-US')} CALLS`;
+  t.textContent = bad ? 'OPENJEV ERROR' : paused ? 'OPENJEV PAUSED' : idle ? (S.bots.some(b => b.fam === 'jev') ? 'OPENJEV STARTING' : 'OPENJEV · NO BOTS YET') : `OPENJEV · ${J.calls.toLocaleString('en-US')} CALLS`;
   c.title = bad ? `Last error ${agoS(J.lastError.t)}: ${J.lastError.m}` : `${J.label || 'OpenJev'} connected · ${J.calls} answers, ${J.errors} errors · last reply ${J.lastMs} ms${J.lastOk ? ', ' + agoS(J.lastOk) : ''}`;
 }
 function renderJevDetail(b) {
