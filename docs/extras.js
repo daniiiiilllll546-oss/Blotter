@@ -110,3 +110,34 @@
     document.body.appendChild(pill);
   }, 2600);
 })();
+
+/* ---------- home: full-screen email popup, shown once; it stays until the visitor closes it ---------- */
+(() => {
+  const pop = document.getElementById('epop'); if (!pop) return;
+  const KEY = 'blotter-epop', DAYS = 14, quiet = /[?&](noguide|nopopup)\b/.test(location.search), preview = /[?&]popup=1\b/.test(location.search);
+  try { const t = +localStorage.getItem(KEY); if (!preview && t && Date.now() - t < DAYS * 864e5) return; } catch (e) {}
+  if (quiet) return;
+  let shown = false, lastFocus = null;
+  const close = () => { pop.hidden = true; document.documentElement.style.overflow = ''; document.removeEventListener('keydown', key); try { localStorage.setItem(KEY, String(Date.now())); } catch (e) {} if (lastFocus && lastFocus.focus) lastFocus.focus(); };
+  const key = e => {
+    if (e.key === 'Escape') return close();
+    if (e.key !== 'Tab') return;
+    const f = [...pop.querySelectorAll('button,input,a[href]')].filter(x => x.offsetParent !== null); if (!f.length) return;
+    const a = f[0], z = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); } else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
+  };
+  pop.querySelectorAll('[data-epop-close]').forEach(b => b.addEventListener('click', close));
+  const out = pop.querySelector('[data-msg]');
+  new MutationObserver(() => { if (/on the list/i.test(out.textContent)) setTimeout(close, 2200); }).observe(out, { childList: true, characterData: true, subtree: true });
+  function open() {
+    if (shown) return; shown = true; lastFocus = document.activeElement; pop.hidden = false; document.documentElement.style.overflow = 'hidden';
+    document.addEventListener('keydown', key); setTimeout(() => pop.querySelector('input').focus({ preventScroll: true }), 50);
+  }
+  // wait until the cookie card and the guide are out of the way, and the visitor has had a few seconds with the page
+  const t0 = Date.now(), tick = setInterval(() => {
+    if (shown) return clearInterval(tick);
+    if (Date.now() - t0 < (preview ? 1500 : 14000)) return;
+    if (document.querySelector('.ck') || document.querySelector('.guide-back')) return;
+    clearInterval(tick); open();
+  }, 800);
+})();

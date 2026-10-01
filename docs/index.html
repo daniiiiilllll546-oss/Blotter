@@ -18,7 +18,7 @@
 <!--ld:end-->
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#0B1116">
-<script src="theme.js?v=173ee197"></script>
+<script src="theme.js?v=2bd298dd"></script>
 <link rel="stylesheet" href="theme.css?v=69bb1f0f">
 <script src="transition.js?v=ae901faa"></script>
 <link rel="icon" type="image/svg+xml" href="brand/favicon.svg">
@@ -106,6 +106,19 @@ img,svg{max-width:100%}
 .hero h1 .line{display:block;overflow:hidden;padding-bottom:.02em}
 .hero h1 .hl{color:var(--amber)}
 .lede{margin:0;max-width:56ch;font-size:clamp(16px,1.35vw,20px);color:var(--soft)}
+.epop{position:fixed;inset:0;z-index:300;display:grid;place-items:center;padding:24px;background:var(--ink,#0B1116);overflow:auto;animation:epopin .35s ease both}
+.epop[hidden]{display:none}
+@keyframes epopin{from{opacity:0}to{opacity:1}}
+.epop-x{position:absolute;top:14px;right:14px;width:52px;height:52px;border:1px solid var(--line2,#2B3C4A);background:transparent;color:var(--text,#ECE6D6);font:28px/1 var(--f-mono,monospace);cursor:pointer}
+.epop-x:hover{border-color:var(--amber,#E8A33D);color:var(--amber,#E8A33D)}
+.epop-in{width:min(620px,100%)}
+.epop-k{font:500 12px/1 var(--f-mono,monospace);letter-spacing:.16em;text-transform:uppercase;color:var(--amber,#E8A33D)}
+.epop h2{margin:14px 0 12px;font:900 clamp(40px,8vw,76px)/.92 var(--f-disp,sans-serif);text-transform:uppercase;color:var(--text,#ECE6D6)}
+.epop h2 span{color:var(--amber,#E8A33D)}
+.epop p{margin:0 0 22px;font-size:18px;color:var(--soft,#C3CACF)}
+.epop .notify-form{max-width:none}
+.epop-no{margin-top:14px;border:0;background:transparent;color:var(--muted,#8593A0);font:500 14px var(--f-body,sans-serif);text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:10px 0}
+@media (prefers-reduced-motion:reduce){.epop{animation:none}}
 .hero-notify{margin-top:18px;max-width:560px}
 .hero-notify input{background:color-mix(in srgb,var(--ink,#0B1116) 70%,transparent)}
 .hero-ctas{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
@@ -566,6 +579,22 @@ footer a{color:var(--muted)}
 </section>
 </main>
 
+<div class="epop" id="epop" role="dialog" aria-modal="true" aria-labelledby="epop-h" hidden>
+  <button class="epop-x" type="button" data-epop-close aria-label="Close">×</button>
+  <div class="epop-in">
+    <div class="epop-k">The weekly update</div>
+    <h2 id="epop-h">See who got cut. <span>See who evolved.</span></h2>
+    <p>One short email a week: which bots were killed, which winners had children, and how the AI Standoff is going. Plus one email if the bots ever trade real money.</p>
+    <form class="notify-form" data-notify novalidate>
+      <label class="sr" for="epop-email">Email address</label>
+      <input id="epop-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
+      <button type="submit" class="btn btn-amber">Send me the update</button>
+      <small>Never shared. <a href="privacy.html#email">Unsubscribe any time</a>.</small>
+      <output data-msg aria-live="polite"></output>
+    </form>
+    <button class="epop-no" type="button" data-epop-close>No thanks</button>
+  </div>
+</div>
 <script src="vendor/three.min.js"></script>
 <script src="vendor/gsap.min.js"></script>
 <script src="vendor/ScrollTrigger.min.js"></script>
@@ -577,6 +606,6 @@ footer a{color:var(--muted)}
 <script src="config.js?v=7fde69ab"></script>
 <script src="site.js?v=bed3b75e"></script>
 <script src="track.js?v=6efc5a61" defer></script>
-<script src="extras.js?v=0ee28a72"></script>
+<script src="extras.js?v=30370ef3"></script>
 </body>
 </html>

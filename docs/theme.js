@@ -9,7 +9,7 @@
     const m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = light ? '#F3EEE3' : '#0B1116';
     document.querySelectorAll('[data-theme-toggle]').forEach(b => { b.setAttribute('aria-pressed', light); b.setAttribute('aria-label', light ? 'Switch to dark mode' : 'Switch to light mode'); b.title = light ? 'Dark mode' : 'Light mode'; });
   };
-  apply(t ? t === 'light' : html.dataset.defaultTheme === 'light'); // a page can default to light with <html data-default-theme="light">
+  apply(t ? t === 'light' : html.dataset.defaultTheme !== 'dark'); // light unless the visitor chose dark (a page can force dark with <html data-default-theme="dark">)
   window.BTHEME = {
     get light() { return html.dataset.theme === 'light'; },
     css: name => getComputedStyle(html).getPropertyValue(name).trim(),
