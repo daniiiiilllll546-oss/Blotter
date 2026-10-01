@@ -59,6 +59,7 @@ function fromServer(j) { // /api/state shape (droplet) → report shape
 }
 function finish(j, mode) {
   j.bots = (j.bots || []).filter(b => fin(b.equity));
+  j.bots.forEach(b => { if ((b.fam || '').startsWith('lab/duel-') && b.verdict === 'kill' && b.status !== 'stopped') { b.verdict = 'safe'; b.reason = 'Standoff bot: never cut'; } }); // the engine skips them at midnight; keep the label honest even from an older report
   j.nextCull = j.nextCull ? (typeof j.nextCull === 'number' ? j.nextCull : Date.parse(j.nextCull)) : null;
   j.sample = mode === 'sample'; MODE = mode; return j;
 }
