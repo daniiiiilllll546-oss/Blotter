@@ -36,19 +36,25 @@
     { ico: IC.kill, k: 'Killed', h: 'Losers die <span>at midnight.</span>', p: 'Every day at <b>00:00 (UTC+5)</b>, a bot that lost money over its last 24 hours is killed. Winners survive and <b>evolve</b>: they get children with slightly changed settings.', n: 'New bots are safe for their first day.' },
     { ico: IC.look, k: 'Your turn', h: 'Pick a bot. <span>Watch it fight.</span>', p: 'The <b>live desk</b> ranks every bot by money. Green over 24 hours means it survives tonight. <b>Cut</b> means it will be killed at midnight if it is still losing or idle by then. Tap any bot for its chart and trades.', links: true } ];
   // where the guide points on each page, one selector per step (first visible match wins); pages not listed show the card centred
-  const TARGETS = { 'desk.html': ['.stats', '#cards .card, #rows tr', '.nav .cut', '#filters'] };
+  const TARGETS = {
+    'desk.html': ['.stats', '#cards .card, #rows tr', '.nav .cut', '#filters'],
+    'index.html': ['#hero-title', '#feed, .side', '#countdown', '[data-desk]'],
+    'duel.html': ['.head', '.split .who', '.sn-wrap', '#lead'] };
   const aim = () => (TARGETS[here] || [])[i] && [...document.querySelectorAll(TARGETS[here][i])].find(el => el.offsetParent !== null || getComputedStyle(el).position === 'fixed');
   function place(first) {
     const g = back && back.querySelector('.guide'), sp = back && back.querySelector('.g-spot'); if (!g || !sp) return;
     const el = aim();
     back.classList.toggle('spot', !!el);
-    if (!el) { g.style.top = g.style.left = ''; return; }
+    if (!el) { g.style.top = g.style.left = ''; back.classList.remove('pt-up', 'pt-down'); return; }
     if (!el.closest('.nav')) el.scrollIntoView({ block: 'center' });
-    const r = el.getBoundingClientRect(), pad = 8, gh = g.offsetHeight, vh = innerHeight;
+    const r = el.getBoundingClientRect(), pad = 8, gh = g.offsetHeight, gw = g.offsetWidth, vh = innerHeight, vw = innerWidth;
     if (first) { sp.style.transition = 'none'; }
     Object.assign(sp.style, { left: r.left - pad + 'px', top: r.top - pad + 'px', width: r.width + pad * 2 + 'px', height: r.height + pad * 2 + 'px' });
-    const top = r.top - gh - 18 >= 12 ? r.top - gh - 18 : Math.min(r.bottom + 18, vh - gh - 12);
-    g.style.top = Math.max(12, top) + 'px';
+    const above = r.top - gh - 22 >= 12, top = above ? r.top - gh - 22 : Math.min(r.bottom + 22, vh - gh - 12);
+    const cx = r.left + r.width / 2, left = Math.min(Math.max(cx - gw / 2, 12), vw - gw - 12); // slide sideways to sit near what it explains
+    g.style.top = Math.max(12, top) + 'px'; g.style.left = left + 'px';
+    g.style.setProperty('--ax', Math.min(Math.max(cx - left, 22), gw - 22) + 'px'); // the arrow points at the target's middle
+    back.classList.toggle('pt-up', !above && top >= r.bottom); back.classList.toggle('pt-down', above);
     if (first) { g.style.transition = 'none'; requestAnimationFrame(() => { sp.style.transition = g.style.transition = ''; }); }
   }
   const onResize = () => place();
