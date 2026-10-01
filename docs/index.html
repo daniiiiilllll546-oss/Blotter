@@ -106,6 +106,8 @@ img,svg{max-width:100%}
 .hero h1 .line{display:block;overflow:hidden;padding-bottom:.02em}
 .hero h1 .hl{color:var(--amber)}
 .lede{margin:0;max-width:56ch;font-size:clamp(16px,1.35vw,20px);color:var(--soft)}
+.hero-notify{margin-top:18px;max-width:560px}
+.hero-notify input{background:color-mix(in srgb,var(--ink,#0B1116) 70%,transparent)}
 .hero-ctas{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
 .side{display:flex;flex-direction:column;gap:10px}
 .lab-lb{display:flex;justify-content:space-between;gap:12px;font:500 12px var(--f-mono);letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
@@ -360,6 +362,13 @@ footer a{color:var(--muted)}
         <a class="btn btn-line magnetic" href="duel.html">See the AI Standoff</a>
         <a class="btn btn-line magnetic" href="how-it-works.html">How it works</a>
       </div>
+      <form class="notify-form hero-notify" data-notify data-hero-fade novalidate>
+        <label class="sr" for="hero-email">Email address</label>
+        <input id="hero-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="Email me the weekly update" required>
+        <button type="submit" class="btn btn-line">Tell me</button>
+        <small>Short, weekly, never shared. <a href="privacy.html#email">Unsubscribe any time</a>.</small>
+        <output data-msg aria-live="polite"></output>
+      </form>
     </div>
     <aside class="side" aria-label="Live status">
       <div class="lab-lb"><span>Next kill · midnight (UTC+5)</span><span id="genlabel">GEN —</span></div>
@@ -540,12 +549,12 @@ footer a{color:var(--muted)}
     </div>
     <div class="scard notify">
       <h3>Real money, later</h3>
-      <p>Once the best bots have a long, honest track record, we'll try them with real money. Want to hear when that happens?</p>
+      <p>Once the best bots have a long, honest track record, we'll try them with real money. Get a short update about once a week, and hear first when that happens.</p>
       <form class="notify-form" data-notify novalidate>
         <label class="sr" for="notify-email">Email address</label>
         <input id="notify-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
         <button type="submit" class="btn btn-amber">Tell me</button>
-        <small>One email when it happens. Nothing else, never shared. <a href="privacy.html#email">Remove yourself any time</a>.</small>
+        <small>A short update about once a week, plus one email if the bots ever trade real money. Never shared. <a href="privacy.html#email">Unsubscribe any time</a>.</small>
         <output data-msg aria-live="polite"></output>
       </form>
     </div>
@@ -567,7 +576,7 @@ footer a{color:var(--muted)}
 <script src="vendor/lenis.min.js"></script>
 <script src="config.js?v=7fde69ab"></script>
 <script src="site.js?v=bed3b75e"></script>
-<script src="track.js?v=b7b5e09c" defer></script>
+<script src="track.js?v=6efc5a61" defer></script>
 <script src="extras.js?v=45ff7112"></script>
 </body>
 </html>

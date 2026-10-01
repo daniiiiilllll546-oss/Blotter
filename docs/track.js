@@ -171,7 +171,7 @@
       const r = await call('subscribe', { p_email: email, p_page: page, p_tz: Intl.DateTimeFormat().resolvedOptions().timeZone || '',
         p_src: ok ? (getC('bl_src') || '') : '', p_ref: ref === 'internal' ? '' : ref, p_vid: ok ? getC('bl_vid') : null });
       btn.disabled = false;
-      out.textContent = r === 'ok' ? 'You’re on the list. One email when the bots trade real money, nothing else.' : r === 'invalid' ? 'That email doesn’t look right.' : 'Couldn’t save that just now. Try again in a minute.';
+      out.textContent = r === 'ok' ? 'You’re on the list. A short update about once a week, nothing else.' : r === 'invalid' ? 'That email doesn’t look right.' : 'Couldn’t save that just now. Try again in a minute.';
       if (r === 'ok') f.reset();
     }));
     document.querySelectorAll('form[data-unsub]').forEach(f => f.addEventListener('submit', async e => {
