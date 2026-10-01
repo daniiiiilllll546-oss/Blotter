@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>How the bots evolve · Blotter</title>
+<meta name="description" content="Watch Blotter's best trading bots pass their settings on to children, with small random changes, while the losers dissolve at midnight.">
+<link rel="canonical" href="https://daniiiiilllll546-oss.github.io/Blotter/evolution.html">
+<meta property="og:title" content="How the bots evolve · Blotter">
+<meta property="og:description" content="Watch the best trading bots sprout children with small random changes while the losers wither at midnight.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daniiiiilllll546-oss.github.io/Blotter/evolution.html">
+<meta property="og:image" content="https://daniiiiilllll546-oss.github.io/Blotter/brand/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0B1116">
+<script src="theme.js?v=2bd298dd"></script>
+<link rel="icon" type="image/svg+xml" href="brand/favicon.svg">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="theme.css?v=69bb1f0f">
+<style>
+:root{color-scheme:dark;--ink:#0B1116;--panel:#121B22;--line:#22313D;--line2:#2B3C4A;--text:#ECE6D6;--soft:#C3CACF;--muted:#8593A0;--amber:#E8A33D;--amber-ink:#17110A;--green:#3EC690;--red:#F0625A;--violet:#B99BE8;--cyan:#72B8D8;
+  --f-disp:'Big Shoulders Display','Arial Narrow',sans-serif;--f-body:Barlow,'Segoe UI',system-ui,sans-serif;--f-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;--gut:clamp(16px,4.4vw,64px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--text);font:400 17px/1.55 var(--f-body);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.nav{display:flex;align-items:center;gap:16px;height:64px;padding:0 var(--gut);border-bottom:1px solid var(--line)}
+.brand{font:800 26px/1 var(--f-disp);letter-spacing:.04em;text-transform:uppercase;text-decoration:none}
+.brand i{color:var(--amber);font-style:normal;margin:0 6px}
+.nav .sp{flex:1}
+.nav a.l{color:var(--soft);text-decoration:none;font-size:15px}
+.btn{display:inline-flex;align-items:center;padding:11px 16px;font:600 15px/1 var(--f-body);text-decoration:none;background:var(--amber);color:var(--amber-ink)}
+.themebtn{width:40px;height:40px;border:1px solid var(--line2);background:transparent;color:var(--text);cursor:pointer}
+main{padding:clamp(28px,5vw,64px) var(--gut) 56px;max-width:1240px;margin:0 auto}
+.eyebrow{font:500 12px/1 var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--amber)}
+h1{margin:14px 0 10px;font:900 clamp(44px,7vw,92px)/.92 var(--f-disp);text-transform:uppercase}
+h1 span{color:var(--amber)}
+.lede{max-width:640px;color:var(--soft);margin:0 0 26px}
+.stage{position:relative;border:1px solid var(--line);background:var(--panel)}
+canvas{display:block;width:100%;height:clamp(380px,52vw,560px)}
+.cap{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;padding:12px 16px 14px;border-top:1px solid var(--line)}
+.say{flex:1 1 320px;min-height:3.2em;font:500 14px/1.5 var(--f-mono);letter-spacing:.02em;color:var(--text)}
+.say b{color:var(--amber);font-weight:600}
+.ctl{pointer-events:auto;display:flex;gap:8px}
+.ctl button{font:600 13px var(--f-body);padding:9px 12px;border:1px solid var(--line2);background:var(--ink);color:var(--text);cursor:pointer}
+.ctl button:hover{border-color:var(--amber)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 22px;margin:16px 0 0;font:500 12px var(--f-mono);letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+.legend i{display:inline-block;width:10px;height:10px;margin-right:7px;vertical-align:-1px}
+.note{margin:18px 0 0;max-width:720px;color:var(--muted);font-size:14px}
+html[data-theme="light"]{color-scheme:light;--ink:#F3EEE3;--panel:#FAF6EC;--line:#DDD3BE;--line2:#CFC3AA;--text:#17110A;--soft:#3C362B;--muted:#6B6250;--amber:#B8710D;--amber-ink:#fff;--green:#1E8F63;--red:#C4423A;--violet:#7452B8;--cyan:#2C7DA3}
+@media (max-width:640px){.nav{gap:10px}.nav a.l{display:none}.brand{font-size:22px}.btn{padding:10px 12px;font-size:14px}}
+@media (prefers-reduced-motion:reduce){canvas{height:420px}}
+</style>
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="index.html">Blotter<i>/</i>Evolution</a>
+  <span class="sp"></span>
+  <a class="l" href="desk.html">The desk</a>
+  <a class="l" href="how-it-works.html">Rules</a>
+  <button class="themebtn" type="button" data-theme-toggle aria-label="Switch theme"></button>
+  <a class="btn" href="desk.html">Live desk</a>
+</header>
+<main>
+  <div class="eyebrow">Born hourly · killed nightly · winners evolve</div>
+  <h1>Watch the tree <span>grow.</span></h1>
+  <p class="lede">Every midnight, bots that lost money are removed. A winner keeps going and can have children: copies of itself with a few of their numbers nudged by chance. Here is that moment, using the real bots on the desk.</p>
+  <div class="stage">
+    <canvas id="cv" aria-label="Animation: winning bots pass their settings to children with small random changes while losing bots dissolve"></canvas>
+    <div class="cap"><div class="say" id="say" aria-live="polite">Loading the desk…</div>
+      <div class="ctl"><button type="button" id="pp" aria-pressed="false">Pause</button><button type="button" id="next">Replay</button></div></div>
+  </div>
+  <div class="legend"><span><i style="background:var(--amber)"></i>Alive</span><span><i style="background:var(--cyan)"></i>Child (new)</span><span><i style="background:var(--violet)"></i>Changed setting</span><span><i style="background:var(--red)"></i>Cut at midnight</span></div>
+  <p class="note">The bars are each bot's real settings (stop distance, risk, hold time and so on), scaled against the other bots. A child starts as a copy of one winner, then each number has a coin-flip chance to change by about 15%. Nothing here is a prediction, and all the money is paper.</p>
+</main>
+<script src="config.js?v=7fde69ab"></script>
+<script src="track.js?v=6efc5a61" defer></script>
+<script>
+(() => {
+  const cv = document.getElementById('cv'), cx = cv.getContext('2d'), say = document.getElementById('say');
+  const repo = (window.BLOTTER_CFG || {}).repo || 'daniiiiilllll546-oss/Blotter';
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  let C = {}; const colors = () => { C = { ink: css('--panel'), text: css('--text'), muted: css('--muted'), line: css('--line2'), amber: css('--amber'), red: css('--red'), violet: css('--violet'), cyan: css('--cyan') }; };
+  colors(); addEventListener('themechange', colors);
+  let W = 0, H = 0, dpr = 1;
+  const fit = () => { dpr = Math.min(2, devicePixelRatio || 1); W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0); };
+  fit(); addEventListener('resize', fit);
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v)), ease = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  const rng = (s => () => (s = (s * 16807) % 2147483647) / 2147483647)(11);
+
+  /* ---------- data: the real desk (winners, their real children, the bots cut at midnight) ---------- */
+  const KIDS = ['Motmot', 'Noddy', 'Tern', 'Wren', 'Teal', 'Pipit'];
+  let D = null;
+  const demo = () => ({ winners: [['Falcon', 70], ['Plover', 71], ['Puffin', 92]].map(([n, p]) => ({ name: n, pnl: p, genes: Array.from({ length: 6 }, () => .2 + rng() * .7), kids: [] })), losers: ['Kestrel', 'Raven', 'Hobby'] });
+  function build(S) {
+    const bots = S.bots || [], keys = {};
+    bots.forEach(b => Object.entries(b.params || {}).forEach(([k, v]) => { if (typeof v === 'number') { const r = keys[k] || (keys[k] = [v, v]); r[0] = Math.min(r[0], v); r[1] = Math.max(r[1], v); } }));
+    const gene = b => Object.entries(b.params || {}).filter(([, v]) => typeof v === 'number').slice(0, 6).map(([k, v]) => { const [lo, hi] = keys[k]; return hi > lo ? .12 + .8 * (v - lo) / (hi - lo) : .5; });
+    const std = b => (b.fam || '').startsWith('lab/duel-'); // the Standoff bots are never cut, so they stay out of this story
+    const win = bots.filter(b => b.trades > 0 && (b.pnl ?? b.equity - 1000) > 0 && !std(b)).sort((a, b) => b.pnl - a.pnl).slice(0, 3)
+      .map(b => ({ name: b.name, pnl: b.pnl, genes: gene(b), kids: bots.filter(k => k.parent === b.name).map(k => ({ name: k.name, genes: gene(k) })).filter(k => k.genes.length) })).filter(w => w.genes.length >= 4);
+    const cut = [...new Set(((S.culls || [])[0] || { killed: [] }).killed.map(k => k.name).concat(bots.filter(b => b.verdict === 'kill' && !std(b)).map(b => b.name)))].slice(0, 3);
+    return win.length ? { winners: win, losers: cut.length ? cut : ['Kestrel', 'Raven', 'Hobby'] } : demo();
+  }
+  const load = () => fetch(`https://raw.githubusercontent.com/${repo}/desk-data/state.json?t=${Date.now()}`).then(r => r.ok ? r.json() : Promise.reject()).then(build).catch(() => demo());
+
+  /* ---------- the tree: a trunk grows up from the desk, splits to the bots, midnight cuts the losers, winners sprout children ---------- */
+  const T = { grow: 3.4, cut: 3.4, sprout: 4.6, hold: 3 }, T_ALL = T.grow + T.cut + T.sprout + T.hold;
+  let clock = 0, round = 0, paused = false, N = null;
+  function layout() {
+    const small = W < 560, L = D.losers.slice(0, small ? 2 : 3).map(n => ({ n, lose: 1 })), Wn = D.winners.slice(0, small ? 2 : 3).map(w => ({ n: w.name, w })), all = L.slice(0, Math.ceil(L.length / 2)).concat(Wn, L.slice(Math.ceil(L.length / 2))); // winners in the middle, the doomed on the edges
+    const base = { x: W / 2, y: H - 34 }, y0 = H * (small ? .6 : .56), n = all.length, span = W * (small ? .88 : .8);
+    const nodes = all.map((o, i) => ({ ...o, x: W / 2 - span / 2 + span * (n === 1 ? .5 : i / (n - 1)), y: y0 + (o.lose ? 0 : -Math.sin(i * 1.7) * 14), r: small ? 9 : 12 }));
+    const used = new Set(nodes.filter(o => o.w).flatMap(o => o.w.kids.slice(0, 2).map(k => k.name)));
+    const fresh = () => { for (let q = 0; q < 40; q++) { const nm = KIDS[(round * 3 + q) % KIDS.length]; if (!used.has(nm)) { used.add(nm); return nm; } } return 'New'; };
+    nodes.filter(o => o.w).forEach(o => {
+      const real = o.w.kids.slice(0, 2), mk = i => { const g = o.w.genes.slice(), ch = []; g.forEach((v, j) => { if (rng() < .34) { g[j] = clamp(v + (rng() - .5) * .5, .08, .96); ch.push(j); } }); if (!ch.length) { const j = Math.floor(rng() * g.length); g[j] = clamp(g[j] + .28, .08, .96); ch.push(j); } return { name: fresh(), g, ch }; };
+      o.kids = [0, 1].map(i => { const k = real[i] ? { name: real[i].name, g: real[i].genes, ch: real[i].genes.map((v, j) => Math.abs(v - o.w.genes[j]) > .04 ? j : -1).filter(j => j >= 0) } : mk(i); return { ...k, x: o.x + (i ? 1 : -1) * (small ? 24 : 56), y: y0 - H * (small ? .3 : .34), r: small ? 7 : 9 }; });
+    });
+    N = { nodes, base, small, y0, y1: y0 - H * (small ? .3 : .34) };
+  }
+  const bez = (a, b, k, sway = 0) => { const my = (a.y + b.y) / 2, u = 1 - k, sx = Math.sin(k * 3.14) * sway; return { x: u * u * u * a.x + 3 * u * u * k * a.x + 3 * u * k * k * b.x + k * k * k * b.x + sx, y: u * u * u * a.y + 3 * u * u * k * my + 3 * u * k * k * my + k * k * k * b.y }; };
+  // a branch that tapers from w0 (at the trunk) to w1 (at the tip), drawn as a filled ribbon, and sways a little in the breeze
+  const branch = (a, b, prog, col, w0, w1, alpha = 1, sway = 0) => {
+    if (prog <= 0.01) return; const steps = 36, pts = []; for (let i = 0; i <= steps * prog; i++) pts.push(bez(a, b, i / steps, sway));
+    const L = [], R = []; pts.forEach((p, i) => { const q = pts[Math.min(i + 1, pts.length - 1)], o = pts[Math.max(i - 1, 0)], dx = q.x - o.x, dy = q.y - o.y, n = Math.hypot(dx, dy) || 1, w = (w0 + (w1 - w0) * i / steps) / 2; L.push([p.x - dy / n * w, p.y + dx / n * w]); R.push([p.x + dy / n * w, p.y - dx / n * w]); });
+    cx.save(); cx.globalAlpha = alpha; cx.fillStyle = col; cx.beginPath(); L.forEach((p, i) => i ? cx.lineTo(p[0], p[1]) : cx.moveTo(p[0], p[1])); R.reverse().forEach(p => cx.lineTo(p[0], p[1])); cx.closePath(); cx.fill(); cx.restore();
+  };
+  const pill = (txt, x, y, col, size, a) => { // a label on a small plate, so branches never run through the text
+    cx.save(); cx.globalAlpha = a; cx.font = `600 ${size}px 'IBM Plex Mono',monospace`; const w = cx.measureText(txt).width + 12; cx.fillStyle = C.ink; cx.globalAlpha = a * .92; cx.fillRect(x - w / 2, y - size, w, size + 7); cx.globalAlpha = a; cx.fillStyle = col; cx.textAlign = 'center'; cx.fillText(txt, x, y); cx.restore();
+  };
+  const node = (x, y, r, fill, ring, a, name, sub, subCol, pop = 1) => {
+    if (a <= 0) return; const rr = r * (.55 + .45 * pop); cx.save(); cx.globalAlpha = a; cx.fillStyle = fill; cx.strokeStyle = ring; cx.lineWidth = 3; cx.beginPath(); cx.arc(x, y, rr, 0, 6.283); cx.fill(); cx.stroke(); cx.restore();
+    if (name) pill(name, x, y + rr + 18, C.text, N.small ? 11 : 12, a); if (sub) pill(sub, x, y + rr + 34, subCol || C.muted, N.small ? 10 : 11, a);
+  };
+  const bars = (x, y, w, h, genes, hi, a, col) => { cx.save(); cx.globalAlpha = a; const bw = w / genes.length; genes.forEach((v, j) => { cx.fillStyle = hi && hi.includes(j) ? C.violet : col; cx.fillRect(x + j * bw + 1, y + h - h * v, bw - 2, h * v); }); cx.restore(); };
+
+  function draw(dt) {
+    if (!paused) clock += dt; if (clock > T_ALL) { round++; layout(); clock = 0; }
+    const t = clock, g1 = T.grow, g2 = g1 + T.cut, g3 = g2 + T.sprout, { nodes, base, small } = N, breeze = Math.sin(t * 1.3);
+    cx.clearRect(0, 0, W, H);
+    // ground: the desk
+    cx.fillStyle = C.line; cx.fillRect(0, H - 26, W, 1); cx.fillStyle = C.muted; cx.font = "500 11px 'IBM Plex Mono',monospace"; cx.textAlign = 'left'; cx.fillText('THE DESK', 14, H - 8);
+    nodes.forEach((o, i) => {
+      const grow = ease(clamp((t - i * .25) / (T.grow * .7))), die = o.lose ? ease(clamp((t - g1) / (T.cut * .8))) : 0, wave = (i % 2 ? 1 : -1) * breeze * 3 * (o.lose ? 1 - die : 1);
+      const col = o.lose ? (die > 0 ? C.muted : C.amber) : C.amber;
+      branch(base, o, grow, col, o.lose ? 9 - die * 5 : 11, o.lose ? 3 : 4, 1 - die, wave);
+      const fall = die * die * 50, a = o.lose ? 1 - clamp((die - .55) / .45) : clamp((grow - .6) / .4), big = o.w ? 1 + clamp(o.w.pnl / 140) * .35 : 1;
+      node(o.x + wave, o.y + fall, o.r * big, o.lose ? C.ink : C.amber, o.lose && die > 0 ? C.red : C.amber, a, o.n, o.lose ? (die > .1 ? 'cut' : '') : '+$' + o.w.pnl.toFixed(0), o.lose ? C.red : C.cyan, ease(clamp((grow - .5) / .5)));
+      if (o.lose && die > .15 && die < 1) { cx.fillStyle = C.red; for (let k = 0; k < 10; k++) { cx.globalAlpha = (1 - die) * .8; cx.fillRect(o.x + wave - 22 + k * 5, o.y + fall + o.r + 10 + die * 34 * ((k * 37) % 5 + 1) / 3, 2.5, 2.5); } cx.globalAlpha = 1; }
+      if (o.kids) o.kids.forEach((k, j) => {
+        const sp = ease(clamp((t - g2 - j * .5) / (T.sprout * .55))), mut = clamp((t - g2 - T.sprout * .5 - j * .3) / (T.sprout * .4));
+        branch({ x: o.x + wave, y: o.y }, k, sp, C.cyan, 5, 2, 1, wave * .6);
+        const sh = k.g.map((v, q) => k.ch.includes(q) ? o.w.genes[q] + (v - o.w.genes[q]) * ease(mut) : v);
+        node(k.x, k.y, k.r, C.cyan, C.cyan, clamp((sp - .7) / .3), k.name, '', '', ease(clamp((sp - .7) / .3)));
+        bars(k.x - 22, k.y - k.r - 28, 44, 18, sh, mut > .25 ? k.ch : null, clamp((sp - .8) / .2), C.cyan);
+      });
+    });
+    node(base.x, base.y, 9, C.amber, C.amber, 1, '', '');
+    const ph = t < g1 ? 0 : t < g2 ? 1 : t < g3 ? 2 : 3;
+    say.innerHTML = [`Every bot on the desk grows from the same trunk: <b>the winners</b> and the bots that are about to be cut.`, `<b>Midnight.</b> Bots that lost money over 24 hours (${D.losers.join(', ')}) wither and fall away.`, `The winners sprout children. Each child is a copy with a few settings changed by chance (the <b>purple</b> bars).`, `Next day, if the children make money, they can sprout too. The tree grows toward what works.`][ph];
+  }
+  let last = 0; const frame = ts => { const dt = Math.min(.1, (ts - last) / 1000 || 0); last = ts; if (D) draw(reduce ? dt * .5 : dt); requestAnimationFrame(frame); };
+  document.getElementById('pp').onclick = e => { paused = !paused; e.target.textContent = paused ? 'Play' : 'Pause'; e.target.setAttribute('aria-pressed', paused); };
+  document.getElementById('next').onclick = () => { round++; layout(); clock = 0; };
+  addEventListener('resize', () => D && layout());
+  load().then(d => { D = d; layout(); requestAnimationFrame(frame); });
+})();
+</script>
+</body>
+</html>
