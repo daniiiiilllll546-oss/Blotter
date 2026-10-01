@@ -72,5 +72,15 @@
   window.BlotterGuide = { open };
   document.querySelectorAll('[data-guide-open]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); open(); }));
   let seen = false; try { seen = !!localStorage.getItem(KEY); } catch (e) {}
-  if (!seen && !/[?&]noguide\b/.test(location.search) && ['index.html', 'desk.html', 'duel.html', ''].includes(here)) setTimeout(open, here === 'index.html' ? 1600 : 700);
+  const quiet = /[?&]noguide\b/.test(location.search);
+  if (!seen && !quiet && ['desk.html', 'duel.html'].includes(here)) setTimeout(open, 700);
+  // home: no popup over the headline; a small invite in the corner instead, once the page has settled
+  if (!seen && !quiet && (here === 'index.html' || here === '')) setTimeout(() => {
+    if (back || document.querySelector('.guide-pill')) return;
+    const pill = document.createElement('div'); pill.className = 'guide-pill';
+    pill.innerHTML = '<button type="button" class="gp-open">New here? <b>30-second guide</b> <span aria-hidden="true">→</span></button><button type="button" class="gp-x" aria-label="Dismiss">×</button>';
+    pill.querySelector('.gp-open').onclick = () => { pill.remove(); open(); };
+    pill.querySelector('.gp-x').onclick = () => { pill.remove(); try { localStorage.setItem(KEY, '1'); } catch (e) {} };
+    document.body.appendChild(pill);
+  }, 2600);
 })();

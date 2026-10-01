@@ -42,3 +42,12 @@
 @keyframes grise{from{opacity:0;transform:translateY(16px) scale(.98)}}
 @media (prefers-reduced-motion:reduce){.guide-back,.guide{animation:none}}
 @media (max-width:480px){.guide{padding:30px 22px 22px}.guide .g-btn{padding:0 14px}}
+
+/* home: the guide invite (non-blocking) */
+.guide-pill{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:120;display:flex;align-items:stretch;background:var(--panel);border:1px solid var(--line2);box-shadow:0 12px 40px rgba(0,0,0,.35);animation:grise .4s cubic-bezier(.2,.7,.1,1) both}
+.guide-pill button{border:0;background:transparent;color:var(--text);cursor:pointer;min-height:48px}
+.guide-pill .gp-open{padding:0 16px;font:500 15px var(--f-body);display:flex;align-items:center;gap:6px}
+.guide-pill .gp-open b{color:var(--amber);font-weight:600}
+.guide-pill .gp-open:hover b{text-decoration:underline}
+.guide-pill .gp-x{width:44px;border-left:1px solid var(--line2);color:var(--muted);font:20px/1 var(--f-mono)}
+.guide-pill .gp-x:hover{color:var(--amber)}

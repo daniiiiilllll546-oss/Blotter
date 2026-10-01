@@ -557,10 +557,10 @@ async function boot() {
   /* preloader: progress while fonts + the desk report load */
   const pct = $('#pre-pct'), bar = $('.pre-bar i'), prog = { p: 0 };
   const hasGsap = !!window.gsap;
-  const loading = Promise.all([loadState(), document.fonts ? document.fonts.ready.catch(() => {}) : null, new Promise(r => setTimeout(r, reduce || window.BLOTTER_TX_ENTER ? 0 : 900))]);
-  const capped = Promise.race([loading, new Promise(r => setTimeout(r, 4000))]);
+  const loading = Promise.all([loadState(), document.fonts ? document.fonts.ready.catch(() => {}) : null, new Promise(r => setTimeout(r, reduce || window.BLOTTER_TX_ENTER ? 0 : 250))]);
+  const capped = Promise.race([loading, new Promise(r => setTimeout(r, 1800))]); // don't hold the page more than ~2s; a slow report fills in when it lands
   if (hasGsap && !reduce) gsap.to(prog, { p: 90, duration: 1.6, ease: 'power2.out', onUpdate: () => { pct.textContent = Math.round(prog.p); bar.style.transform = `scaleX(${prog.p / 100})`; } });
-  await capped; if (!S) S = sampleState();
+  await capped; const late = !S; if (!S) S = sampleState();
   loadLab(); // code sample and journal fill in when they arrive; they sit far below the fold, so don't hold the page for them
 
   renderStatus(); renderFeed(false); buildTiles(); const genes = buildGenes(); buildFams(); renderBoard(); setStats(false);
@@ -580,14 +580,15 @@ async function boot() {
     const out = gsap.timeline({ onComplete: () => { pre.remove(); document.body.classList.remove('loading'); ScrollTrigger.refresh(); } });
     if (reduce) { out.set(pre, { autoAlpha: 0 }); m.intro.progress(1); }
     else {
-      out.to(prog, { p: 100, duration: .35, onUpdate: () => { pct.textContent = Math.round(prog.p); bar.style.transform = `scaleX(${prog.p / 100})`; } })
-        .to('.pre-word span', { yPercent: -110, stagger: .04, duration: .7, ease: 'expo.in' })
+      out.to(prog, { p: 100, duration: .2, onUpdate: () => { pct.textContent = Math.round(prog.p); bar.style.transform = `scaleX(${prog.p / 100})`; } })
+        .to('.pre-word span', { yPercent: -110, stagger: .02, duration: .38, ease: 'expo.in' })
         .to('.pre-bar, .pre-num', { opacity: 0, duration: .3 }, '<')
-        .fromTo(pre, { clipPath: 'inset(0% 0% 0% 0%)' }, { clipPath: 'inset(100% 0% 0% 0%)', duration: 1.05, ease: 'expo.inOut' }, '-=.15') // the loading curtain comes down
+        .fromTo(pre, { clipPath: 'inset(0% 0% 0% 0%)' }, { clipPath: 'inset(100% 0% 0% 0%)', duration: .6, ease: 'expo.inOut' }, '-=.2') // the loading curtain comes down
         .add(() => m.intro.play(), '-=.55');
     }
   }
 
+  if (late) loading.then(() => { if (S && !S.sample) { renderStatus(); renderFeed(true); buildTiles(); renderBoard(); setStats(false); if (hero) hero.assign(S.bots, S.sample); } });
   /* keep it alive: re-read the desk report every 5 minutes */
   setInterval(async () => {
     const was = S.generatedAt; await loadState();
