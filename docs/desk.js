@@ -197,7 +197,7 @@ function renderBoard() {
     <td class="l cv">${spark(b.curve, 96, 28, colOf(b))}</td>
     <td class="l">${vchip(b)}</td></tr>`; }).join('') || `<tr><td colspan="8" class="l empty">${S.bots.length ? 'No bots match this filter.' : "No bots yet. They appear as soon as the desk publishes its first report."}</td></tr>`;
   $('#cards').innerHTML = L.map((b, i) => { const m = mark(b); return `<button class="card${b.id === sel ? ' sel' : ''}" type="button" data-id="${b.id}">
-    <span><span class="nm">${esc(b.name)}</span>${tagOf(b)}<span class="sub">${String(i + 1).padStart(2, '0')} · ${esc(base(b.sym))} ${esc(b.tf)} · ${esc(famLabel(b))}</span></span>
+    <span><span class="nm">${esc(b.name)}</span>${tagOf(b)}<span class="sub">${String(i + 1).padStart(2, '0')} · ${esc(base(b.sym))} ${esc(b.tf)} · ${esc(famLabel(b))}${!b.trades && b.ageH >= 1 && b.status !== 'stopped' ? ' · waiting for a setup' : ''}</span></span>
     <span class="eqc"><span class="eqv" data-eq="${b.id}">${usd(m.eq)}</span><small class="${cls(b.pnl3d)}">${susd(b.pnl3d)} 24h</small></span>
     <span class="r2"><span>${posHTML(b)}</span>${spark(b.curve, 90, 24, colOf(b))}${vchip(b)}</span></button>`; }).join('') || `<div class="empty">${S.bots.length ? 'No bots match this filter.' : 'No bots yet. They appear as soon as the desk publishes its first report.'}</div>`;
   for (const th of $$('.lb th[data-k]')) th.toggleAttribute('aria-sort', th.dataset.k === sortK), th.dataset.k === sortK && th.setAttribute('aria-sort', sortD < 0 ? 'descending' : 'ascending');
