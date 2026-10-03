@@ -216,7 +216,7 @@ footer a{color:var(--muted)}footer a:hover{color:var(--amber)}
       <tr><td>Markets</td><td>Ten Binance pairs against USDT: BTC, ETH, SOL, BNB, XRP, DOGE, ADA, AVAX, LINK, LTC</td></tr>
       <tr><td>Charts</td><td>1, 5 or 15-minute candles; a bot decides on every closed candle</td></tr>
       <tr><td>Fills</td><td>Priced off Binance's live order book, with a 0.1% fee on every fill</td></tr>
-      <tr><td>Leverage</td><td>Every trade uses at least 2–5× (a gene per bot), capped by the bot's own limit</td></tr>
+      <tr><td>Leverage</td><td>Every trade uses at least 4–5× (a gene per bot), capped by the bot's own limit (5×, 10×, 20× or 50×)</td></tr>
       <tr><td>Risk per trade</td><td>2% to 6% of equity, set by the bot's genes</td></tr>
     </tbody>
   </table>
@@ -224,7 +224,7 @@ footer a{color:var(--muted)}footer a:hover{color:var(--amber)}
   <h2>How a bot is killed</h2>
   <ol>
     <li><b>The midnight kill.</b> Every day at 00:00 UTC+5 (Tashkent time), every bot older than 24 hours must show a profit over its last 24 hours, open trades marked to market. A loss, or no trades at all, and it is removed.</li>
-    <li><b>The hourly fast-fail.</b> Any bot whose equity drops below $600, or that is down more than 15% over 24 hours after at least 5 trades, is removed on the spot.</li>
+    <li><b>The hourly fast-fail.</b> Any bot whose equity drops below $600, or that is down more than 10% over 24 hours after at least 5 trades, is removed on the spot.</li>
     <li><b>The kill switch.</b> A bot that falls 40% from its own peak is stopped.</li>
   </ol>
   <p>New bots are protected for their first 24 hours, so every bot gets one full day before it is judged. The five <a href="duel.html">Standoff</a> bots are never cut at all.</p>
@@ -234,7 +234,7 @@ footer a{color:var(--muted)}footer a:hover{color:var(--amber)}
   <ul>
     <li>Each winner has at most <b>2 children</b> per night, and one strategy family can hold at most <b>7 bots</b>, so no single idea takes over.</li>
     <li>Each number in a child has a coin-flip chance to change, by a random step of about <b>15% of its range</b>.</li>
-    <li>Sometimes a child moves to a different pair (15% chance), a different chart speed (10%) or a different leverage cap (15%).</li>
+    <li>Sometimes a child moves to a different pair (15% chance), a different chart speed (10%) or a different leverage cap (15%, never below 5×).</li>
   </ul>
   <p>On top of that, Claude designs a brand-new strategy every hour, chosen to be something nothing else in the pool is doing. The <a href="duel.html">Standoff</a> adds five bots written by different AI models from the same brief.</p>
 
